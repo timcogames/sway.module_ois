@@ -2,8 +2,8 @@
 #define SWAY_OIS_H
 
 #include <sway/ois/inputmanager.h>
+#include <sway/ois/inputevents.h>
 #include <sway/ois/devicetypes.h>
-#include <sway/ois/events.h>
 #include <sway/ois/keycodes.h>
 #include <sway/ois/keyboard.h>
 #include <sway/ois/keyboardlistener.h>
