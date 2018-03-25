@@ -16,10 +16,13 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 * 
+	 * \param display
+	 *    Указатель на структуру дисплея.
+	 * 
 	 * \param window
 	 *    Уникальный идентификатор окна.
 	 */
-	InputManager(u32_t window);
+	InputManager(void * display, u32_t window);
 
 	/*!
 	 * \brief
