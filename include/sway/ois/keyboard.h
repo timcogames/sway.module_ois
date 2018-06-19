@@ -14,6 +14,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 class InputManager;
+
+/*!
+ * \brief
+ *    Представляет устройство клавиатуры.
+ */
 class Keyboard : public core::foundation::Object {
 
 	DECLARE_OBJECT(Keyboard, core::foundation::Object)
@@ -47,8 +52,22 @@ public:
 	 */
 	void setListener(KeyboardListener * listener);
 
+	/*!
+	 * \brief
+	 *    Уведомляет об нажатии на клавишу.
+	 * 
+	 * \param[in] event
+	 *    Хранилище события.
+	 */
 	void notifyKeyPressed(const XEvent & event);
 
+	/*!
+	 * \brief
+	 *    Уведомляет об отпускании клавиши.
+	 * 
+	 * \param[in] event
+	 *    Хранилище события.
+	 */
 	void notifyKeyReleased(const XEvent & event);
 
 private:

@@ -14,6 +14,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 class InputManager;
+
+/*!
+ * \brief
+ *    Представляет устройство мыши.
+ */
 class Mouse : public core::foundation::Object {
 	
 	DECLARE_OBJECT(Mouse, core::foundation::Object)
