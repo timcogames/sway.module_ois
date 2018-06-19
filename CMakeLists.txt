@@ -11,7 +11,6 @@ set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATC
 
 # Опции сборки
 option(BUILD_SHARED "Build shared library" OFF)
-option(ENABLE_TESTS "Enable test builds" OFF)
 
 project(${META_PROJECT_NAME} C CXX)
 

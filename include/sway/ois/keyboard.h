@@ -24,6 +24,9 @@ public:
 	 *    Конструктор класса.
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
+	 * 
+	 * \param[in] manager
+	 *    Указатель на менеджер ввода.
 	 */
 	Keyboard(InputManager * manager);
 
@@ -35,6 +38,13 @@ public:
 	 */
 	virtual ~Keyboard();
 
+	/*!
+	 * \brief
+	 *    Устанавливает слушатель событий.
+	 * 
+	 * \param[in] listener
+	 *    Слушатель событий клавиатуры.
+	 */
 	void setListener(KeyboardListener * listener);
 
 	void notifyKeyPressed(const XEvent & event);
@@ -52,7 +62,7 @@ private:
 	void _initialize();
 
 private:
-	InputManager * _manager;
+	InputManager * _manager; /*!< Указатель на менеджер ввода. */
 	KeyboardEventCallbackFunc_t _onKeyPressed;
 	KeyboardEventCallbackFunc_t _onKeyReleased;
 };

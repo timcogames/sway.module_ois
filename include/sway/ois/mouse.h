@@ -24,6 +24,9 @@ public:
 	 *    Конструктор класса.
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
+	 * 
+	 * \param[in] manager
+	 *    Указатель на менеджер ввода.
 	 */
 	Mouse(InputManager * manager);
 
@@ -35,6 +38,13 @@ public:
 	 */
 	virtual ~Mouse();
 
+	/*!
+	 * \brief
+	 *    Устанавливает слушатель событий.
+	 * 
+	 * \param[in] listener
+	 *    Слушатель событий мышки.
+	 */
 	void setListener(MouseListener * listener);
 
 	void notifyMouseMove(const XEvent & event);
@@ -54,7 +64,7 @@ private:
 	void _initialize();
 
 private:
-	InputManager * _manager;
+	InputManager * _manager; /*!< Указатель на менеджер ввода. */
 	MouseEventCallbackFunc_t _onMouseButtonDown;
 	MouseEventCallbackFunc_t _onMouseButtonUp;
 	MouseEventCallbackFunc_t _onMouseMove;

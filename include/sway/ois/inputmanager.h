@@ -8,6 +8,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
+/*!
+ * \brief
+ *    Класс управления вводом системы.
+ */
 class InputManager : public core::foundation::Context {
 public:
 	/*!
@@ -16,10 +20,10 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 * 
-	 * \param display
+	 * \param[in] display
 	 *    Указатель на структуру дисплея.
 	 * 
-	 * \param window
+	 * \param[in] window
 	 *    Уникальный идентификатор окна.
 	 */
 	InputManager(void * display, u32_t window);
