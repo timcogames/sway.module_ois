@@ -10,7 +10,6 @@ InputManager::InputManager(void * display, u32_t window)
 	: _display(static_cast<Display *>(display))
 	, _window(static_cast<Window>(window))
 	, _keyboardUsed(false), _mouseUsed(false) {
-
 	// Empty
 }
 

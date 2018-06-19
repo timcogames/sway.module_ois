@@ -19,11 +19,9 @@ void Mouse::_initialize() {
 	_manager = static_cast<InputManager *>(getContext());
 	_manager->setMouseUsed(true);
 	
-	//XSelectInput(_manager->getDisplay(), _manager->getWindowHandle(), ButtonPressMask | ButtonReleaseMask | PointerMotionMask);
-
 	int err = XGrabPointer(_manager->getDisplay(), _manager->getWindowHandle(), True, 0, GrabModeAsync, GrabModeAsync, _manager->getWindowHandle(), None, CurrentTime);
 	if (err != GrabSuccess) {
-
+		// TODO
 	}
 }
 

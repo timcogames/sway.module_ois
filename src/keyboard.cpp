@@ -20,8 +20,6 @@ void Keyboard::_initialize() {
 	_manager = static_cast<InputManager *>(getContext());
 	_manager->setKeyboardUsed(true);
 	
-	//XSelectInput(_manager->getDisplay(), _manager->getWindowHandle(), KeyPressMask | KeyReleaseMask | KeymapStateMask);
-
 	int err = XGrabKeyboard(_manager->getDisplay(), _manager->getWindowHandle(), True, GrabModeAsync, GrabModeAsync, CurrentTime);
 	if (err != GrabSuccess) {
 		// TODO
