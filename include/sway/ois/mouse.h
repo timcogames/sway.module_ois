@@ -1,6 +1,7 @@
 #ifndef SWAY_OIS_MOUSE_H
 #define SWAY_OIS_MOUSE_H
 
+#include <sway/ois/typedefs.h>
 #include <sway/ois/inputevents.h>
 #include <sway/ois/mouselistener.h>
 #include <sway/ois/prereqs.h>

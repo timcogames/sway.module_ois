@@ -1,6 +1,7 @@
 #ifndef SWAY_OIS_KEYBOARD_H
 #define SWAY_OIS_KEYBOARD_H
 
+#include <sway/ois/typedefs.h>
 #include <sway/ois/inputevents.h>
 #include <sway/ois/keyboardlistener.h>
 #include <sway/ois/prereqs.h>
