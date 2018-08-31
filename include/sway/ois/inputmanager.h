@@ -43,7 +43,7 @@ public:
 	 * \param[in] type
 	 *    Тип устройства.
 	 */
-	core::foundation::Object * createDevice(DeviceTypes type);
+	core::foundation::Object * createDevice(DeviceType_t type);
 
 	/*!
 	 * \brief
@@ -52,7 +52,7 @@ public:
 	 * \param[in] type
 	 *    Тип устройства для проверки.
 	 */
-	bool hasFreeDevice(DeviceTypes type);
+	bool hasFreeDevice(DeviceType_t type);
 
 	/*!
 	 * \brief

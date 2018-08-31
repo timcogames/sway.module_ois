@@ -1,8 +1,5 @@
 #include <sway/ois/inputmanager.h>
 
-#include <stdio.h>  // printf, NULL
-#include <stdlib.h> // strtoull
-
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
@@ -17,14 +14,14 @@ InputManager::~InputManager() {
 	// Empty
 }
 
-core::foundation::Object * InputManager::createDevice(DeviceTypes type) {
+core::foundation::Object * InputManager::createDevice(DeviceType_t type) {
 	if (!_window && hasFreeDevice(type))
 		return NULL;
 
 	core::foundation::Object * device = NULL;
-	if (type == kDeviceType_Keyboard)
+	if (type == DeviceType_t::kKeyboard)
 		device = new Keyboard(this);
-	else if (type == kDeviceType_Mouse)
+	else if (type == DeviceType_t::kMouse)
 		device = new Mouse(this);
 
 	if (device)
@@ -33,10 +30,10 @@ core::foundation::Object * InputManager::createDevice(DeviceTypes type) {
 	return device;
 }
 
-bool InputManager::hasFreeDevice(DeviceTypes type) {
-	switch(type) {
-	case kDeviceType_Keyboard: return _keyboardUsed;
-	case kDeviceType_Mouse: return _mouseUsed;
+bool InputManager::hasFreeDevice(DeviceType_t type) {
+	switch (type) {
+	case DeviceType_t::kKeyboard: return _keyboardUsed;
+	case DeviceType_t::kMouse: return _mouseUsed;
 	default:
 		return 0;
 	}

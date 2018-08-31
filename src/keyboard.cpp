@@ -2,8 +2,6 @@
 #include <sway/ois/inputmanager.h>
 #include <sway/ois/keymappinglist.h>
 
-#include <iostream>
-
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 

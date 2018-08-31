@@ -1,8 +1,6 @@
 #include <sway/ois/mouse.h>
 #include <sway/ois/inputmanager.h>
 
-#include <iostream>
-
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 

@@ -1,10 +1,7 @@
 #ifndef SWAY_OIS_KEYMAPPING_H
 #define SWAY_OIS_KEYMAPPING_H
 
-#include <sway/namespacemacros.h>
-#include <sway/types.h>
-
-#include <X11/Xlib.h>
+#include <sway/ois/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

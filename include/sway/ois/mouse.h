@@ -3,12 +3,7 @@
 
 #include <sway/ois/inputevents.h>
 #include <sway/ois/mouselistener.h>
-#include <sway/core.h>
-
-#include <boost/function.hpp> // boost::function
-#include <boost/bind.hpp> // boost::bind
-
-#include <X11/Xutil.h>
+#include <sway/ois/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

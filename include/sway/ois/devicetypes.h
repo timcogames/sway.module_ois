@@ -10,9 +10,9 @@ NAMESPACE_BEGIN(ois)
  * \brief
  *   Перечисление типов устройств ввода.
  */
-enum DeviceTypes {
-	kDeviceType_Keyboard = 0, /*!< Клавиатура. */
-	kDeviceType_Mouse = 1 /*!< Мышка. */
+enum class DeviceType_t {
+	kKeyboard, /*!< Клавиатура. */
+	kMouse /*!< Мышка. */
 };
 
 NAMESPACE_END(ois)
