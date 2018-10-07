@@ -2,13 +2,12 @@
 #define SWAY_OIS_H
 
 #include <sway/ois/typedefs.h>
-#include <sway/ois/inputmanager.h>
+#include <sway/ois/inputdevicetypes.h>
+#include <sway/ois/inputdevicemanager.h>
 #include <sway/ois/inputevents.h>
-#include <sway/ois/devicetypes.h>
+#include <sway/ois/inputlistener.h>
 #include <sway/ois/keycodes.h>
 #include <sway/ois/keyboard.h>
-#include <sway/ois/keyboardlistener.h>
 #include <sway/ois/mouse.h>
-#include <sway/ois/mouselistener.h>
 
 #endif // SWAY_OIS_H

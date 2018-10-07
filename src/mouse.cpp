@@ -1,32 +1,37 @@
 #include <sway/ois/mouse.h>
-#include <sway/ois/inputmanager.h>
+#include <sway/ois/inputdevicemanager.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-Mouse::Mouse(InputManager * manager) : core::foundation::Object(manager) {
+Mouse::Mouse(InputDeviceManager * manager)
+	: _manager(manager)
+	, _mouseGrabbed(false) {
 	_initialize();
 }
 
 Mouse::~Mouse() {
-	XUngrabPointer(_manager->getDisplay(), CurrentTime);
+	// if (_mouseGrabbed) {
+	// 	XUngrabPointer(_manager->getDisplay(), CurrentTime);
+	// 	_mouseGrabbed = false;
+	// }
+
 	_manager->setMouseUsed(false);
 }
 
 void Mouse::_initialize() {
-	_manager = static_cast<InputManager *>(getContext());
 	_manager->setMouseUsed(true);
 	
-	int err = XGrabPointer(_manager->getDisplay(), _manager->getWindowHandle(), True, 0, GrabModeAsync, GrabModeAsync, _manager->getWindowHandle(), None, CurrentTime);
-	if (err != GrabSuccess) {
-		// TODO
-	}
+	// int err = XGrabPointer(_manager->getDisplay(), _manager->getWindowHandle(), True, 0, GrabModeAsync, GrabModeAsync, _manager->getWindowHandle(), None, CurrentTime);
+	// if (err != GrabSuccess) {
+	// 	_mouseGrabbed = true;
+	// }
 }
 
-void Mouse::setListener(MouseListener * listener) {
-	_onMouseButtonDown = boost::bind(&MouseListener::onMouseButtonDown, listener, _1);
-	_onMouseButtonUp = boost::bind(&MouseListener::onMouseButtonUp, listener, _1);
-	_onMouseMove = boost::bind(&MouseListener::onMouseMove, listener, _1);
+void Mouse::setListener(InputListener * listener) {
+	_onMouseButtonDown = boost::bind(&InputListener::onMouseButtonDown, listener, _1);
+	_onMouseButtonUp = boost::bind(&InputListener::onMouseButtonUp, listener, _1);
+	_onMouseMove = boost::bind(&InputListener::onMouseMove, listener, _1);
 }
 
 void Mouse::notifyMouseMove(const XEvent & event) {

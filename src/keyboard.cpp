@@ -1,32 +1,42 @@
 #include <sway/ois/keyboard.h>
-#include <sway/ois/inputmanager.h>
+#include <sway/ois/inputdevicemanager.h>
 #include <sway/ois/keymappinglist.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-Keyboard::Keyboard(InputManager * manager) : core::foundation::Object(manager) {
+Keyboard::Keyboard(InputDeviceManager * manager)
+	: _manager(manager)
+	, _keyboardGrabbed(false) {
 	_initialize();
 }
 
 Keyboard::~Keyboard() {
-	XUngrabKeyboard(_manager->getDisplay(), CurrentTime);
+	//_enableSystemKeys();
 	_manager->setKeyboardUsed(false);
 }
 
 void Keyboard::_initialize() {
-	_manager = static_cast<InputManager *>(getContext());
+	//_disableSystemKeys();
 	_manager->setKeyboardUsed(true);
-	
+}
+
+void Keyboard::_disableSystemKeys() {
 	int err = XGrabKeyboard(_manager->getDisplay(), _manager->getWindowHandle(), True, GrabModeAsync, GrabModeAsync, CurrentTime);
-	if (err != GrabSuccess) {
-		// TODO
+	if (err != GrabSuccess)
+		_keyboardGrabbed = true;
+}
+
+void Keyboard::_enableSystemKeys() {
+	if (_keyboardGrabbed) {
+		XUngrabKeyboard(_manager->getDisplay(), CurrentTime);
+		_keyboardGrabbed = false;
 	}
 }
 
-void Keyboard::setListener(KeyboardListener * listener) {
-	_onKeyPressed = boost::bind(&KeyboardListener::onKeyPressed, listener, _1);
-	_onKeyReleased = boost::bind(&KeyboardListener::onKeyReleased, listener, _1);
+void Keyboard::setListener(InputListener * listener) {
+	_onKeyPressed = boost::bind(&InputListener::onKeyPressed, listener, _1);
+	_onKeyReleased = boost::bind(&InputListener::onKeyReleased, listener, _1);
 }
 
 void Keyboard::notifyKeyPressed(const XEvent & event) {

@@ -2,22 +2,23 @@
 #define SWAY_OIS_MOUSE_H
 
 #include <sway/ois/typedefs.h>
+#include <sway/ois/inputdevicebase.h>
+#include <sway/ois/inputdevicemacros.h>
 #include <sway/ois/inputevents.h>
-#include <sway/ois/mouselistener.h>
+#include <sway/ois/inputlistener.h>
 #include <sway/ois/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class InputManager;
+class InputDeviceManager;
 
 /*!
  * \brief
  *    Представляет устройство мыши.
  */
-class Mouse : public core::foundation::Object {
-	
-	DECLARE_OBJECT(Mouse, core::foundation::Object)
+class Mouse : public InputDeviceBase {
+	DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::kMouse)
 
 public:
 	/*!
@@ -29,7 +30,7 @@ public:
 	 * \param[in] manager
 	 *    Указатель на менеджер ввода.
 	 */
-	Mouse(InputManager * manager);
+	Mouse(InputDeviceManager * manager);
 
 	/*!
 	 * \brief
@@ -46,7 +47,7 @@ public:
 	 * \param[in] listener
 	 *    Слушатель событий мышки.
 	 */
-	void setListener(MouseListener * listener);
+	virtual void setListener(InputListener * listener);
 
 	void notifyMouseMove(const XEvent & event);
 
@@ -65,10 +66,11 @@ private:
 	void _initialize();
 
 private:
-	InputManager * _manager; /*!< Указатель на менеджер ввода. */
+	InputDeviceManager * _manager; /*!< Указатель на менеджер ввода. */
 	MouseEventCallbackFunc_t _onMouseButtonDown;
 	MouseEventCallbackFunc_t _onMouseButtonUp;
 	MouseEventCallbackFunc_t _onMouseMove;
+	bool _mouseGrabbed;
 };
 
 NAMESPACE_END(ois)

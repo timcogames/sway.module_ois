@@ -1,7 +1,7 @@
-#ifndef SWAY_OIS_INPUTMANAGER_H
-#define SWAY_OIS_INPUTMANAGER_H
+#ifndef SWAY_OIS_INPUTDEVICEMANAGER_H
+#define SWAY_OIS_INPUTDEVICEMANAGER_H
 
-#include <sway/ois/devicetypes.h>
+#include <sway/ois/inputdevicetypes.h>
 #include <sway/ois/keyboard.h>
 #include <sway/ois/mouse.h>
 
@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(ois)
  * \brief
  *    Класс управления вводом системы.
  */
-class InputManager : public core::foundation::Context {
+class InputDeviceManager {
 public:
 	/*!
 	 * \brief
@@ -26,7 +26,7 @@ public:
 	 * \param[in] window
 	 *    Уникальный идентификатор окна.
 	 */
-	InputManager(void * display, u32_t window);
+	InputDeviceManager(void * display, u32_t window);
 
 	/*!
 	 * \brief
@@ -34,16 +34,21 @@ public:
 	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
-	virtual ~InputManager();
+	virtual ~InputDeviceManager();
 
 	/*!
 	 * \brief
-	 *    Создает объект устройства ввода.
-	 *
-	 * \param[in] type
-	 *    Тип устройства.
+	 *    Регистрирует устройство ввода.
 	 */
-	core::foundation::Object * createDevice(DeviceType_t type);
+	template<typename TYPE>
+	inline void registerDevice();
+
+	/*!
+	 * \brief
+	 *    Получает устройство ввода.
+	 */
+	template<typename TYPE>
+	inline boost::shared_ptr<TYPE> getDevice();
 
 	/*!
 	 * \brief
@@ -52,7 +57,7 @@ public:
 	 * \param[in] type
 	 *    Тип устройства для проверки.
 	 */
-	bool hasFreeDevice(DeviceType_t type);
+	bool hasFreeDevice(InputDeviceType_t type);
 
 	/*!
 	 * \brief
@@ -93,11 +98,14 @@ public:
 public:
 	Display * _display; /*!< Указатель на структуру дисплея. */
 	Window _window; /*!< Идентификатор окна. */
+	InputDeviceFactory_t _factories;
 	bool _keyboardUsed; /*!< Используется ли клавиатура. */
 	bool _mouseUsed; /*!< Используется ли мышка. */
 };
 
+#include <sway/ois/inputdevicemanager.inl>
+
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif // SWAY_OIS_INPUTMANAGER_H
+#endif // SWAY_OIS_INPUTDEVICEMANAGER_H

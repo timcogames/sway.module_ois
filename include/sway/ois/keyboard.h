@@ -2,22 +2,23 @@
 #define SWAY_OIS_KEYBOARD_H
 
 #include <sway/ois/typedefs.h>
+#include <sway/ois/inputdevicebase.h>
+#include <sway/ois/inputdevicemacros.h>
 #include <sway/ois/inputevents.h>
-#include <sway/ois/keyboardlistener.h>
+#include <sway/ois/inputlistener.h>
 #include <sway/ois/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class InputManager;
+class InputDeviceManager;
 
 /*!
  * \brief
  *    Представляет устройство клавиатуры.
  */
-class Keyboard : public core::foundation::Object {
-
-	DECLARE_OBJECT(Keyboard, core::foundation::Object)
+class Keyboard : public InputDeviceBase {
+	DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::kKeyboard)
 
 public:
 	/*!
@@ -29,7 +30,7 @@ public:
 	 * \param[in] manager
 	 *    Указатель на менеджер ввода.
 	 */
-	Keyboard(InputManager * manager);
+	Keyboard(InputDeviceManager * manager);
 
 	/*!
 	 * \brief
@@ -46,7 +47,7 @@ public:
 	 * \param[in] listener
 	 *    Слушатель событий клавиатуры.
 	 */
-	void setListener(KeyboardListener * listener);
+	virtual void setListener(InputListener * listener);
 
 	/*!
 	 * \brief
@@ -76,10 +77,15 @@ private:
 	 */
 	void _initialize();
 
+	void _disableSystemKeys();
+
+	void _enableSystemKeys();
+
 private:
-	InputManager * _manager; /*!< Указатель на менеджер ввода. */
+	InputDeviceManager * _manager; /*!< Указатель на менеджер ввода. */
 	KeyboardEventCallbackFunc_t _onKeyPressed;
 	KeyboardEventCallbackFunc_t _onKeyReleased;
+	bool _keyboardGrabbed;
 };
 
 NAMESPACE_END(ois)
