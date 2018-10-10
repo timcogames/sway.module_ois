@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(ois)
 
 class InputListener {
 public:
-	#pragma region Keyboard
+	#pragma region Методы обработки событий клавиатуры
 
 	virtual void onKeyPressed(const KeyboardEventArgs & event) {
 		// Empty
@@ -21,7 +21,7 @@ public:
 
 	#pragma endregion
 
-	#pragma region Mouse
+	#pragma region Методы обработки событий мышки
 
 	virtual void onMouseButtonDown(const MouseEventArgs & event) {
 		// Empty

@@ -20,6 +20,11 @@ struct EventArgs {
  *    Предоставляет данные для событий, связанных с клавиатуры.
  */
 struct KeyboardEventArgs : public EventArgs {
+	KeyboardEventArgs(u32_t code)
+		: keycode(code) {
+			// Empty
+	};
+	
 	u32_t keycode; /*!< Код клавиши клавиатуры. */
 };
 

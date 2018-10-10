@@ -7,6 +7,7 @@ NAMESPACE_BEGIN(ois)
 
 Keyboard::Keyboard(InputDeviceManager * manager)
 	: _manager(manager)
+	, _listener(NULL)
 	, _keyboardGrabbed(false) {
 	_initialize();
 }
@@ -35,36 +36,37 @@ void Keyboard::_enableSystemKeys() {
 }
 
 void Keyboard::setListener(InputListener * listener) {
-	_onKeyPressed = boost::bind(&InputListener::onKeyPressed, listener, _1);
-	_onKeyReleased = boost::bind(&InputListener::onKeyReleased, listener, _1);
+	_listener = listener;
 }
 
 void Keyboard::notifyKeyPressed(const XEvent & event) {
+	if (!_listener)
+		return;
+		
 	KeySym key = NoSymbol;
 	XLookupString((XKeyEvent *)&event.xkey, 0, 0, &key, 0);
 
 	for (const KeyMapping & mapping : XtoKeycode) {
 		if (mapping.keysym == key) {
-			KeyboardEventArgs args;
-			args.keycode = mapping.keycode;
-
-			if (_onKeyPressed)
-				_onKeyPressed(args);
+			_listener->onKeyPressed((KeyboardEventArgs) {
+				.keycode = mapping.keycode
+			});
 		}
 	}
 }
 
 void Keyboard::notifyKeyReleased(const XEvent & event) {
+	if (!_listener)
+		return;
+		
 	KeySym key = NoSymbol;
 	XLookupString((XKeyEvent *)&event.xkey, 0, 0, &key, 0);
 
 	for (const KeyMapping & mapping : XtoKeycode) {
 		if (mapping.keysym == key) {
-			KeyboardEventArgs args;
-			args.keycode = mapping.keycode;
-
-			if (_onKeyReleased)
-				_onKeyReleased(args);
+			_listener->onKeyReleased((KeyboardEventArgs) {
+				.keycode = mapping.keycode
+			});
 		}
 	}
 }

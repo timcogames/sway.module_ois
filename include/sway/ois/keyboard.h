@@ -83,8 +83,7 @@ private:
 
 private:
 	InputDeviceManager * _manager; /*!< Указатель на менеджер ввода. */
-	KeyboardEventCallbackFunc_t _onKeyPressed;
-	KeyboardEventCallbackFunc_t _onKeyReleased;
+	InputListener * _listener;
 	bool _keyboardGrabbed;
 };
 
