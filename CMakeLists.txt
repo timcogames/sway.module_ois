@@ -1,12 +1,12 @@
 # Проверяем версию CMake
-cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
 # Мета-информация о проекте
 set(META_PROJECT_NAME module_ois_x11)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
 set(META_VERSION_MINOR 5)
-set(META_VERSION_PATCH 12)
+set(META_VERSION_PATCH 13)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -40,15 +40,23 @@ file(GLOB_RECURSE MODULE_OIS_X11_SOURCE ${MODULE_OIS_X11_DIR}/src/*.*)
 find_package(X11 REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON)
-set(BOOST_COMPONENTS system filesystem thread)
-find_package(Boost 1.58 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-if(NOT Boost_FOUND)
-	message(FATAL_ERROR "Fatal error: Boost (version >= 1.58) required.")
-else()
-	message(STATUS "Boost includes: ${Boost_INCLUDE_DIRS}")
-	message(STATUS "Boost libs: ${Boost_LIBRARIES}")
+set(Boost_NO_SYSTEM_PATHS TRUE)
+set(BOOST_COMPONENTS unit_test_framework)
 
-	include_directories(${Boost_INCLUDE_DIRS})
+if(Boost_NO_SYSTEM_PATHS)
+	set(BOOST_ROOT "/usr/local")
+	set(BOOST_INCLUDE_DIR "${BOOST_ROOT}/include")
+	set(BOOST_LIBRARY_DIR "${BOOST_ROOT}/lib")
+endif(Boost_NO_SYSTEM_PATHS)
+
+find_package(Boost 1.69.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+if(NOT Boost_FOUND)
+	message(FATAL_ERROR "Fatal error: Boost (version >= 1.69.0) required.")
+else()
+	message(STATUS "Boost includes: ${BOOST_INCLUDE_DIR}")
+	message(STATUS "Boost libs: ${BOOST_LIBRARY_DIR}")
+
+	include_directories(${BOOST_INCLUDE_DIR})
 endif()
 
 if(BUILD_SHARED)
@@ -65,4 +73,4 @@ else()
 	set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
 endif()
 
-target_link_libraries(${META_LIB_NAME} X11 Boost::system Boost::filesystem Boost::thread)
+target_link_libraries(${META_LIB_NAME} X11 ${BOOST_LIBRARIES})
