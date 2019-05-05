@@ -1,9 +1,6 @@
 # sway.module_ois-x11 [![Discord](https://discordapp.com/api/guilds/402238411639095297/widget.png)](https://discord.gg/vCMcgwQ)
 
-[![Build Status](https://travis-ci.com/timcogames/sway.module_ois-x11.svg?branch=master)](https://travis-ci.com/timcogames/sway.module_ois-x11)
-[![codecov](https://codecov.io/gh/timcogames/sway.module_ois-x11/branch/master/graph/badge.svg)](https://codecov.io/gh/timcogames/sway.module_ois-x11)
-[![BCH compliance](https://bettercodehub.com/edge/badge/timcogames/sway.module_ois-x11?branch=master)](https://bettercodehub.com/)
-[![Documentation](https://codedocs.xyz/timcogames/sway.module_ois-x11.svg)](https://codedocs.xyz/timcogames/sway.module_ois-x11/)
+[![Build Status][travis-svg]][travis-url] [![codecov][codecov-svg]][codecov-url] [![BCH compliance][bettercodehub-svg]][bettercodehub-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
 
 ### Клонирование проекта
 
@@ -34,3 +31,14 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 ```console
 cmake --build .
 ```
+
+[travis-svg]: https://travis-ci.org/timcogames/sway.module_ois-x11.svg?branch=master
+[travis-url]: https://travis-ci.org/timcogames/sway.module_ois-x11
+[codecov-svg]: https://codecov.io/gh/timcogames/sway.module_ois-x11/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/timcogames/sway.module_ois-x11
+[bettercodehub-svg]: https://bettercodehub.com/edge/badge/timcogames/sway.module_ois-x11?branch=master
+[bettercodehub-url]: https://bettercodehub.com/
+[codedocs-svg]: https://codedocs.xyz/timcogames/sway.module_ois-x11.svg
+[codedocs-url]: https://codedocs.xyz/timcogames/sway.module_ois-x11/
+[license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg
+[license-url]: LICENSE

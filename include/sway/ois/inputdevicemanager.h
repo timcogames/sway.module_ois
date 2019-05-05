@@ -48,7 +48,7 @@ public:
 	 *    Получает устройство ввода.
 	 */
 	template<typename TYPE>
-	inline boost::shared_ptr<TYPE> getDevice();
+	inline std::shared_ptr<TYPE> getDevice();
 
 	/*!
 	 * \brief
