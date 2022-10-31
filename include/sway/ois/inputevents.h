@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(ois)
  *    Предоставляет данные для связанных входных событий.
  */
 struct EventArgs {
-	// Empty
+  // Empty
 };
 
 /*!
@@ -20,12 +20,12 @@ struct EventArgs {
  *    Предоставляет данные для событий, связанных с клавиатуры.
  */
 struct KeyboardEventArgs : public EventArgs {
-	KeyboardEventArgs(u32_t code)
-		: keycode(code) {
-			// Empty
-	};
-	
-	u32_t keycode; /*!< Код клавиши клавиатуры. */
+  KeyboardEventArgs(u32_t code)
+      : keycode(code){
+            // Empty
+        };
+
+  u32_t keycode; /*!< Код клавиши клавиатуры. */
 };
 
 /*!
@@ -33,11 +33,11 @@ struct KeyboardEventArgs : public EventArgs {
  *    Предоставляет данные для событий, связанных с мышью.
  */
 struct MouseEventArgs : public EventArgs {
-	s32_t x, y; /*!< Координаты позиции курсора. */
-	s32_t button; /*!< Код кнопок мыши. */
+  s32_t x, y; /*!< Координаты позиции курсора. */
+  s32_t button; /*!< Код кнопок мыши. */
 };
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif // SWAY_OIS_INPUTEVENTS_H
+#endif  // SWAY_OIS_INPUTEVENTS_H

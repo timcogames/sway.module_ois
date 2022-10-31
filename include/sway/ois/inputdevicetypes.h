@@ -12,12 +12,12 @@ NAMESPACE_BEGIN(ois)
  *   Перечисление типов устройств ввода.
  */
 enum class InputDeviceType_t : u32_t {
-	kUndefined,
-	kKeyboard, /*!< Клавиатура. */
-	kMouse /*!< Мышка. */
+  kUndefined,
+  kKeyboard, /*!< Клавиатура. */
+  kMouse /*!< Мышка. */
 };
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif // SWAY_OIS_INPUTDEVICETYPES_H
+#endif  // SWAY_OIS_INPUTDEVICETYPES_H

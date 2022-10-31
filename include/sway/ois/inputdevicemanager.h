@@ -14,93 +14,93 @@ NAMESPACE_BEGIN(ois)
  */
 class InputDeviceManager {
 public:
-	/*!
-	 * \brief
-	 *    Конструктор класса.
-	 *
-	 *    Выполняет инициализацию нового экземпляра класса.
-	 * 
-	 * \param[in] display
-	 *    Указатель на структуру дисплея.
-	 * 
-	 * \param[in] window
-	 *    Уникальный идентификатор окна.
-	 */
-	InputDeviceManager(void * display, u32_t window);
+  /*!
+   * \brief
+   *    Конструктор класса.
+   *
+   *    Выполняет инициализацию нового экземпляра класса.
+   *
+   * \param[in] display
+   *    Указатель на структуру дисплея.
+   *
+   * \param[in] window
+   *    Уникальный идентификатор окна.
+   */
+  InputDeviceManager(void *display, u32_t window);
 
-	/*!
-	 * \brief
-	 *    Деструктор класса.
-	 *
-	 *    Освобождает захваченные ресурсы.
-	 */
-	virtual ~InputDeviceManager();
+  /*!
+   * \brief
+   *    Деструктор класса.
+   *
+   *    Освобождает захваченные ресурсы.
+   */
+  virtual ~InputDeviceManager();
 
-	/*!
-	 * \brief
-	 *    Регистрирует устройство ввода.
-	 */
-	template<typename TYPE>
-	inline void registerDevice();
+  /*!
+   * \brief
+   *    Регистрирует устройство ввода.
+   */
+  template <typename TYPE>
+  inline void registerDevice();
 
-	/*!
-	 * \brief
-	 *    Получает устройство ввода.
-	 */
-	template<typename TYPE>
-	inline std::shared_ptr<TYPE> getDevice();
+  /*!
+   * \brief
+   *    Получает устройство ввода.
+   */
+  template <typename TYPE>
+  inline std::shared_ptr<TYPE> getDevice();
 
-	/*!
-	 * \brief
-	 *    Проверяет устройство.
-	 *
-	 * \param[in] type
-	 *    Тип устройства для проверки.
-	 */
-	bool hasFreeDevice(InputDeviceType_t type);
+  /*!
+   * \brief
+   *    Проверяет устройство.
+   *
+   * \param[in] type
+   *    Тип устройства для проверки.
+   */
+  bool hasFreeDevice(InputDeviceType_t type);
 
-	/*!
-	 * \brief
-	 *    Устанавливает логическое значение использования клавиатуры.
-	 *
-	 * \param[in] used
-	 *    Обрабатывать события от клавиатуры?
-	 *
-	 * \note
-	 *    Внутренний метод.
-	 */
-	void setKeyboardUsed(bool used);
+  /*!
+   * \brief
+   *    Устанавливает логическое значение использования клавиатуры.
+   *
+   * \param[in] used
+   *    Обрабатывать события от клавиатуры?
+   *
+   * \note
+   *    Внутренний метод.
+   */
+  void setKeyboardUsed(bool used);
 
-	/*!
-	 * \brief
-	 *    Устанавливает логическое значение использования мышки.
-	 *
-	 * \param[in] used
-	 *    Обрабатывать события от мышки?
-	 *
-	 * \note
-	 *    Внутренний метод.
-	 */
-	void setMouseUsed(bool used);
+  /*!
+   * \brief
+   *    Устанавливает логическое значение использования мышки.
+   *
+   * \param[in] used
+   *    Обрабатывать события от мышки?
+   *
+   * \note
+   *    Внутренний метод.
+   */
+  void setMouseUsed(bool used);
 
-	/*!
-	 * \brief
-	 *    Получает указатель на структуру дисплея.
-	 */
-	Display * getDisplay() const;
+  /*!
+   * \brief
+   *    Получает указатель на структуру дисплея.
+   */
+  Display *getDisplay() const;
 
-	/*!
-	 * \brief
-	 *    Получает идентификатор окна.
-	 */
-	Window getWindowHandle() const;
+  /*!
+   * \brief
+   *    Получает идентификатор окна.
+   */
+  Window getWindowHandle() const;
 
 public:
-	Display * _display; /*!< Указатель на структуру дисплея. */
-	Window _window; /*!< Идентификатор окна. */
-	InputDeviceFactory_t _factories;
-	bool _keyboardUsed; /*!< Используется ли клавиатура. */
-	bool _mouseUsed; /*!< Используется ли мышка. */
+  Display *display_; /*!< Указатель на структуру дисплея. */
+  Window window_; /*!< Идентификатор окна. */
+  InputDeviceFactory_t factories_;
+  bool keyboardUsed_; /*!< Используется ли клавиатура. */
+  bool mouseUsed_; /*!< Используется ли мышка. */
 };
 
 #include <sway/ois/inputdevicemanager.inl>
@@ -108,4 +108,4 @@ public:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif // SWAY_OIS_INPUTDEVICEMANAGER_H
+#endif  // SWAY_OIS_INPUTDEVICEMANAGER_H
