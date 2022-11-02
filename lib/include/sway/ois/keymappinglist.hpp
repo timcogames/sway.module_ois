@@ -1,9 +1,9 @@
-#ifndef SWAY_OIS_KEYMAPPINGLIST_H
-#define SWAY_OIS_KEYMAPPINGLIST_H
+#ifndef SWAY_OIS_KEYMAPPINGLIST_HPP
+#define SWAY_OIS_KEYMAPPINGLIST_HPP
 
-#include <sway/namespacemacros.h>
-#include <sway/ois/keycodes.h>
-#include <sway/ois/keymapping.h>
+#include <sway/namespacemacros.hpp>
+#include <sway/ois/keycodes.hpp>
+#include <sway/ois/keymapping.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -18,4 +18,4 @@ static const KeyMapping XtoKeycode[] = {{XK_a, kKeyCode_A}, {XK_b, kKeyCode_B}, 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_KEYMAPPINGLIST_H
+#endif  // SWAY_OIS_KEYMAPPINGLIST_HPP

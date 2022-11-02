@@ -1,7 +1,7 @@
-#ifndef SWAY_OIS_KEYCODES_H
-#define SWAY_OIS_KEYCODES_H
+#ifndef SWAY_OIS_KEYCODES_HPP
+#define SWAY_OIS_KEYCODES_HPP
 
-#include <sway/namespacemacros.h>
+#include <sway/namespacemacros.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -119,4 +119,4 @@ enum KeyCodes {
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_KEYCODES_H
+#endif  // SWAY_OIS_KEYCODES_HPP

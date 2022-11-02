@@ -1,6 +1,7 @@
-#include <sway/ois/inputdevicemanager.h>
-#include <sway/ois/keyboard.h>
-#include <sway/ois/keymappinglist.h>
+#include <sway/ois/inputdevicemanager.hpp>
+#include <sway/ois/keyboard.hpp>
+#include <sway/ois/keyboardeventargs.hpp>
+#include <sway/ois/keymappinglist.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -49,7 +50,7 @@ void Keyboard::notifyKeyPressed(const XEvent &event) {
 
   for (const KeyMapping &mapping : XtoKeycode) {
     if (mapping.keysym == key) {
-      listener_->onKeyPressed((KeyboardEventArgs){.keycode = mapping.keycode});
+      listener_->onKeyPressed(KeyboardEventArgs(mapping.keycode));
     }
   }
 }
@@ -64,7 +65,7 @@ void Keyboard::notifyKeyReleased(const XEvent &event) {
 
   for (const KeyMapping &mapping : XtoKeycode) {
     if (mapping.keysym == key) {
-      listener_->onKeyReleased((KeyboardEventArgs){.keycode = mapping.keycode});
+      listener_->onKeyReleased(KeyboardEventArgs(mapping.keycode));
     }
   }
 }

@@ -1,5 +1,5 @@
-#include <sway/ois/inputdevicemanager.h>
-#include <sway/ois/mouse.h>
+#include <sway/ois/inputdevicemanager.hpp>
+#include <sway/ois/mouse.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -28,9 +28,9 @@ void Mouse::initialize_() {
 }
 
 void Mouse::setListener(InputListener *listener) {
-  onMouseButtonDown_ = boost::bind(&InputListener::onMouseButtonDown, listener, _1);
-  onMouseButtonUp_ = boost::bind(&InputListener::onMouseButtonUp, listener, _1);
-  onMouseMove_ = boost::bind(&InputListener::onMouseMove, listener, _1);
+  onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
+  onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
+  onMouseMove_ = std::bind(&InputListener::onMouseMove, listener, std::placeholders::_1);
 }
 
 void Mouse::notifyMouseMove(const XEvent &event) {

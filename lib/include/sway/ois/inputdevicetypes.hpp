@@ -1,8 +1,8 @@
-#ifndef SWAY_OIS_INPUTDEVICETYPES_H
-#define SWAY_OIS_INPUTDEVICETYPES_H
+#ifndef SWAY_OIS_INPUTDEVICETYPES_HPP
+#define SWAY_OIS_INPUTDEVICETYPES_HPP
 
-#include <sway/namespacemacros.h>
-#include <sway/types.h>
+#include <sway/namespacemacros.hpp>
+#include <sway/types.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -20,4 +20,4 @@ enum class InputDeviceType_t : u32_t {
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTDEVICETYPES_H
+#endif  // SWAY_OIS_INPUTDEVICETYPES_HPP

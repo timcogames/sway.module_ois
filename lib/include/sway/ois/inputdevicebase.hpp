@@ -1,8 +1,8 @@
-#ifndef SWAY_OIS_INPUTDEVICEBASE_H
-#define SWAY_OIS_INPUTDEVICEBASE_H
+#ifndef SWAY_OIS_INPUTDEVICEBASE_HPP
+#define SWAY_OIS_INPUTDEVICEBASE_HPP
 
-#include <sway/ois/inputdevicetypes.h>
-#include <sway/ois/inputlistener.h>
+#include <sway/ois/inputdevicetypes.hpp>
+#include <sway/ois/inputlistener.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -36,4 +36,4 @@ public:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTDEVICEBASE_H
+#endif  // SWAY_OIS_INPUTDEVICEBASE_HPP

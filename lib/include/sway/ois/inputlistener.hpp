@@ -1,8 +1,9 @@
-#ifndef SWAY_OIS_INPUTLISTENER_H
-#define SWAY_OIS_INPUTLISTENER_H
+#ifndef SWAY_OIS_INPUTLISTENER_HPP
+#define SWAY_OIS_INPUTLISTENER_HPP
 
-#include <sway/namespacemacros.h>
-#include <sway/ois/inputevents.h>
+#include <sway/namespacemacros.hpp>
+#include <sway/ois/inputevents.hpp>
+#include <sway/ois/keyboardeventargs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -41,4 +42,4 @@ public:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTLISTENER_H
+#endif  // SWAY_OIS_INPUTLISTENER_HPP

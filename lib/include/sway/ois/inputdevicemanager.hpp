@@ -1,9 +1,9 @@
-#ifndef SWAY_OIS_INPUTDEVICEMANAGER_H
-#define SWAY_OIS_INPUTDEVICEMANAGER_H
+#ifndef SWAY_OIS_INPUTDEVICEMANAGER_HPP
+#define SWAY_OIS_INPUTDEVICEMANAGER_HPP
 
-#include <sway/ois/inputdevicetypes.h>
-#include <sway/ois/keyboard.h>
-#include <sway/ois/mouse.h>
+#include <sway/ois/inputdevicetypes.hpp>
+#include <sway/ois/keyboard.hpp>
+#include <sway/ois/mouse.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -108,4 +108,4 @@ public:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTDEVICEMANAGER_H
+#endif  // SWAY_OIS_INPUTDEVICEMANAGER_HPP

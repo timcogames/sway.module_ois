@@ -1,4 +1,4 @@
-#include <sway/ois/inputdevicemanager.h>
+#include <sway/ois/inputdevicemanager.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

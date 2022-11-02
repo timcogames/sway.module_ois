@@ -1,12 +1,12 @@
-#ifndef SWAY_OIS_MOUSE_H
-#define SWAY_OIS_MOUSE_H
+#ifndef SWAY_OIS_MOUSE_HPP
+#define SWAY_OIS_MOUSE_HPP
 
-#include <sway/ois/inputdevicebase.h>
-#include <sway/ois/inputdevicemacros.h>
-#include <sway/ois/inputevents.h>
-#include <sway/ois/inputlistener.h>
-#include <sway/ois/prereqs.h>
-#include <sway/ois/typedefs.h>
+#include <sway/ois/inputdevicebase.hpp>
+#include <sway/ois/inputdevicemacros.hpp>
+#include <sway/ois/inputevents.hpp>
+#include <sway/ois/inputlistener.hpp>
+#include <sway/ois/prereqs.hpp>
+#include <sway/ois/typedefs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -65,7 +65,6 @@ private:
    */
   void initialize_();
 
-private:
   InputDeviceManager *manager_; /*!< Указатель на менеджер ввода. */
   MouseEventCallbackFunc_t onMouseButtonDown_;
   MouseEventCallbackFunc_t onMouseButtonUp_;
@@ -76,4 +75,4 @@ private:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_MOUSE_H
+#endif  // SWAY_OIS_MOUSE_HPP

@@ -1,7 +1,7 @@
-#ifndef SWAY_OIS_KEYMAPPING_H
-#define SWAY_OIS_KEYMAPPING_H
+#ifndef SWAY_OIS_KEYMAPPING_HPP
+#define SWAY_OIS_KEYMAPPING_HPP
 
-#include <sway/ois/prereqs.h>
+#include <sway/ois/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -14,4 +14,4 @@ struct KeyMapping {
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_KEYMAPPING_H
+#endif  // SWAY_OIS_KEYMAPPING_HPP

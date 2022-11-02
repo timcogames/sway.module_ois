@@ -1,8 +1,9 @@
-#ifndef SWAY_OIS_INPUTEVENTS_H
-#define SWAY_OIS_INPUTEVENTS_H
+#ifndef SWAY_OIS_INPUTEVENTS_HPP
+#define SWAY_OIS_INPUTEVENTS_HPP
 
-#include <sway/namespacemacros.h>
-#include <sway/types.h>
+#include <sway/namespacemacros.hpp>
+#include <sway/ois/keycodes.hpp>
+#include <sway/types.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -17,19 +18,6 @@ struct EventArgs {
 
 /*!
  * \brief
- *    Предоставляет данные для событий, связанных с клавиатуры.
- */
-struct KeyboardEventArgs : public EventArgs {
-  KeyboardEventArgs(u32_t code)
-      : keycode(code){
-            // Empty
-        };
-
-  u32_t keycode; /*!< Код клавиши клавиатуры. */
-};
-
-/*!
- * \brief
  *    Предоставляет данные для событий, связанных с мышью.
  */
 struct MouseEventArgs : public EventArgs {
@@ -40,4 +28,4 @@ struct MouseEventArgs : public EventArgs {
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTEVENTS_H
+#endif  // SWAY_OIS_INPUTEVENTS_HPP

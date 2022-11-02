@@ -1,9 +1,10 @@
-#include <sway/ois/inputdevicemanager.h>
+#include <sway/ois/inputdevicemanager.hpp>
 
 template <typename TYPE>
 void InputDeviceManager::registerDevice() {
   auto deviceType = core::detail::toUnderlying(TYPE::getDeviceType());
-  auto device = boost::bind(boost::factory<std::shared_ptr<TYPE>>(), this);
+  // auto device = boost::bind(boost::factory<std::shared_ptr<TYPE>>(), this);
+  auto device = std::bind(std::shared_ptr<TYPE>(), this);
 
   factories_.insert(std::make_pair(deviceType, device));
 }
