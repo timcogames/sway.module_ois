@@ -7,9 +7,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-/*!
- * \brief
- *   Перечисление типов устройств ввода.
+/**
+ * @brief Перечисление типов устройств ввода.
+ *
  */
 enum class InputDeviceType_t : u32_t {
   kUndefined,

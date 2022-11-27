@@ -9,26 +9,25 @@ NAMESPACE_BEGIN(ois)
 
 class InputDeviceBase {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
+  /**
+   * @brief Конструктор класса.
+   *
    */
   InputDeviceBase() {
     // Empty
   }
 
-  /*!
-   * \brief
-   *    Деструктор класса.
+  /**
+   * @brief Деструктор класса.
+   *
    */
   virtual ~InputDeviceBase() = default;
 
-  /*!
-   * \brief
-   *    Устанавливает слушатель событий.
+  /**
+   * @brief Устанавливает слушатель событий.
    *
-   * \param[in] listener
-   *    Слушатель событий клавиатуры.
+   * @param[in] listener Слушатель событий клавиатуры.
+   *
    */
   virtual void setListener(InputListener *listener) = 0;
 };
