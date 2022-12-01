@@ -38,15 +38,15 @@ public:
 
   /**
    * @brief Уведомляет об нажатии на клавишу.
-   * @param[in] event Хранилище события.
+   * @param[in] evt Хранилище события.
    */
-  void notifyKeyPressed(const XEvent &event);
+  void notifyKeyPressed(const XEvent &evt);
 
   /**
    * @brief Уведомляет об отпускании клавиши.
-   * @param[in] event Хранилище события.
+   * @param[in] evt Хранилище события.
    */
-  void notifyKeyReleased(const XEvent &event);
+  void notifyKeyReleased(const XEvent &evt);
 
 private:
   /**

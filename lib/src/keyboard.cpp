@@ -40,13 +40,13 @@ void Keyboard::enableSystemKeys_() {
 
 void Keyboard::setListener(InputListener *listener) { listener_ = listener; }
 
-void Keyboard::notifyKeyPressed(const XEvent &event) {
+void Keyboard::notifyKeyPressed(const XEvent &evt) {
   if (!listener_) {
     return;
   }
 
   KeySym key = NoSymbol;
-  XLookupString((XKeyEvent *)&event.xkey, 0, 0, &key, 0);
+  XLookupString((XKeyEvent *)&evt.xkey, 0, 0, &key, 0);
 
   for (const KeyMapping &mapping : XtoKeycode) {
     if (mapping.keysym == key) {
@@ -55,13 +55,13 @@ void Keyboard::notifyKeyPressed(const XEvent &event) {
   }
 }
 
-void Keyboard::notifyKeyReleased(const XEvent &event) {
+void Keyboard::notifyKeyReleased(const XEvent &evt) {
   if (!listener_) {
     return;
   }
 
   KeySym key = NoSymbol;
-  XLookupString((XKeyEvent *)&event.xkey, 0, 0, &key, 0);
+  XLookupString((XKeyEvent *)&evt.xkey, 0, 0, &key, 0);
 
   for (const KeyMapping &mapping : XtoKeycode) {
     if (mapping.keysym == key) {
