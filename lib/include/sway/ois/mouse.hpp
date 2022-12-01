@@ -1,7 +1,7 @@
 #ifndef SWAY_OIS_MOUSE_HPP
 #define SWAY_OIS_MOUSE_HPP
 
-#include <sway/ois/inputdevicebase.hpp>
+#include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputevents.hpp>
 #include <sway/ois/inputlistener.hpp>
@@ -13,41 +13,29 @@ NAMESPACE_BEGIN(ois)
 
 class InputDeviceManager;
 
-/*!
- * \brief
- *    Представляет устройство мыши.
+/**
+ * @brief Представляет устройство мыши.
  */
-class Mouse : public InputDeviceBase {
+class Mouse : public InputDevice {
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::kMouse)
 
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *
-   *    Выполняет инициализацию нового экземпляра класса.
-   *
-   * \param[in] manager
-   *    Указатель на менеджер ввода.
+  /**
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
+   * @param[in] manager Указатель на менеджер ввода.
    */
   Mouse(InputDeviceManager *manager);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
   virtual ~Mouse();
 
-  /*!
-   * \brief
-   *    Устанавливает слушатель событий.
-   *
-   * \param[in] listener
-   *    Слушатель событий мышки.
+  /**
+   * @brief Устанавливает слушатель событий.
+   * @param[in] listener Слушатель событий мышки.
    */
-  virtual void setListener(InputListener *listener);
+  MTHD_OVERRIDE(void setListener(InputListener *listener));
 
   void notifyMouseMove(const XEvent &event);
 
@@ -56,16 +44,13 @@ public:
   void notifyMouseButtonUp(const XEvent &event);
 
 private:
-  /*!
-   * \brief
-   *    Инициализация устройства.
-   *
-   * \note
-   *    Внутренний метод, вызывается в конструкторе.
+  /**
+   * @brief Инициализация устройства.
+   * @note Внутренний метод, вызывается в конструкторе.
    */
   void initialize_();
 
-  InputDeviceManager *manager_; /*!< Указатель на менеджер ввода. */
+  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
   MouseEventCallbackFunc_t onMouseButtonDown_;
   MouseEventCallbackFunc_t onMouseButtonUp_;
   MouseEventCallbackFunc_t onMouseMove_;

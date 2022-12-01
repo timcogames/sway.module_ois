@@ -10,87 +10,70 @@ NAMESPACE_BEGIN(ois)
 
 /**
  * @brief Класс управления вводом системы.
- *
  */
-class InputDeviceManager {
+class InputDeviceManager : public std::enable_shared_from_this<InputDeviceManager> {
 public:
   /**
-   * @brief Конструктор класса.
-   * Выполняет инициализацию нового экземпляра класса.
-   *
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
    * @param[in] display Указатель на структуру дисплея.
    * @param[in] window Уникальный идентификатор окна.
-   *
    */
   InputDeviceManager(void *display, u32_t window);
 
   /**
-   * @brief Деструктор класса.
-   * Освобождает захваченные ресурсы.
-   *
+   * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
-  virtual ~InputDeviceManager();
+  ~InputDeviceManager() = default;
 
   /**
    * @brief Регистрирует устройство ввода.
-   *
    */
   template <typename TYPE>
   inline void registerDevice();
 
   /**
    * @brief Получает устройство ввода.
-   *
    */
   template <typename TYPE>
   inline auto getDevice() -> std::shared_ptr<TYPE>;
 
   /**
    * @brief Проверяет устройство.
-   *
    * @param[in] type Тип устройства для проверки.
-   *
    */
   bool hasFreeDevice(InputDeviceType_t type);
 
   /**
    * @brief Устанавливает логическое значение использования клавиатуры.
-   *
    * @param[in] used Обрабатывать события от клавиатуры?
-   *
    * @note Внутренний метод.
-   *
    */
   void setKeyboardUsed(bool used);
 
   /**
    * @brief Устанавливает логическое значение использования мышки.
-   *
    * @param[in] used Обрабатывать события от мышки?
-   *
    * @note Внутренний метод.
-   *
    */
   void setMouseUsed(bool used);
 
   /**
    * @brief Получает указатель на структуру дисплея.
-   *
    */
-  auto getDisplay() const -> Display *;
+  [[nodiscard]] auto getDisplay() const -> Display *;
 
   /**
    * @brief Получает идентификатор окна.
-   *
    */
-  auto getWindowHandle() const -> Window;
+  [[nodiscard]] auto getWindowHandle() const -> Window;
 
-public:
-  Display *display_; /*!< Указатель на структуру дисплея. */
-  Window window_; /*!< Идентификатор окна. */
-  InputDeviceFactory_t factories_;
-  bool keyboardUsed_; /*!< Используется ли клавиатура. */
-  bool mouseUsed_; /*!< Используется ли мышка. */
+private:
+  Display *display_;  // Указатель на структуру дисплея.
+  Window window_;  // Идентификатор окна.
+  // InputDeviceFactory_t factories_;
+  std::unordered_map<u32_t, std::shared_ptr<InputDevice>> factories_;
+  bool keyboardUsed_;  // Используется ли клавиатура.
+  bool mouseUsed_;  // Используется ли мышка.
 };
 
 #include <sway/ois/inputdevicemanager.inl>

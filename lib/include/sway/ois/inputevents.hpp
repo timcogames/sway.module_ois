@@ -10,7 +10,6 @@ NAMESPACE_BEGIN(ois)
 
 /**
  * @brief Предоставляет данные для связанных входных событий.
- *
  */
 struct EventArgs {
   // Empty
@@ -18,11 +17,10 @@ struct EventArgs {
 
 /**
  * @brief Предоставляет данные для событий, связанных с мышью.
- *
  */
 struct MouseEventArgs : public EventArgs {
-  s32_t x, y; /*!< Координаты позиции курсора. */
-  s32_t button; /*!< Код кнопок мыши. */
+  s32_t x, y;  // Координаты позиции курсора.
+  s32_t button;  // Код кнопок мыши.
 };
 
 NAMESPACE_END(ois)

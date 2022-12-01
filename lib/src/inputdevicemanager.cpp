@@ -11,10 +11,6 @@ InputDeviceManager::InputDeviceManager(void *display, u32_t window)
   // Empty
 }
 
-InputDeviceManager::~InputDeviceManager() {
-  // Empty
-}
-
 bool InputDeviceManager::hasFreeDevice(InputDeviceType_t type) {
   switch (type) {
     case InputDeviceType_t::kKeyboard:
@@ -30,9 +26,9 @@ void InputDeviceManager::setKeyboardUsed(bool used) { keyboardUsed_ = used; }
 
 void InputDeviceManager::setMouseUsed(bool used) { mouseUsed_ = used; }
 
-Display *InputDeviceManager::getDisplay() const { return display_; }
+auto InputDeviceManager::getDisplay() const -> Display * { return display_; }
 
-Window InputDeviceManager::getWindowHandle() const { return window_; }
+auto InputDeviceManager::getWindowHandle() const -> Window { return window_; }
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)

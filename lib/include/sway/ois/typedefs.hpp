@@ -11,10 +11,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-typedef std::shared_ptr<class InputDeviceManager> InputDeviceManagerRef_t;
-typedef std::shared_ptr<class InputDeviceBase> InputDeviceRef_t;
-typedef std::shared_ptr<class Keyboard> KeyboardRef_t;
-typedef std::shared_ptr<class Mouse> MouseRef_t;
+using InputDeviceManagerRef_t = std::shared_ptr<class InputDeviceManager>;
+using InputDeviceRef_t = std::shared_ptr<class InputDevice>;
+using KeyboardRef_t = std::shared_ptr<class Keyboard>;
+using MouseRef_t = std::shared_ptr<class Mouse>;
 
 using InputDeviceCreator_t = std::function<InputDeviceRef_t()>;
 using InputDeviceFactory_t = std::unordered_map<u32_t, InputDeviceCreator_t>;

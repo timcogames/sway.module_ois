@@ -1,38 +1,28 @@
-#ifndef SWAY_OIS_INPUTDEVICEBASE_HPP
-#define SWAY_OIS_INPUTDEVICEBASE_HPP
+#ifndef SWAY_OIS_INPUTDEVICE_HPP
+#define SWAY_OIS_INPUTDEVICE_HPP
 
+#include <sway/keywords.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputlistener.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class InputDeviceBase {
+class InputDevice {
 public:
   /**
-   * @brief Конструктор класса.
-   *
-   */
-  InputDeviceBase() {
-    // Empty
-  }
-
-  /**
    * @brief Деструктор класса.
-   *
    */
-  virtual ~InputDeviceBase() = default;
+  virtual ~InputDevice() = default;
 
   /**
    * @brief Устанавливает слушатель событий.
-   *
    * @param[in] listener Слушатель событий клавиатуры.
-   *
    */
-  virtual void setListener(InputListener *listener) = 0;
+  PURE_VIRTUAL(void setListener(InputListener *listener));
 };
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTDEVICEBASE_HPP
+#endif  // SWAY_OIS_INPUTDEVICE_HPP

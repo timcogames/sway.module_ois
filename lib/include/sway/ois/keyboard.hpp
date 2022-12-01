@@ -1,7 +1,7 @@
 #ifndef SWAY_OIS_KEYBOARD_HPP
 #define SWAY_OIS_KEYBOARD_HPP
 
-#include <sway/ois/inputdevicebase.hpp>
+#include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/prereqs.hpp>
@@ -12,67 +12,46 @@ NAMESPACE_BEGIN(ois)
 
 class InputDeviceManager;
 
-/*!
- * \brief
- *    Представляет устройство клавиатуры.
+/**
+ * @brief Представляет устройство клавиатуры.
  */
-class Keyboard : public InputDeviceBase {
+class Keyboard : public InputDevice {
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::kKeyboard)
 
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *
-   *    Выполняет инициализацию нового экземпляра класса.
-   *
-   * \param[in] manager
-   *    Указатель на менеджер ввода.
+  /**
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
+   * @param[in] manager Указатель на менеджер ввода.
    */
   Keyboard(InputDeviceManager *manager);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
   virtual ~Keyboard();
 
-  /*!
-   * \brief
-   *    Устанавливает слушатель событий.
-   *
-   * \param[in] listener
-   *    Слушатель событий клавиатуры.
+  /**
+   * @brief Устанавливает слушатель событий.
+   * @param[in] listener Слушатель событий клавиатуры.
    */
-  virtual void setListener(InputListener *listener);
+  MTHD_OVERRIDE(void setListener(InputListener *listener));
 
-  /*!
-   * \brief
-   *    Уведомляет об нажатии на клавишу.
-   *
-   * \param[in] event
-   *    Хранилище события.
+  /**
+   * @brief Уведомляет об нажатии на клавишу.
+   * @param[in] event Хранилище события.
    */
   void notifyKeyPressed(const XEvent &event);
 
-  /*!
-   * \brief
-   *    Уведомляет об отпускании клавиши.
-   *
-   * \param[in] event
-   *    Хранилище события.
+  /**
+   * @brief Уведомляет об отпускании клавиши.
+   * @param[in] event Хранилище события.
    */
   void notifyKeyReleased(const XEvent &event);
 
 private:
-  /*!
-   * \brief
-   *    Инициализация устройства.
-   *
-   * \note
-   *    Внутренний метод, вызывается в конструкторе.
+  /**
+   * @brief Инициализация устройства.
+   * @note Внутренний метод, вызывается в конструкторе.
    */
   void initialize_();
 
@@ -80,8 +59,7 @@ private:
 
   void enableSystemKeys_();
 
-private:
-  InputDeviceManager *manager_; /*!< Указатель на менеджер ввода. */
+  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
   InputListener *listener_;
   bool keyboardGrabbed_;
 };

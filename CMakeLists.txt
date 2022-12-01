@@ -14,13 +14,13 @@ set(META_OISX11_VERSION ${META_OISX11_VERSION_MAJOR}.${META_OISX11_VERSION_MINOR
 
 # Опции сборки
 option(MODULE_OISX11_SHARED_LIB "Build shared library" OFF)
+option(MODULE_OISX11_ENABLE_EXAMPLES "Build examples" OFF)
 
 project(${META_OISX11_PRJNAME} VERSION ${META_OISX11_VERSION} LANGUAGES CXX)
 
 # Подмодули
 custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
 
-# set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Определяем каталог вывода по умолчанию
@@ -48,26 +48,6 @@ file(GLOB_RECURSE MODULE_OISX11_SOURCES "${MODULE_OISX11_DIR}/lib/src/*.*")
 
 find_package(X11 REQUIRED)
 
-# set(Boost_USE_STATIC_LIBS ON)
-# set(Boost_NO_SYSTEM_PATHS TRUE)
-# set(BOOST_COMPONENTS unit_test_framework)
-
-# if(Boost_NO_SYSTEM_PATHS)
-# 	set(BOOST_ROOT "/usr/local")
-# 	set(BOOST_INCLUDE_DIR "${BOOST_ROOT}/include")
-# 	set(BOOST_LIBRARY_DIR "${BOOST_ROOT}/lib")
-# endif(Boost_NO_SYSTEM_PATHS)
-
-# find_package(Boost 1.69.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-# if(NOT Boost_FOUND)
-# 	message(FATAL_ERROR "Fatal error: Boost (version >= 1.69.0) required.")
-# else()
-# 	message(STATUS "Boost includes: ${BOOST_INCLUDE_DIR}")
-# 	message(STATUS "Boost libs: ${BOOST_LIBRARY_DIR}")
-
-# 	include_directories(${BOOST_INCLUDE_DIR})
-# endif()
-
 if(MODULE_OISX11_SHARED_LIB)
 	# Добавляем в проект цель для сборки статической библиотеки
 	add_library(${META_OISX11_LIBNAME} SHARED ${MODULE_OISX11_SOURCES})
@@ -83,5 +63,10 @@ else()
 endif()
 
 custom_enable_cxx17(${META_OISX11_LIBNAME})
-# target_link_libraries(${META_OISX11_LIBNAME} X11 ${BOOST_LIBRARIES})
-target_link_libraries(${META_OISX11_LIBNAME} X11)
+# target_link_libraries(${META_OISX11_LIBNAME} X11)
+
+# Добавляем построение примеров
+if (MODULE_OISX11_ENABLE_EXAMPLES)
+  message(STATUS "Examples have been enabled")
+  add_subdirectory("examples/01")
+endif ()
