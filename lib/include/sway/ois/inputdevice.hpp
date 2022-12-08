@@ -17,6 +17,7 @@ public:
 
   /**
    * @brief Устанавливает слушатель событий.
+   *
    * @param[in] listener Слушатель событий клавиатуры.
    */
   PURE_VIRTUAL(void setListener(InputListener *listener));

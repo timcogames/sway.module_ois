@@ -17,11 +17,13 @@ class InputDeviceManager;
  * @brief Представляет устройство мыши.
  */
 class Mouse : public InputDevice {
-  DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::kMouse)
-
 public:
+  DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::Mouse)
+
   /**
-   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] manager Указатель на менеджер ввода.
    */
   Mouse(InputDeviceManager *manager);
@@ -33,6 +35,7 @@ public:
 
   /**
    * @brief Устанавливает слушатель событий.
+   *
    * @param[in] listener Слушатель событий мышки.
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
@@ -46,6 +49,7 @@ public:
 private:
   /**
    * @brief Инициализация устройства.
+   *
    * @note Внутренний метод, вызывается в конструкторе.
    */
   void initialize_();

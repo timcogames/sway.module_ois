@@ -11,11 +11,11 @@ InputDeviceManager::InputDeviceManager(void *display, u32_t window)
   // Empty
 }
 
-bool InputDeviceManager::hasFreeDevice(InputDeviceType_t type) {
+auto InputDeviceManager::hasFreeDevice(InputDeviceType_t type) -> bool {
   switch (type) {
-    case InputDeviceType_t::kKeyboard:
+    case InputDeviceType_t::Keyboard:
       return keyboardUsed_;
-    case InputDeviceType_t::kMouse:
+    case InputDeviceType_t::Mouse:
       return mouseUsed_;
     default:
       return 0;

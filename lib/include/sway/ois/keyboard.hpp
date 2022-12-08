@@ -16,11 +16,13 @@ class InputDeviceManager;
  * @brief Представляет устройство клавиатуры.
  */
 class Keyboard : public InputDevice {
-  DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::kKeyboard)
-
 public:
+  DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::Keyboard)
+
   /**
-   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] manager Указатель на менеджер ввода.
    */
   Keyboard(InputDeviceManager *manager);
@@ -32,18 +34,21 @@ public:
 
   /**
    * @brief Устанавливает слушатель событий.
+   *
    * @param[in] listener Слушатель событий клавиатуры.
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
 
   /**
    * @brief Уведомляет об нажатии на клавишу.
+   *
    * @param[in] evt Хранилище события.
    */
   void notifyKeyPressed(const XEvent &evt);
 
   /**
    * @brief Уведомляет об отпускании клавиши.
+   *
    * @param[in] evt Хранилище события.
    */
   void notifyKeyReleased(const XEvent &evt);
@@ -51,6 +56,7 @@ public:
 private:
   /**
    * @brief Инициализация устройства.
+   *
    * @note Внутренний метод, вызывается в конструкторе.
    */
   void initialize_();
