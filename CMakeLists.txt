@@ -23,25 +23,33 @@ project(${META_OIS_PRJNAME} VERSION ${META_OIS_VERSION} LANGUAGES CXX)
 
 set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
 
-if (GLOBAL_EMSCRIPTEN_PLATFORM AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+if(GLOBAL_EMSCRIPTEN_PLATFORM AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
   include(${CMAKE_TOOLCHAIN_FILE})
-endif ()
+endif()
 
 # Подмодули
-if (NOT TARGET libmodule_core)
+if(NOT TARGET libmodule_core)
   custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
 endif()
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if(GLOBAL_EMSCRIPTEN_PLATFORM)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM")
+  if(GLOBAL_EMSCRIPTEN_USE_BINDING)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM_USE_BINDING")
+  endif()
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
 
 # Определяем каталог вывода по умолчанию
 if(CMAKE_BUILD_TYPE MATCHES Debug)
-	set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
-	set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
+  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
+  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
 else()
-	set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
-	set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 endif()
 
 set(SYSTEM_INCLUDE_DIRS "/opt/X11/include")
@@ -56,33 +64,38 @@ include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
 file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/include/*.*")
-if (GLOBAL_EMSCRIPTEN_PLATFORM)
-	file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/web/*.*")
-else ()
+if(GLOBAL_EMSCRIPTEN_PLATFORM)
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/inputdevicemanager.cpp"
+                                       "${MODULE_OIS_DIR}/lib/src/web/*.*")
+else()
   file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/mac/*.*")
-endif ()
+endif()
 
-find_package(X11 REQUIRED)
+if(GLOBAL_EMSCRIPTEN_PLATFORM)
+  # Empty
+else()
+  find_package(X11 REQUIRED)
+endif()
 
 if(MODULE_OIS_SHARED_LIB)
-	# Добавляем в проект цель для сборки статической библиотеки
-	add_library(${META_OIS_LIBNAME} SHARED ${MODULE_OIS_SOURCES})
-	set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
-	set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
-	set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".so.${META_OIS_VERSION}")
+  # Добавляем в проект цель для сборки статической библиотеки
+  add_library(${META_OIS_LIBNAME} SHARED ${MODULE_OIS_SOURCES})
+  set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
+  set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
+  set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".so.${META_OIS_VERSION}")
 else()
-	# Добавляем в проект цель для сборки динамической библиотеки
-	add_library(${META_OIS_LIBNAME} STATIC ${MODULE_OIS_SOURCES})
-	set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
-	set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
-	set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".a.${META_OIS_VERSION}")
+  # Добавляем в проект цель для сборки динамической библиотеки
+  add_library(${META_OIS_LIBNAME} STATIC ${MODULE_OIS_SOURCES})
+  set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
+  set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
+  set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".a.${META_OIS_VERSION}")
 endif()
 
 custom_enable_cxx17(${META_OIS_LIBNAME})
 # target_link_libraries(${META_OIS_LIBNAME} X11)
 
 # Добавляем построение примеров
-if (MODULE_OIS_ENABLE_EXAMPLES)
+if(MODULE_OIS_ENABLE_EXAMPLES)
   message(STATUS "Examples have been enabled")
   add_subdirectory("examples/01")
-endif ()
+endif()

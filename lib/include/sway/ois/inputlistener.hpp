@@ -1,7 +1,7 @@
 #ifndef SWAY_OIS_INPUTLISTENER_HPP
 #define SWAY_OIS_INPUTLISTENER_HPP
 
-#include <sway/namespacemacros.hpp>
+#include <sway/core.hpp>
 #include <sway/ois/inputevents.hpp>
 #include <sway/ois/keyboardeventargs.hpp>
 
@@ -12,29 +12,19 @@ class InputListener {
 public:
 #pragma region Методы обработки событий клавиатуры
 
-  virtual void onKeyPressed(const KeyboardEventArgs &event) {
-    // Empty
-  }
+  MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventArgs &eventArgs){/* Empty */})
 
-  virtual void onKeyReleased(const KeyboardEventArgs &event) {
-    // Empty
-  }
+  MTHD_VIRTUAL(void onKeyReleased(const KeyboardEventArgs &eventArgs){/* Empty */})
 
 #pragma endregion
 
 #pragma region Методы обработки событий мышки
 
-  virtual void onMouseButtonDown(const MouseEventArgs &event) {
-    // Empty
-  }
+  MTHD_VIRTUAL(void onMouseButtonDown(const MouseEventArgs &eventArgs){/* Empty */})
 
-  virtual void onMouseButtonUp(const MouseEventArgs &event) {
-    // Empty
-  }
+  MTHD_VIRTUAL(void onMouseButtonUp(const MouseEventArgs &eventArgs){/* Empty */})
 
-  virtual void onMouseMove(const MouseEventArgs &event) {
-    // Empty
-  }
+  MTHD_VIRTUAL(void onMouseMove(const MouseEventArgs &eventArgs){/* Empty */})
 
 #pragma endregion
 };

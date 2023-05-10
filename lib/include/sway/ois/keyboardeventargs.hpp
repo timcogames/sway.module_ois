@@ -1,10 +1,9 @@
 #ifndef SWAY_OIS_KEYBOARDEVENTARGS_HPP
 #define SWAY_OIS_KEYBOARDEVENTARGS_HPP
 
-#include <sway/namespacemacros.hpp>
+#include <sway/core.hpp>
 #include <sway/ois/inputevents.hpp>
 #include <sway/ois/keycodes.hpp>
-#include <sway/types.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

@@ -1,8 +1,7 @@
 #ifndef SWAY_OIS_INPUTDEVICETYPES_HPP
 #define SWAY_OIS_INPUTDEVICETYPES_HPP
 
-#include <sway/namespacemacros.hpp>
-#include <sway/types.hpp>
+#include <sway/core.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

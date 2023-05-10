@@ -2,15 +2,21 @@
 #define SWAY_OIS_WEB_EMSMOUSE_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/inputdevicemacros.hpp>
+#include <sway/ois/inputevents.hpp>
 
 #include <emscripten/html5.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class EMSMouse {
+class InputDeviceManager;
+
+class EMSMouse : public InputDevice {
 public:
-  EMSMouse();
+  DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE);
+
+  EMSMouse(InputDeviceManager *mngr);
 
   ~EMSMouse() = default;
 
@@ -20,8 +26,16 @@ public:
 
   static EM_BOOL onMouseMove(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData);
 
+  /**
+   * @brief Устанавливает слушатель событий.
+   *
+   * @param[in] listener Слушатель событий клавиатуры.
+   */
+  MTHD_OVERRIDE(void setListener(InputListener *listener));
+
 private:
-  MouseEventCallbackFunc_t onMouseButtonDown_;
+  InputDeviceManager *mngr_;
+  std::function<void(const struct MouseEventArgs &)> onMouseButtonDown_;
 };
 
 NAMESPACE_END(ois)

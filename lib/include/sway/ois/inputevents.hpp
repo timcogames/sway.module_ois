@@ -1,9 +1,8 @@
 #ifndef SWAY_OIS_INPUTEVENTS_HPP
 #define SWAY_OIS_INPUTEVENTS_HPP
 
-#include <sway/namespacemacros.hpp>
+#include <sway/core.hpp>
 #include <sway/ois/keycodes.hpp>
-#include <sway/types.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

@@ -11,7 +11,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class DTPInputDeviceManager;
+class InputDeviceManager;
 
 /**
  * @brief Представляет устройство клавиатуры.
@@ -24,9 +24,9 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    *
-   * @param[in] manager Указатель на менеджер ввода.
+   * @param[in] mngr Указатель на менеджер ввода.
    */
-  DTPKeyboard(DTPInputDeviceManager *manager);
+  DTPKeyboard(InputDeviceManager *mngr);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
@@ -66,7 +66,7 @@ private:
 
   void enableSystemKeys_();
 
-  DTPInputDeviceManager *manager_;  // Указатель на менеджер ввода.
+  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
   InputListener *listener_;
   bool keyboardGrabbed_;
 };

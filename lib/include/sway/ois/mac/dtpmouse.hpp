@@ -12,7 +12,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class DTPInputDeviceManager;
+class InputDeviceManager;
 
 /**
  * @brief Представляет устройство мыши.
@@ -25,9 +25,9 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    *
-   * @param[in] manager Указатель на менеджер ввода.
+   * @param[in] mngr Указатель на менеджер ввода.
    */
-  DTPMouse(DTPInputDeviceManager *manager);
+  DTPMouse(InputDeviceManager *mngr);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
@@ -55,7 +55,7 @@ private:
    */
   void initialize_();
 
-  DTPInputDeviceManager *manager_;  // Указатель на менеджер ввода.
+  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
   MouseEventCallbackFunc_t onMouseButtonDown_;
   MouseEventCallbackFunc_t onMouseButtonUp_;
   MouseEventCallbackFunc_t onMouseMove_;

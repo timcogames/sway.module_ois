@@ -1,13 +1,13 @@
+#include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/keyboardeventargs.hpp>
-#include <sway/ois/mac/dtpinputdevicemanager.hpp>
 #include <sway/ois/mac/dtpkeyboard.hpp>
 #include <sway/ois/mac/dtpkeymappinglist.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-DTPKeyboard::DTPKeyboard(DTPInputDeviceManager *manager)
-    : manager_(manager)
+DTPKeyboard::DTPKeyboard(InputDeviceManager *mngr)
+    : manager_(mngr)
     , listener_(nullptr)
     , keyboardGrabbed_(false) {
   initialize_();
@@ -24,18 +24,18 @@ void DTPKeyboard::initialize_() {
 }
 
 void DTPKeyboard::disableSystemKeys_() {
-  int const err = XGrabKeyboard(
-      manager_->getDisplay(), manager_->getWindowHandle(), True, GrabModeAsync, GrabModeAsync, CurrentTime);
-  if (err != GrabSuccess) {
-    keyboardGrabbed_ = true;
-  }
+  // int const err = XGrabKeyboard(
+  //     manager_->getDisplay(), manager_->getWindowHandle(), True, GrabModeAsync, GrabModeAsync, CurrentTime);
+  // if (err != GrabSuccess) {
+  //   keyboardGrabbed_ = true;
+  // }
 }
 
 void DTPKeyboard::enableSystemKeys_() {
-  if (keyboardGrabbed_) {
-    XUngrabKeyboard(manager_->getDisplay(), CurrentTime);
-    keyboardGrabbed_ = false;
-  }
+  // if (keyboardGrabbed_) {
+  //   XUngrabKeyboard(manager_->getDisplay(), CurrentTime);
+  //   keyboardGrabbed_ = false;
+  // }
 }
 
 void DTPKeyboard::setListener(InputListener *listener) { listener_ = listener; }

@@ -21,11 +21,11 @@ public:
 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
-  auto inputDeviceManager = std::make_shared<ois::DTPInputDeviceManager>(nullptr, 0);
-  inputDeviceManager->registerDevice<ois::DTPKeyboard>();
+  auto inputDeviceMngr = std::make_shared<ois::InputDeviceManager>(/*nullptr, 0*/);
+  inputDeviceMngr->registerDevice<ois::DTPKeyboard>();
 
   auto keyboardInputListener = std::make_shared<KeyboardInputListener>();
-  auto keyboardInputDevice = inputDeviceManager->getDevice<ois::DTPKeyboard>();
+  auto keyboardInputDevice = inputDeviceMngr->getDevice<ois::DTPKeyboard>();
   keyboardInputDevice->setListener(keyboardInputListener.get());
 
   Display *dpy = XOpenDisplay(nullptr);

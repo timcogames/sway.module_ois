@@ -1,9 +1,12 @@
-#ifndef SWAY_OIS_MAC_DTPINPUTDEVICEMANAGER_HPP
-#define SWAY_OIS_MAC_DTPINPUTDEVICEMANAGER_HPP
+#ifndef SWAY_OIS_INPUTDEVICEMANAGER_HPP
+#define SWAY_OIS_INPUTDEVICEMANAGER_HPP
 
+#include <sway/core.hpp>
+#include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
-#include <sway/ois/mac/dtpkeyboard.hpp>
-#include <sway/ois/mac/dtpmouse.hpp>
+
+#include <memory>
+#include <unordered_map>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -11,40 +14,37 @@ NAMESPACE_BEGIN(ois)
 /**
  * @brief Класс управления вводом системы.
  */
-class DTPInputDeviceManager : public std::enable_shared_from_this<DTPInputDeviceManager> {
+class InputDeviceManager {
 public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
-   *
-   * @param[in] display Указатель на структуру дисплея.
-   * @param[in] window Уникальный идентификатор окна.
    */
-  DTPInputDeviceManager(void *display, u32_t window);
+  InputDeviceManager();
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
-  ~DTPInputDeviceManager() = default;
+  virtual ~InputDeviceManager() = default;
 
   /**
    * @brief Регистрирует устройство ввода.
    */
-  template <typename TYPE>
+  template <typename TConcreteInputDevice>
   inline void registerDevice();
 
   /**
    * @brief Получает устройство ввода.
    */
-  template <typename TYPE>
-  inline auto getDevice() -> std::shared_ptr<TYPE>;
+  template <typename TConcreteInputDevice>
+  inline auto getDevice() -> std::shared_ptr<TConcreteInputDevice>;
 
   /**
    * @brief Проверяет устройство.
    *
    * @param[in] type Тип устройства для проверки.
    */
-  bool hasFreeDevice(InputDeviceType type);
+  auto hasFreeDevice(InputDeviceType type) -> bool;
 
   /**
    * @brief Устанавливает логическое значение использования клавиатуры.
@@ -62,28 +62,15 @@ public:
    */
   void setMouseUsed(bool used);
 
-  /**
-   * @brief Получает указатель на структуру дисплея.
-   */
-  [[nodiscard]] auto getDisplay() const -> Display *;
-
-  /**
-   * @brief Получает идентификатор окна.
-   */
-  [[nodiscard]] auto getWindowHandle() const -> Window;
-
 private:
-  Display *display_;  // Указатель на структуру дисплея.
-  Window window_;  // Идентификатор окна.
-  // InputDeviceFactory_t factories_;
   std::unordered_map<u32_t, std::shared_ptr<InputDevice>> factories_;
   bool keyboardUsed_;  // Используется ли клавиатура.
   bool mouseUsed_;  // Используется ли мышка.
 };
 
-#include <sway/ois/mac/dtpinputdevicemanager.inl>
+#include <sway/ois/inputdevicemanager.inl>
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_MAC_DTPINPUTDEVICEMANAGER_HPP
+#endif  // SWAY_OIS_INPUTDEVICEMANAGER_HPP

@@ -1,11 +1,11 @@
-#include <sway/ois/mac/dtpinputdevicemanager.hpp>
+#include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/mac/dtpmouse.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-DTPMouse::DTPMouse(DTPInputDeviceManager *manager)
-    : manager_(manager)
+DTPMouse::DTPMouse(InputDeviceManager *mngr)
+    : manager_(mngr)
     , mouseGrabbed_(false) {
   initialize_();
 }
