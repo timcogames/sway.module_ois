@@ -1,9 +1,9 @@
-#ifndef SWAY_OIS_INPUTDEVICEMANAGER_HPP
-#define SWAY_OIS_INPUTDEVICEMANAGER_HPP
+#ifndef SWAY_OIS_MAC_DTPINPUTDEVICEMANAGER_HPP
+#define SWAY_OIS_MAC_DTPINPUTDEVICEMANAGER_HPP
 
 #include <sway/ois/inputdevicetypes.hpp>
-#include <sway/ois/keyboard.hpp>
-#include <sway/ois/mouse.hpp>
+#include <sway/ois/mac/dtpkeyboard.hpp>
+#include <sway/ois/mac/dtpmouse.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(ois)
 /**
  * @brief Класс управления вводом системы.
  */
-class InputDeviceManager : public std::enable_shared_from_this<InputDeviceManager> {
+class DTPInputDeviceManager : public std::enable_shared_from_this<DTPInputDeviceManager> {
 public:
   /**
    * @brief Конструктор класса.
@@ -20,12 +20,12 @@ public:
    * @param[in] display Указатель на структуру дисплея.
    * @param[in] window Уникальный идентификатор окна.
    */
-  InputDeviceManager(void *display, u32_t window);
+  DTPInputDeviceManager(void *display, u32_t window);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
-  ~InputDeviceManager() = default;
+  ~DTPInputDeviceManager() = default;
 
   /**
    * @brief Регистрирует устройство ввода.
@@ -44,7 +44,7 @@ public:
    *
    * @param[in] type Тип устройства для проверки.
    */
-  bool hasFreeDevice(InputDeviceType_t type);
+  bool hasFreeDevice(InputDeviceType type);
 
   /**
    * @brief Устанавливает логическое значение использования клавиатуры.
@@ -81,9 +81,9 @@ private:
   bool mouseUsed_;  // Используется ли мышка.
 };
 
-#include <sway/ois/inputdevicemanager.inl>
+#include <sway/ois/mac/dtpinputdevicemanager.inl>
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_INPUTDEVICEMANAGER_HPP
+#endif  // SWAY_OIS_MAC_DTPINPUTDEVICEMANAGER_HPP

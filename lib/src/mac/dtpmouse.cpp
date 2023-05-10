@@ -1,16 +1,16 @@
-#include <sway/ois/inputdevicemanager.hpp>
-#include <sway/ois/mouse.hpp>
+#include <sway/ois/mac/dtpinputdevicemanager.hpp>
+#include <sway/ois/mac/dtpmouse.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-Mouse::Mouse(InputDeviceManager *manager)
+DTPMouse::DTPMouse(DTPInputDeviceManager *manager)
     : manager_(manager)
     , mouseGrabbed_(false) {
   initialize_();
 }
 
-Mouse::~Mouse() {
+DTPMouse::~DTPMouse() {
   // if (mouseGrabbed_) {
   // 	XUngrabPointer(manager_->getDisplay(), CurrentTime);
   // 	mouseGrabbed_ = false;
@@ -19,7 +19,7 @@ Mouse::~Mouse() {
   manager_->setMouseUsed(false);
 }
 
-void Mouse::initialize_() {
+void DTPMouse::initialize_() {
   manager_->setMouseUsed(true);
 
   // int err = XGrabPointer(manager_->getDisplay(), manager_->getWindowHandle(), True, 0, GrabModeAsync, GrabModeAsync,
@@ -27,13 +27,13 @@ void Mouse::initialize_() {
   // }
 }
 
-void Mouse::setListener(InputListener *listener) {
+void DTPMouse::setListener(InputListener *listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
   onMouseMove_ = std::bind(&InputListener::onMouseMove, listener, std::placeholders::_1);
 }
 
-void Mouse::notifyMouseMove(const XEvent &event) {
+void DTPMouse::notifyMouseMove(const XEvent &event) {
   MouseEventArgs args;
   args.x = event.xmotion.x;
   args.y = event.xmotion.y;
@@ -43,7 +43,7 @@ void Mouse::notifyMouseMove(const XEvent &event) {
   }
 }
 
-void Mouse::notifyMouseButtonDown(const XEvent &event) {
+void DTPMouse::notifyMouseButtonDown(const XEvent &event) {
   MouseEventArgs args;
   args.x = event.xmotion.x;
   args.y = event.xmotion.y;
@@ -54,7 +54,7 @@ void Mouse::notifyMouseButtonDown(const XEvent &event) {
   }
 }
 
-void Mouse::notifyMouseButtonUp(const XEvent &event) {
+void DTPMouse::notifyMouseButtonUp(const XEvent &event) {
   MouseEventArgs args;
   args.x = event.xmotion.x;
   args.y = event.xmotion.y;

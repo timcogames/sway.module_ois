@@ -1,8 +1,7 @@
 #ifndef SWAY_OIS_INPUTDEVICE_HPP
 #define SWAY_OIS_INPUTDEVICE_HPP
 
-#include <sway/keywords.hpp>
-#include <sway/ois/inputdevicetypes.hpp>
+#include <sway/core.hpp>
 #include <sway/ois/inputlistener.hpp>
 
 NAMESPACE_BEGIN(sway)

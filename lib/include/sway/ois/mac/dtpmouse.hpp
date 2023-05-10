@@ -1,8 +1,9 @@
-#ifndef SWAY_OIS_MOUSE_HPP
-#define SWAY_OIS_MOUSE_HPP
+#ifndef SWAY_OIS_MAC_DTPMOUSE_HPP
+#define SWAY_OIS_MAC_DTPMOUSE_HPP
 
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
+#include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputevents.hpp>
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/prereqs.hpp>
@@ -11,14 +12,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class InputDeviceManager;
+class DTPInputDeviceManager;
 
 /**
  * @brief Представляет устройство мыши.
  */
-class Mouse : public InputDevice {
+class DTPMouse : public InputDevice {
 public:
-  DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::Mouse)
+  DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE)
 
   /**
    * @brief Конструктор класса.
@@ -26,12 +27,12 @@ public:
    *
    * @param[in] manager Указатель на менеджер ввода.
    */
-  Mouse(InputDeviceManager *manager);
+  DTPMouse(DTPInputDeviceManager *manager);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
-  virtual ~Mouse();
+  virtual ~DTPMouse();
 
   /**
    * @brief Устанавливает слушатель событий.
@@ -54,7 +55,7 @@ private:
    */
   void initialize_();
 
-  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
+  DTPInputDeviceManager *manager_;  // Указатель на менеджер ввода.
   MouseEventCallbackFunc_t onMouseButtonDown_;
   MouseEventCallbackFunc_t onMouseButtonUp_;
   MouseEventCallbackFunc_t onMouseMove_;
@@ -64,4 +65,4 @@ private:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_MOUSE_HPP
+#endif  // SWAY_OIS_MAC_DTPMOUSE_HPP

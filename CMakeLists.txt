@@ -5,21 +5,33 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/cu
 include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_add_subdirectory.cmake")
 
 # Мета-информация о проекте
-set(META_OISX11_PRJNAME "module_ois_x11")
-set(META_OISX11_LIBNAME "lib${META_OISX11_PRJNAME}")
-set(META_OISX11_VERSION_MAJOR 0)
-set(META_OISX11_VERSION_MINOR 5)
-set(META_OISX11_VERSION_PATCH 14)
-set(META_OISX11_VERSION ${META_OISX11_VERSION_MAJOR}.${META_OISX11_VERSION_MINOR}.${META_OISX11_VERSION_PATCH})
+set(META_OIS_PRJNAME "module_ois")
+set(META_OIS_LIBNAME "lib${META_OIS_PRJNAME}")
+set(META_OIS_VERSION_MAJOR 0)
+set(META_OIS_VERSION_MINOR 5)
+set(META_OIS_VERSION_PATCH 14)
+set(META_OIS_VERSION ${META_OIS_VERSION_MAJOR}.${META_OIS_VERSION_MINOR}.${META_OIS_VERSION_PATCH})
 
 # Опции сборки
-option(MODULE_OISX11_SHARED_LIB "Build shared library" OFF)
-option(MODULE_OISX11_ENABLE_EXAMPLES "Build examples" OFF)
+option(MODULE_OIS_SHARED_LIB "Build shared library" OFF)
+option(MODULE_OIS_ENABLE_EXAMPLES "Build examples" OFF)
+option(GLOBAL_EMSCRIPTEN_PLATFORM "Using emscripten compiler" OFF)
+option(GLOBAL_EMSCRIPTEN_USE_BINDING "Using emscripten binding" OFF)
+option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 
-project(${META_OISX11_PRJNAME} VERSION ${META_OISX11_VERSION} LANGUAGES CXX)
+project(${META_OIS_PRJNAME} VERSION ${META_OIS_VERSION} LANGUAGES CXX)
+
+set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
+
+if (GLOBAL_EMSCRIPTEN_PLATFORM AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
+  include(${CMAKE_TOOLCHAIN_FILE})
+endif ()
 
 # Подмодули
-custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
+if (NOT TARGET libmodule_core)
+  custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
+endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -34,39 +46,43 @@ endif()
 
 set(SYSTEM_INCLUDE_DIRS "/opt/X11/include")
 set(SYSTEM_LIBRARY_DIRS "/opt/X11/lib")
-set(MODULE_OISX11_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(MODULE_OIS_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
 include_directories("${SYSTEM_INCLUDE_DIRS}")
-include_directories("${MODULE_OISX11_DIR}/lib/include")
-include_directories("${MODULE_OISX11_DIR}/submodules/sway.module_core/lib/include")
-include_directories("${MODULE_OISX11_DIR}/submodules/sway.module_math/lib/include")
+include_directories("${MODULE_OIS_DIR}/lib/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_OISX11_HEADERS "${MODULE_OISX11_DIR}/lib/include/*.*")
-file(GLOB_RECURSE MODULE_OISX11_SOURCES "${MODULE_OISX11_DIR}/lib/src/*.*")
+file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/include/*.*")
+if (GLOBAL_EMSCRIPTEN_PLATFORM)
+	file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/web/*.*")
+else ()
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/mac/*.*")
+endif ()
 
 find_package(X11 REQUIRED)
 
-if(MODULE_OISX11_SHARED_LIB)
+if(MODULE_OIS_SHARED_LIB)
 	# Добавляем в проект цель для сборки статической библиотеки
-	add_library(${META_OISX11_LIBNAME} SHARED ${MODULE_OISX11_SOURCES})
-	set_target_properties(${META_OISX11_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OISX11_PRJNAME})
-	set_target_properties(${META_OISX11_LIBNAME} PROPERTIES PREFIX "")
-	set_target_properties(${META_OISX11_LIBNAME} PROPERTIES SUFFIX ".so.${META_OISX11_VERSION}")
+	add_library(${META_OIS_LIBNAME} SHARED ${MODULE_OIS_SOURCES})
+	set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
+	set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
+	set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".so.${META_OIS_VERSION}")
 else()
 	# Добавляем в проект цель для сборки динамической библиотеки
-	add_library(${META_OISX11_LIBNAME} STATIC ${MODULE_OISX11_SOURCES})
-	set_target_properties(${META_OISX11_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OISX11_PRJNAME})
-	set_target_properties(${META_OISX11_LIBNAME} PROPERTIES PREFIX "")
-	set_target_properties(${META_OISX11_LIBNAME} PROPERTIES SUFFIX ".a.${META_OISX11_VERSION}")
+	add_library(${META_OIS_LIBNAME} STATIC ${MODULE_OIS_SOURCES})
+	set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
+	set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
+	set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".a.${META_OIS_VERSION}")
 endif()
 
-custom_enable_cxx17(${META_OISX11_LIBNAME})
-# target_link_libraries(${META_OISX11_LIBNAME} X11)
+custom_enable_cxx17(${META_OIS_LIBNAME})
+# target_link_libraries(${META_OIS_LIBNAME} X11)
 
 # Добавляем построение примеров
-if (MODULE_OISX11_ENABLE_EXAMPLES)
+if (MODULE_OIS_ENABLE_EXAMPLES)
   message(STATUS "Examples have been enabled")
   add_subdirectory("examples/01")
 endif ()

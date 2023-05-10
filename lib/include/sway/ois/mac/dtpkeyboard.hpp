@@ -1,8 +1,9 @@
-#ifndef SWAY_OIS_KEYBOARD_HPP
-#define SWAY_OIS_KEYBOARD_HPP
+#ifndef SWAY_OIS_MAC_DTPKEYBOARD_HPP
+#define SWAY_OIS_MAC_DTPKEYBOARD_HPP
 
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
+#include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/prereqs.hpp>
 #include <sway/ois/typedefs.hpp>
@@ -10,14 +11,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class InputDeviceManager;
+class DTPInputDeviceManager;
 
 /**
  * @brief Представляет устройство клавиатуры.
  */
-class Keyboard : public InputDevice {
+class DTPKeyboard : public InputDevice {
 public:
-  DECLARE_INPUTDEVICE_TYPE(InputDeviceType_t::Keyboard)
+  DECLARE_INPUTDEVICE_TYPE(InputDeviceType::KEYBOARD)
 
   /**
    * @brief Конструктор класса.
@@ -25,12 +26,12 @@ public:
    *
    * @param[in] manager Указатель на менеджер ввода.
    */
-  Keyboard(InputDeviceManager *manager);
+  DTPKeyboard(DTPInputDeviceManager *manager);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
    */
-  virtual ~Keyboard();
+  virtual ~DTPKeyboard();
 
   /**
    * @brief Устанавливает слушатель событий.
@@ -65,7 +66,7 @@ private:
 
   void enableSystemKeys_();
 
-  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
+  DTPInputDeviceManager *manager_;  // Указатель на менеджер ввода.
   InputListener *listener_;
   bool keyboardGrabbed_;
 };
@@ -73,4 +74,4 @@ private:
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_KEYBOARD_HPP
+#endif  // SWAY_OIS_MAC_DTPKEYBOARD_HPP

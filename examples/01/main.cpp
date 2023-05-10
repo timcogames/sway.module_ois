@@ -1,4 +1,5 @@
 #include <sway/core.hpp>
+#include <sway/math.hpp>
 #include <sway/ois.hpp>
 
 #include <X11/Xlib.h>
@@ -20,21 +21,21 @@ public:
 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
-  auto inputDeviceManager = std::make_shared<ois::InputDeviceManager>(nullptr, 0);
-  inputDeviceManager->registerDevice<ois::Keyboard>();
+  auto inputDeviceManager = std::make_shared<ois::DTPInputDeviceManager>(nullptr, 0);
+  inputDeviceManager->registerDevice<ois::DTPKeyboard>();
 
   auto keyboardInputListener = std::make_shared<KeyboardInputListener>();
-  auto keyboardInputDevice = inputDeviceManager->getDevice<ois::Keyboard>();
+  auto keyboardInputDevice = inputDeviceManager->getDevice<ois::DTPKeyboard>();
   keyboardInputDevice->setListener(keyboardInputListener.get());
 
-  Display *dpy = XOpenDisplay(NULL);
-  if (dpy == NULL) {
+  Display *dpy = XOpenDisplay(nullptr);
+  if (dpy == nullptr) {
     fprintf(stderr, "Cannot open display\n");
     exit(1);
   }
 
-  int scr = DefaultScreen(dpy);
-  Window win =
+  auto scr = DefaultScreen(dpy);
+  auto win =
       XCreateSimpleWindow(dpy, RootWindow(dpy, scr), 10, 10, 660, 200, 1, BlackPixel(dpy, scr), WhitePixel(dpy, scr));
   XSelectInput(dpy, win, ExposureMask | KeyPressMask);
   XMapWindow(dpy, win);
@@ -48,12 +49,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   while (1) {
     XNextEvent(dpy, &evt);
     if (evt.type == Expose) {
-      int x_offset = 10;
-      int y_offset = 20;
-
       lpcstr_t heading = "Keyboard Input Device";
-      XDrawString(dpy, win, DefaultGC(dpy, scr), x_offset, y_offset, heading, strlen(heading));
-      y_offset += 20;  // next
+      auto offset = math::point2i_t(10, 20);
+
+      XDrawString(dpy, win, DefaultGC(dpy, scr), offset.getX(), offset.getY(), heading, strlen(heading));
+      offset.setY(offset.getY() + 20);  // next
     }
 
     if (evt.type == KeyPress) {
