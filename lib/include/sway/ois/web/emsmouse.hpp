@@ -2,6 +2,7 @@
 #define SWAY_OIS_WEB_EMSMOUSE_HPP
 
 #include <sway/core.hpp>
+#include <sway/math.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputevents.hpp>
 
@@ -24,7 +25,9 @@ public:
 
   static EM_BOOL onMouseUp(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData);
 
-  static EM_BOOL onMouseMove(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData);
+  auto injectMouseMove(const EmscriptenMouseEvent &mouseEvent) -> bool;
+
+  auto injectWheel(const EmscriptenWheelEvent &mouseEvent) -> bool;
 
   /**
    * @brief Устанавливает слушатель событий.
@@ -36,6 +39,9 @@ public:
 private:
   InputDeviceManager *mngr_;
   std::function<void(const struct MouseEventArgs &)> onMouseButtonDown_;
+  std::function<void(const struct MouseEventArgs &)> onMouseMoved_;
+  std::function<void(const struct MouseEventArgs &)> onMouseWheeled_;
+  math::point2f_t cursor_;
 };
 
 NAMESPACE_END(ois)

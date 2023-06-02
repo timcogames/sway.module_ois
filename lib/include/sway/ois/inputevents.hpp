@@ -2,6 +2,7 @@
 #define SWAY_OIS_INPUTEVENTS_HPP
 
 #include <sway/core.hpp>
+#include <sway/math.hpp>
 #include <sway/ois/keycodes.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -18,8 +19,10 @@ struct EventArgs {
  * @brief Предоставляет данные для событий, связанных с мышью.
  */
 struct MouseEventArgs : public EventArgs {
-  s32_t x, y;  // Координаты позиции курсора.
+  math::point2f_t position;  // Координаты позиции курсора.
+  math::vec2f_t offset;
   s32_t button;  // Код кнопок мыши.
+  f32_t deltaZ;
 };
 
 NAMESPACE_END(ois)

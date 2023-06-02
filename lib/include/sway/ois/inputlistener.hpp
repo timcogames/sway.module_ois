@@ -12,19 +12,21 @@ class InputListener {
 public:
 #pragma region Методы обработки событий клавиатуры
 
-  MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventArgs &eventArgs){/* Empty */})
+  MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventArgs &eventArgs)) {}
 
-  MTHD_VIRTUAL(void onKeyReleased(const KeyboardEventArgs &eventArgs){/* Empty */})
+  MTHD_VIRTUAL(void onKeyReleased(const KeyboardEventArgs &eventArgs)) {}
 
 #pragma endregion
 
 #pragma region Методы обработки событий мышки
 
-  MTHD_VIRTUAL(void onMouseButtonDown(const MouseEventArgs &eventArgs){/* Empty */})
+  MTHD_VIRTUAL(void onMouseButtonDown(const MouseEventArgs &eventArgs)) {}
 
-  MTHD_VIRTUAL(void onMouseButtonUp(const MouseEventArgs &eventArgs){/* Empty */})
+  MTHD_VIRTUAL(void onMouseButtonUp(const MouseEventArgs &eventArgs)) {}
 
-  MTHD_VIRTUAL(void onMouseMove(const MouseEventArgs &eventArgs){/* Empty */})
+  MTHD_VIRTUAL(void onMouseMoved(const MouseEventArgs &eventArgs)) {}
+
+  MTHD_VIRTUAL(void onMouseWheeled(const MouseEventArgs &eventArgs)) {}
 
 #pragma endregion
 };
