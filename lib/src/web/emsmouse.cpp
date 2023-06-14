@@ -12,54 +12,63 @@ NAMESPACE_BEGIN(ois)
 EMSMouse::EMSMouse(InputDeviceManager *mngr)
     : mngr_(mngr) {
   const EM_BOOL toUseCapture = EM_TRUE;
-  emscripten_set_mousedown_callback(canvasId /* EMSCRIPTEN_EVENT_TARGET_WINDOW */, this, toUseCapture, onMouseDown);
-  emscripten_set_mouseup_callback(canvasId, this, toUseCapture, onMouseUp);
-  emscripten_set_mousemove_callback(
-      canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *event, void *userData) {
-        return EM_BOOL(static_cast<EMSMouse *>(userData)->injectMouseMove(*event));
-      });
-  emscripten_set_wheel_callback(
-      canvasId, this, toUseCapture, [](int, const EmscriptenWheelEvent *event, void *userData) {
-        return EM_BOOL(static_cast<EMSMouse *>(userData)->injectWheel(*event));
-      });
+
+  emscripten_set_mousedown_callback(canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonDown(*evt));
+  });
+
+  emscripten_set_mouseup_callback(canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonUp(*evt));
+  });
+
+  emscripten_set_mousemove_callback(canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseMove(*evt));
+  });
+
+  emscripten_set_wheel_callback(canvasId, this, toUseCapture, [](int, const EmscriptenWheelEvent *evt, void *data) {
+    return EM_BOOL(static_cast<EMSMouse *>(data)->onWheel(*evt));
+  });
 }
 
 void EMSMouse::setListener(InputListener *listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
-  // onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
+  onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
   onMouseMoved_ = std::bind(&InputListener::onMouseMoved, listener, std::placeholders::_1);
   onMouseWheeled_ = std::bind(&InputListener::onMouseWheeled, listener, std::placeholders::_1);
 }
 
-EM_BOOL EMSMouse::onMouseDown(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData) {
-  auto *self = static_cast<EMSMouse *>(userData);
-
+auto EMSMouse::onMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool {
   MouseEventArgs args;
-  args.position = math::point2f_t((f32_t)mouseEvent->targetX, (f32_t)mouseEvent->targetY);
-  args.button = mouseEvent->button;
+  args.position = math::point2f_t((f32_t)evt.targetX, (f32_t)evt.targetY);
+  args.button = evt.button;
 
-  if (self->onMouseButtonDown_) {
-    self->onMouseButtonDown_(args);
+  if (onMouseButtonDown_) {
+    onMouseButtonDown_(args);
   }
 
-  return EM_TRUE;
+  return true;
 }
 
-EM_BOOL EMSMouse::onMouseUp(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData) {
-  auto *self = static_cast<EMSMouse *>(userData);
+auto EMSMouse::onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
+  MouseEventArgs args;
+  args.position = math::point2f_t((f32_t)evt.targetX, (f32_t)evt.targetY);
+  args.button = evt.button;
 
-  return EM_TRUE;
+  if (onMouseButtonUp_) {
+    onMouseButtonUp_(args);
+  }
+
+  return true;
 }
 
-auto EMSMouse::injectMouseMove(const EmscriptenMouseEvent &mouseEvent) -> bool {
+auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
   // TODO: math::point2f_t(300.0F, 150.0F) <- CANVAS SIZE
-  std::cout << std::clamp<f32_t>(f32_t(mouseEvent.targetX), 0.0F, 300.0F) << std::endl;
-  cursor_ = math::point2f_t(std::clamp<f32_t>(f32_t(mouseEvent.targetX), 0.0F, 300.0F),
-      std::clamp<f32_t>(f32_t(mouseEvent.targetY), 0.0F, 150.0F));
+  cursor_ = math::point2f_t(
+      std::clamp<f32_t>(f32_t(evt.targetX), 0.0F, 300.0F), std::clamp<f32_t>(f32_t(evt.targetY), 0.0F, 150.0F));
 
   MouseEventArgs args;
   args.position = cursor_;
-  args.offset = math::vec2f_t((f32_t)mouseEvent.movementX, (f32_t)mouseEvent.movementY);
+  args.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
 
   if (onMouseMoved_) {
     onMouseMoved_(args);
@@ -68,7 +77,7 @@ auto EMSMouse::injectMouseMove(const EmscriptenMouseEvent &mouseEvent) -> bool {
   return true;
 }
 
-auto EMSMouse::injectWheel(const EmscriptenWheelEvent &wheelEvent) -> bool {
+auto EMSMouse::onWheel(const EmscriptenWheelEvent &wheelEvent) -> bool {
   MouseEventArgs args;
   args.position = cursor_;
   args.deltaZ = -wheelEvent.deltaY;
