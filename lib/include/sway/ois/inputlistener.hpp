@@ -12,9 +12,15 @@ class InputListener {
 public:
 #pragma region Методы обработки событий клавиатуры
 
-  MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventArgs &eventArgs)) {}
+  // MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventArgs &eventArgs)) {}
 
-  MTHD_VIRTUAL(void onKeyReleased(const KeyboardEventArgs &eventArgs)) {}
+  // MTHD_VIRTUAL(void onKeyReleased(const KeyboardEventArgs &eventArgs)) {}
+
+  MTHD_VIRTUAL(void onKeyDown(const KeyboardEventArgs &evtArgs)) {}
+
+  MTHD_VIRTUAL(void onKeyUp(const KeyboardEventArgs &evtArgs)) {}
+
+  MTHD_VIRTUAL(void onKeyPress(const KeyboardEventArgs &evtArgs)) {}
 
 #pragma endregion
 

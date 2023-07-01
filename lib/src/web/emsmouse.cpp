@@ -64,7 +64,7 @@ auto EMSMouse::onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
 auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
   // TODO: math::point2f_t(300.0F, 150.0F) <- CANVAS SIZE
   cursor_ = math::point2f_t(
-      std::clamp<f32_t>(f32_t(evt.targetX), 0.0F, 300.0F), std::clamp<f32_t>(f32_t(evt.targetY), 0.0F, 150.0F));
+      std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)300), std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)150));
 
   MouseEventArgs args;
   args.position = cursor_;
@@ -77,10 +77,10 @@ auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
   return true;
 }
 
-auto EMSMouse::onWheel(const EmscriptenWheelEvent &wheelEvent) -> bool {
+auto EMSMouse::onWheel(const EmscriptenWheelEvent &evt) -> bool {
   MouseEventArgs args;
   args.position = cursor_;
-  args.deltaZ = -wheelEvent.deltaY;
+  args.deltaZ = -evt.deltaY;
 
   if (onMouseWheeled_) {
     onMouseWheeled_(args);
