@@ -15,7 +15,7 @@ EMSKeyboard::EMSKeyboard(InputDeviceManager *mngr)
         return EM_BOOL(static_cast<EMSKeyboard *>(data)->onKeyDown(*evt));
       });
 
-  emscripten_set_keypress_callback(
+  emscripten_set_keyup_callback(
       EMSCRIPTEN_EVENT_TARGET_DOCUMENT, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
         return EM_BOOL(static_cast<EMSKeyboard *>(data)->onKeyUp(*evt));
       });
