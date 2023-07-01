@@ -6,24 +6,22 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-#define canvasId "#canvas"
-
 EMSKeyboard::EMSKeyboard(InputDeviceManager *mngr)
     : mngr_(mngr) {
-  const EM_BOOL toUseCapture = EM_TRUE;
+  const EM_BOOL toUseCapture = EM_FALSE;
 
   emscripten_set_keydown_callback(
-      canvasId, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
+      EMSCRIPTEN_EVENT_TARGET_DOCUMENT, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
         return EM_BOOL(static_cast<EMSKeyboard *>(data)->onKeyDown(*evt));
       });
 
   emscripten_set_keypress_callback(
-      canvasId, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
+      EMSCRIPTEN_EVENT_TARGET_DOCUMENT, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
         return EM_BOOL(static_cast<EMSKeyboard *>(data)->onKeyUp(*evt));
       });
 
   emscripten_set_keypress_callback(
-      canvasId, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
+      EMSCRIPTEN_EVENT_TARGET_DOCUMENT, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
         return EM_BOOL(static_cast<EMSKeyboard *>(data)->onKeyPress(*evt));
       });
 }
