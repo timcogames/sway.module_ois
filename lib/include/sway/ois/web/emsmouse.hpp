@@ -40,12 +40,15 @@ public:
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
 
+  void setWindowSize(const math::size2i_t &dims) { screenDims_ = dims; }
+
 private:
   InputDeviceManager *mngr_;
   std::function<void(const struct MouseEventArgs &)> onMouseButtonDown_;
   std::function<void(const struct MouseEventArgs &)> onMouseButtonUp_;
   std::function<void(const struct MouseEventArgs &)> onMouseMoved_;
   std::function<void(const struct MouseEventArgs &)> onMouseWheeled_;
+  math::size2i_t screenDims_;
   math::point2f_t cursor_;
 };
 

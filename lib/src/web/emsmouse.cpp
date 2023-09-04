@@ -7,25 +7,28 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-#define canvasId "#canvas"
+#define CANVAS_ID "#canvas"
 
 EMSMouse::EMSMouse(InputDeviceManager *mngr)
-    : mngr_(mngr) {
+    : mngr_(mngr)
+    , screenDims_({300, 150}) {
   const EM_BOOL toUseCapture = EM_TRUE;
 
-  emscripten_set_mousedown_callback(canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
-    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonDown(*evt));
-  });
+  emscripten_set_mousedown_callback(
+      CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+        return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonDown(*evt));
+      });
 
-  emscripten_set_mouseup_callback(canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+  emscripten_set_mouseup_callback(CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonUp(*evt));
   });
 
-  emscripten_set_mousemove_callback(canvasId, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
-    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseMove(*evt));
-  });
+  emscripten_set_mousemove_callback(
+      CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+        return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseMove(*evt));
+      });
 
-  emscripten_set_wheel_callback(canvasId, this, toUseCapture, [](int, const EmscriptenWheelEvent *evt, void *data) {
+  emscripten_set_wheel_callback(CANVAS_ID, this, toUseCapture, [](int, const EmscriptenWheelEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->onWheel(*evt));
   });
 }
@@ -62,9 +65,8 @@ auto EMSMouse::onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
 }
 
 auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
-  // TODO: math::point2f_t(300.0F, 150.0F) <- CANVAS SIZE
-  cursor_ = math::point2f_t(
-      std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)300), std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)150));
+  cursor_ = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
+      std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
 
   MouseEventArgs args;
   args.position = cursor_;
