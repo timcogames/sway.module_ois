@@ -1,5 +1,4 @@
 #include <sway/ois/inputdevicemanager.hpp>
-#include <sway/ois/inputevents.hpp>
 #include <sway/ois/web/emsmouse.hpp>
 
 #include <algorithm>
@@ -41,51 +40,48 @@ void EMSMouse::setListener(InputListener *listener) {
 }
 
 auto EMSMouse::onMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool {
-  MouseEventArgs args;
-  args.position = math::point2f_t((f32_t)evt.targetX, (f32_t)evt.targetY);
-  args.button = evt.button;
+  eventArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
+      std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
+  eventArgs_.drag = eventArgs_.position.toVec();
+  eventArgs_.button = evt.button;
+  eventArgs_.entered = true;
 
   if (onMouseButtonDown_) {
-    onMouseButtonDown_(args);
+    onMouseButtonDown_(eventArgs_);
   }
 
   return true;
 }
 
 auto EMSMouse::onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
-  MouseEventArgs args;
-  args.position = math::point2f_t((f32_t)evt.targetX, (f32_t)evt.targetY);
-  args.button = evt.button;
+  eventArgs_.button = evt.button;
+  eventArgs_.entered = false;
 
   if (onMouseButtonUp_) {
-    onMouseButtonUp_(args);
+    onMouseButtonUp_(eventArgs_);
   }
 
   return true;
 }
 
 auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
-  cursor_ = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
+  eventArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
-
-  MouseEventArgs args;
-  args.position = cursor_;
-  args.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
+  eventArgs_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
+  eventArgs_.drag = eventArgs_.position.toVec();
 
   if (onMouseMoved_) {
-    onMouseMoved_(args);
+    onMouseMoved_(eventArgs_);
   }
 
   return true;
 }
 
 auto EMSMouse::onWheel(const EmscriptenWheelEvent &evt) -> bool {
-  MouseEventArgs args;
-  args.position = cursor_;
-  args.deltaZ = -evt.deltaY;
+  eventArgs_.deltaZ = -evt.deltaY;
 
   if (onMouseWheeled_) {
-    onMouseWheeled_(args);
+    onMouseWheeled_(eventArgs_);
   }
 
   return true;

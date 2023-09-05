@@ -49,7 +49,7 @@ private:
   std::function<void(const struct MouseEventArgs &)> onMouseMoved_;
   std::function<void(const struct MouseEventArgs &)> onMouseWheeled_;
   math::size2i_t screenDims_;
-  math::point2f_t cursor_;
+  MouseEventArgs eventArgs_;
 };
 
 NAMESPACE_END(ois)

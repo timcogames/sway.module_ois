@@ -21,8 +21,10 @@ struct EventArgs {
 struct MouseEventArgs : public EventArgs {
   math::point2f_t position;  // Координаты позиции курсора.
   math::vec2f_t offset;
+  math::vec2f_t drag;
   s32_t button;  // Код кнопок мыши.
   f32_t deltaZ;
+  bool entered;
 };
 
 NAMESPACE_END(ois)
