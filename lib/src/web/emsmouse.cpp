@@ -34,54 +34,81 @@ EMSMouse::EMSMouse(InputDeviceManager *mngr)
 
 void EMSMouse::setListener(InputListener *listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
+  onMouseDblClick_ = std::bind(&InputListener::onMouseDblClick, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
   onMouseMoved_ = std::bind(&InputListener::onMouseMoved, listener, std::placeholders::_1);
   onMouseWheeled_ = std::bind(&InputListener::onMouseWheeled, listener, std::placeholders::_1);
 }
 
 auto EMSMouse::onMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool {
-  eventArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
+  evtArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
-  eventArgs_.drag = eventArgs_.position.toVec();
-  eventArgs_.button = evt.button;
-  eventArgs_.entered = true;
+  evtArgs_.drag = evtArgs_.position.toVec();
+  evtArgs_.mods =
+      (struct MouseKeyMods){.shift = (bool)evt.shiftKey, .ctrl = (bool)evt.ctrlKey, .alt = (bool)evt.altKey};
+  evtArgs_.button = evt.button;
+  evtArgs_.entered = true;
 
-  if (onMouseButtonDown_) {
-    onMouseButtonDown_(eventArgs_);
+  const auto timestamp = EMSMouse::getTimestamp();
+  const auto timeDiff = timestamp - prevMouseDownTime_;
+
+  if (firstClick_ && timeDiff < 0.3) {
+    firstClick_ = false;
+
+    if (onMouseDblClick_) {
+      onMouseDblClick_(evtArgs_);
+    }
+  } else {
+    firstClick_ = true;
+
+    if (onMouseButtonDown_) {
+      onMouseButtonDown_(evtArgs_);
+    }
   }
+
+  prevMouseDownTime_ = timestamp;
 
   return true;
 }
 
 auto EMSMouse::onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
-  eventArgs_.button = evt.button;
-  eventArgs_.entered = false;
+  evtArgs_.button = evt.button;
+  evtArgs_.entered = false;
 
   if (onMouseButtonUp_) {
-    onMouseButtonUp_(eventArgs_);
+    onMouseButtonUp_(evtArgs_);
   }
 
   return true;
 }
 
 auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
-  eventArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
-      std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
-  eventArgs_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
-  eventArgs_.drag = eventArgs_.position.toVec();
+  EmscriptenPointerlockChangeEvent pointerLockStatus;
+  emscripten_get_pointerlock_status(&pointerLockStatus);
+  if (pointerLockStatus.isActive == 0) {
+    evtArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
+        std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
+  } else {
+    evtArgs_.position = math::point2f_t(
+        std::clamp<f32_t>((f32_t)evt.targetX + (f32_t)((evt.movementX / 4) * 4), 0.0F, (f32_t)screenDims_.getW()),
+        std::clamp<f32_t>((f32_t)evt.targetY + (f32_t)((evt.movementY / 4) * 4), 0.0F, (f32_t)screenDims_.getH()));
+  }
+
+  evtArgs_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
+  evtArgs_.drag = evtArgs_.position.toVec();
 
   if (onMouseMoved_) {
-    onMouseMoved_(eventArgs_);
+    onMouseMoved_(evtArgs_);
   }
 
   return true;
 }
 
 auto EMSMouse::onWheel(const EmscriptenWheelEvent &evt) -> bool {
-  eventArgs_.deltaZ = -evt.deltaY;
+  evtArgs_.deltaZ = -evt.deltaY;
 
   if (onMouseWheeled_) {
-    onMouseWheeled_(eventArgs_);
+    onMouseWheeled_(evtArgs_);
   }
 
   return true;

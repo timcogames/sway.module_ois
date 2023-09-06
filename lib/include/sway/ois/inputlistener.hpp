@@ -28,6 +28,8 @@ public:
 
   MTHD_VIRTUAL(void onMouseButtonDown(const MouseEventArgs &eventArgs)) {}
 
+  MTHD_VIRTUAL(void onMouseDblClick(const MouseEventArgs &eventArgs)) {}
+
   MTHD_VIRTUAL(void onMouseButtonUp(const MouseEventArgs &eventArgs)) {}
 
   MTHD_VIRTUAL(void onMouseMoved(const MouseEventArgs &eventArgs)) {}

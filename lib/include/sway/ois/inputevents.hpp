@@ -15,6 +15,12 @@ struct EventArgs {
   // Empty
 };
 
+struct MouseKeyMods {
+  bool shift;
+  bool ctrl;
+  bool alt;
+};
+
 /**
  * @brief Предоставляет данные для событий, связанных с мышью.
  */
@@ -22,6 +28,7 @@ struct MouseEventArgs : public EventArgs {
   math::point2f_t position;  // Координаты позиции курсора.
   math::vec2f_t offset;
   math::vec2f_t drag;
+  MouseKeyMods mods;
   s32_t button;  // Код кнопок мыши.
   f32_t deltaZ;
   bool entered;

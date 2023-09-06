@@ -6,6 +6,7 @@
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputevents.hpp>
 
+#include <chrono>  // std::chrono
 #include <emscripten/html5.h>
 
 NAMESPACE_BEGIN(sway)
@@ -20,6 +21,11 @@ class InputDeviceManager;
 class EMSMouse : public InputDevice {
 public:
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE);
+
+  static auto getTimestamp() -> double {
+    static auto start = std::chrono::steady_clock::now();
+    return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+  }
 
   EMSMouse(InputDeviceManager *mngr);
 
@@ -45,11 +51,14 @@ public:
 private:
   InputDeviceManager *mngr_;
   std::function<void(const struct MouseEventArgs &)> onMouseButtonDown_;
+  std::function<void(const struct MouseEventArgs &)> onMouseDblClick_;
   std::function<void(const struct MouseEventArgs &)> onMouseButtonUp_;
   std::function<void(const struct MouseEventArgs &)> onMouseMoved_;
   std::function<void(const struct MouseEventArgs &)> onMouseWheeled_;
   math::size2i_t screenDims_;
-  MouseEventArgs eventArgs_;
+  MouseEventArgs evtArgs_;
+  double prevMouseDownTime_ = 0.0;
+  bool firstClick_ = false;
 };
 
 NAMESPACE_END(ois)
