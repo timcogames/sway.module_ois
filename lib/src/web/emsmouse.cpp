@@ -82,17 +82,31 @@ auto EMSMouse::onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
   return true;
 }
 
+void EMSMouse::pointerLock() { emscripten_request_pointerlock(CANVAS_ID, false); }
+
+void EMSMouse::pointerUnlock() { emscripten_exit_pointerlock(); }
+
+auto EMSMouse::isPointerLocked() -> bool {
+  // clang-format off
+  EmscriptenPointerlockChangeEvent status;
+  return (emscripten_get_pointerlock_status(&status) == EMSCRIPTEN_RESULT_SUCCESS)
+    ? bool(status.isActive)
+    : false;
+  // clang-format on
+}
+
 auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
-  EmscriptenPointerlockChangeEvent pointerLockStatus;
-  emscripten_get_pointerlock_status(&pointerLockStatus);
-  if (pointerLockStatus.isActive == 0) {
-    evtArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
-        std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
+  // clang-format off
+  if (!isPointerLocked()) {
+    evtArgs_.position = math::point2f_t(
+      std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
+      std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
   } else {
     evtArgs_.position = math::point2f_t(
-        std::clamp<f32_t>((f32_t)evt.targetX + (f32_t)((evt.movementX / 4) * 4), 0.0F, (f32_t)screenDims_.getW()),
-        std::clamp<f32_t>((f32_t)evt.targetY + (f32_t)((evt.movementY / 4) * 4), 0.0F, (f32_t)screenDims_.getH()));
+      std::clamp<f32_t>((f32_t)evt.targetX + (f32_t)evt.movementX, 0.0F, (f32_t)screenDims_.getW()),
+      std::clamp<f32_t>((f32_t)evt.targetY + (f32_t)evt.movementY, 0.0F, (f32_t)screenDims_.getH()));
   }
+  // clang-format on
 
   evtArgs_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
   evtArgs_.drag = evtArgs_.position.toVec();

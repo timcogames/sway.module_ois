@@ -31,6 +31,12 @@ public:
 
   ~EMSMouse() = default;
 
+  void pointerLock();
+
+  void pointerUnlock();
+
+  auto isPointerLocked() -> bool;
+
   auto onMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool;
 
   auto onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool;
