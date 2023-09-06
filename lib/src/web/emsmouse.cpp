@@ -13,23 +13,23 @@ EMSMouse::EMSMouse(InputDeviceManager *mngr)
     , screenDims_({300, 150}) {
   const EM_BOOL toUseCapture = EM_TRUE;
 
-  emscripten_set_mousedown_callback(
-      CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
-        return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonDown(*evt));
-      });
+  // clang-format off
+  emscripten_set_mousedown_callback(CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonDown(*evt));
+  });
 
   emscripten_set_mouseup_callback(CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseButtonUp(*evt));
   });
 
-  emscripten_set_mousemove_callback(
-      CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
-        return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseMove(*evt));
-      });
+  emscripten_set_mousemove_callback(CANVAS_ID, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
+    return EM_BOOL(static_cast<EMSMouse *>(data)->onMouseMove(*evt));
+  });
 
   emscripten_set_wheel_callback(CANVAS_ID, this, toUseCapture, [](int, const EmscriptenWheelEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->onWheel(*evt));
   });
+  // clang-format on
 }
 
 void EMSMouse::setListener(InputListener *listener) {
@@ -41,11 +41,22 @@ void EMSMouse::setListener(InputListener *listener) {
 }
 
 auto EMSMouse::onMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool {
+  auto modifiers = 0;
+
+  if (bool(evt.ctrlKey)) {
+    modifiers |= core::detail::toUnderlying(KeyModifier::CTRL);
+  }
+  if (bool(evt.shiftKey)) {
+    modifiers |= core::detail::toUnderlying(KeyModifier::SHIFT);
+  }
+  if (bool(evt.altKey)) {
+    modifiers |= core::detail::toUnderlying(KeyModifier::ALT);
+  }
+
   evtArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, (f32_t)screenDims_.getW()),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, (f32_t)screenDims_.getH()));
   evtArgs_.drag = evtArgs_.position.toVec();
-  evtArgs_.mods =
-      (struct MouseKeyMods){.shift = (bool)evt.shiftKey, .ctrl = (bool)evt.ctrlKey, .alt = (bool)evt.altKey};
+  evtArgs_.modifiers = modifiers;
   evtArgs_.button = evt.button;
   evtArgs_.entered = true;
 

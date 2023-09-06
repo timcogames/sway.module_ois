@@ -15,11 +15,13 @@ struct EventArgs {
   // Empty
 };
 
-struct MouseKeyMods {
-  bool shift;
-  bool ctrl;
-  bool alt;
+// clang-format off
+enum class KeyModifier : u32_t {
+  CTRL = (1 << 0),
+  SHIFT = (1 << 1),
+  ALT = (1 << 2)
 };
+// clang-format on
 
 /**
  * @brief Предоставляет данные для событий, связанных с мышью.
@@ -28,7 +30,7 @@ struct MouseEventArgs : public EventArgs {
   math::point2f_t position;  // Координаты позиции курсора.
   math::vec2f_t offset;
   math::vec2f_t drag;
-  MouseKeyMods mods;
+  u32_t modifiers;
   s32_t button;  // Код кнопок мыши.
   f32_t deltaZ;
   bool entered;
