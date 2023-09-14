@@ -101,8 +101,7 @@ auto EMSMouse::isPointerLocked() -> bool {
   // clang-format off
   EmscriptenPointerlockChangeEvent status;
   return (emscripten_get_pointerlock_status(&status) == EMSCRIPTEN_RESULT_SUCCESS)
-    ? bool(status.isActive)
-    : false;
+    ? bool(status.isActive) : false;
   // clang-format on
 }
 
