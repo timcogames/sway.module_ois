@@ -1,0 +1,6 @@
+[
+  "_createInputDeviceManager",
+  "_registerMouseDevice",
+  "_getMouseDevice",
+  "_onMotionCallback"
+]

@@ -20,6 +20,11 @@ mkdir build && cd ./build
 
 ```console
 cmake -DCMAKE_BUILD_TYPE=Release ../
+
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DGLOB_EMSCRIPTEN_ROOT_DIR=/Users/<USER_NAME>/Documents/Third-party/emsdk/upstream/emscripten \
+      -DGLOB_EMSCRIPTEN_PLATFORM=ON \
+      -DGLOB_EMSCRIPTEN_WEB_ENVIRONMENT=ON ../
 ```
 
 Опция сборки | Описание | По умолчанию

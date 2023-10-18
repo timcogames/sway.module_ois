@@ -30,13 +30,12 @@ void DTPMouse::initialize_() {
 void DTPMouse::setListener(InputListener *listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
-  onMouseMove_ = std::bind(&InputListener::onMouseMove, listener, std::placeholders::_1);
+  onMouseMove_ = std::bind(&InputListener::onMouseMoved, listener, std::placeholders::_1);
 }
 
 void DTPMouse::notifyMouseMove(const XEvent &event) {
   MouseEventArgs args;
-  args.x = event.xmotion.x;
-  args.y = event.xmotion.y;
+  args.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
 
   if (onMouseMove_) {
     onMouseMove_(args);
@@ -45,8 +44,7 @@ void DTPMouse::notifyMouseMove(const XEvent &event) {
 
 void DTPMouse::notifyMouseButtonDown(const XEvent &event) {
   MouseEventArgs args;
-  args.x = event.xmotion.x;
-  args.y = event.xmotion.y;
+  args.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
   args.button = event.xbutton.button;
 
   if (onMouseButtonDown_) {
@@ -56,8 +54,7 @@ void DTPMouse::notifyMouseButtonDown(const XEvent &event) {
 
 void DTPMouse::notifyMouseButtonUp(const XEvent &event) {
   MouseEventArgs args;
-  args.x = event.xmotion.x;
-  args.y = event.xmotion.y;
+  args.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
   args.button = event.xbutton.button;
 
   if (onMouseButtonUp_) {

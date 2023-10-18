@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./wwwroot/dist/libmodule.css">
+    <title></title>
+  </head>
+  <body>
+    <h1 class="heading">OIS</h1>
+    <div id="canvas" class="container mx-auto grid md:grid-cols-2 xl:gap-10 xl:px-10 xl:py-10">
+
+      <p id="x" class="content">0.0</p>
+      <p id="y" class="content">0.0</p>
+
+    </div>
+
+    <script type="module">
+      import create_core_module from"./wwwroot/dist/libmodule_ois.0.6.0.js";
+
+      function InputDeviceManager(module) {
+        this._mod = module;
+        this.addr = module._createInputDeviceManager();
+        this.registerMouseDevice();
+      }
+
+      InputDeviceManager.prototype = Object.create(Object.prototype);
+      InputDeviceManager.prototype.constructor = InputDeviceManager;
+      InputDeviceManager.prototype["registerMouseDevice"] = InputDeviceManager.prototype.registerMouseDevice = /** @suppress {undefinedVars, duplicate} */function() {
+        const self = this.addr;
+        this._mod._registerMouseDevice(self);
+      }
+
+      window.addEventListener("DOMContentLoaded", (event) => {
+        let instance = create_core_module({
+          locateFile: function(path) {
+            const baseURL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf( "/" ));
+            return baseURL + '/wwwroot/dist/' + path;
+          }
+        });
+
+        instance.then((module) => {
+          let inputDeviceManager = new InputDeviceManager(module);
+          let mouseDevice = module._getMouseDevice(inputDeviceManager.addr);
+
+          module._onMotionCallback(mouseDevice, module.addFunction(function(x, y) {
+            let xElm = document.getElementById("x");
+            let yElm = document.getElementById("y");
+
+            xElm.innerHTML = x;
+            yElm.innerHTML = y;
+          }, "vii"));
+        });
+      });
+    </script>
+  </body>
+</html>

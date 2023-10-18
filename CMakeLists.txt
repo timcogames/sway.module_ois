@@ -1,100 +1,129 @@
-# Проверяем версию CMake
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_enable_cxx17.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_add_subdirectory.cmake")
+set(MODULE_OIS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(MODULE_OIS_CMAKE_DIR ${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cmakehelpers)
+set(MODULE_OIS_LIB_DIR ${MODULE_OIS_ROOT_DIR}/lib)
+set(MODULE_OIS_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
 
-# Мета-информация о проекте
-set(META_OIS_PRJNAME "module_ois")
-set(META_OIS_LIBNAME "lib${META_OIS_PRJNAME}")
-set(META_OIS_VERSION_MAJOR 0)
-set(META_OIS_VERSION_MINOR 5)
-set(META_OIS_VERSION_PATCH 14)
-set(META_OIS_VERSION ${META_OIS_VERSION_MAJOR}.${META_OIS_VERSION_MINOR}.${META_OIS_VERSION_PATCH})
+#_________________________________________________________________________________
+#                                                            Include CMake modules
+include("${MODULE_OIS_CMAKE_DIR}/options.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/set_output_dir.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/add_submodule.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/project_metadata.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/setup.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_modularize.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_environment.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_optimization.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_config.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_exports.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/detect_library_extension.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/create_library.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/enable_cxx17.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/enable_coverage.cmake")
 
-# Опции сборки
+#_________________________________________________________________________________
+#                                                                    Build options
 option(MODULE_OIS_SHARED_LIB "Build shared library" OFF)
+option(MODULE_OIS_ENABLE_TESTS "Build tests" OFF)
 option(MODULE_OIS_ENABLE_EXAMPLES "Build examples" OFF)
-option(GLOBAL_EMSCRIPTEN_PLATFORM "Using emscripten compiler" OFF)
-option(GLOBAL_EMSCRIPTEN_USE_BINDING "Using emscripten binding" OFF)
-option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 
-project(${META_OIS_PRJNAME} VERSION ${META_OIS_VERSION} LANGUAGES CXX)
+#_________________________________________________________________________________
+#                                                                       Submodules
+add_submodule("core" submodules/sway.module_core)
 
-set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
-
-if(GLOBAL_EMSCRIPTEN_PLATFORM AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
-  include(${CMAKE_TOOLCHAIN_FILE})
+#_________________________________________________________________________________
+#                                                              [Emscripten]: Setup
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  emscripten_setup()
 endif()
 
-# Подмодули
-if(NOT TARGET libmodule_core)
-  custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
+#_________________________________________________________________________________
+#                                                                          Project
+project_metadata("ois" 0.6.0)
+project(${MODULE_OIS_PROJ_NAME} VERSION ${MODULE_OIS_VERSION} LANGUAGES CXX)
+
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  set(CMAKE_CXX_COMPILER "${EMSCRIPTEN_COMPILER}")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--whole-archive")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-unicode-whitespace \
+  #   -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
 endif()
 
-if(GLOBAL_EMSCRIPTEN_PLATFORM)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM")
-  if(GLOBAL_EMSCRIPTEN_USE_BINDING)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM_USE_BINDING")
-  endif()
-endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
-
-# Определяем каталог вывода по умолчанию
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
-  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
-else()
-  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
-  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
-endif()
+#_________________________________________________________________________________
+#                                                           Executable output path
+set_output_dir(${MODULE_OIS_BIN_DIR})
 
 set(SYSTEM_INCLUDE_DIRS "/opt/X11/include")
 set(SYSTEM_LIBRARY_DIRS "/opt/X11/lib")
 set(MODULE_OIS_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-# Добавляем пути для поиска хедеров
+#_________________________________________________________________________________
+#                                                          Include project headers
 include_directories("${SYSTEM_INCLUDE_DIRS}")
-include_directories("${MODULE_OIS_DIR}/lib/include")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/include")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/include")
+include_directories("${MODULE_OIS_DIR}/lib/cpp/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/cpp/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/cpp/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/include/*.*")
-if(GLOBAL_EMSCRIPTEN_PLATFORM)
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/inputdevicemanager.cpp"
-                                       "${MODULE_OIS_DIR}/lib/src/web/*.*")
+file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/cpp/include/*.*")
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cpp/src/inputdevicemanager.cpp"
+                                       "${MODULE_OIS_DIR}/lib/cpp/src/web/*.*")
 else()
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/src/mac/*.*")
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cpp/src/mac/*.*")
 endif()
 
-if(GLOBAL_EMSCRIPTEN_PLATFORM)
+if(GLOB_EMSCRIPTEN_PLATFORM)
   # Empty
 else()
   find_package(X11 REQUIRED)
 endif()
 
-if(MODULE_OIS_SHARED_LIB)
-  # Добавляем в проект цель для сборки статической библиотеки
-  add_library(${META_OIS_LIBNAME} SHARED ${MODULE_OIS_SOURCES})
-  set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
-  set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
-  set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".so.${META_OIS_VERSION}")
-else()
-  # Добавляем в проект цель для сборки динамической библиотеки
-  add_library(${META_OIS_LIBNAME} STATIC ${MODULE_OIS_SOURCES})
-  set_target_properties(${META_OIS_LIBNAME} PROPERTIES OUTPUT_NAME ${META_OIS_PRJNAME})
-  set_target_properties(${META_OIS_LIBNAME} PROPERTIES PREFIX "")
-  set_target_properties(${META_OIS_LIBNAME} PROPERTIES SUFFIX ".a.${META_OIS_VERSION}")
+# if(MODULE_OIS_SHARED_LIB)
+#   # Добавляем в проект цель для сборки статической библиотеки
+#   add_library(${MODULE_OIS_TARGET} SHARED ${MODULE_OIS_SOURCES})
+#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_OIS_TARGET})
+#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES PREFIX "")
+#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES SUFFIX ".so")
+# else()
+#   # Добавляем в проект цель для сборки динамической библиотеки
+#   add_library(${MODULE_OIS_TARGET} STATIC ${MODULE_OIS_SOURCES})
+#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_OIS_TARGET})
+#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES PREFIX "")
+#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES SUFFIX ".a")
+# endif()
+
+# enable_cxx17(${MODULE_OIS_TARGET})
+# # target_link_libraries(${META_OIS_LIBNAME} X11)
+
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  create_bitcode_library(${MODULE_OIS_TARGET} ${MODULE_OIS_PROJ_NAME} "${MODULE_OIS_ROOT_DIR}/lib/cpp/src/*.*")
+  enable_cxx17(${MODULE_OIS_TARGET})
+
+  set(LIB_NAME_LIST ${MODULE_OIS_LIB_NAME})
+
+  emscripten_set_compiler_javascript(MODULE_OIS_COMPILER_WEBJS_CONFIG
+    ${MODULE_OIS_BIN_DIR} LIB_NAME_LIST ${MODULE_OIS_VERSION})
+  emscripten_set_config(${MODULE_OIS_PROJ_NAME} MODULE_OIS_COMPILER_WEBJS_CONFIG)
+  emscripten_set_exports(MODULE_OIS_COMPILER_WEBJS_CONFIG ${MODULE_OIS_LIB_DIR}/exports.json)
+  emscripten_set_runtime_exports(MODULE_OIS_COMPILER_WEBJS_CONFIG ${MODULE_OIS_LIB_DIR}/runtime_exports.json 1)
+
+  add_custom_command(TARGET ${MODULE_OIS_TARGET} POST_BUILD
+    COMMAND ${MODULE_OIS_COMPILER_WEBJS_CONFIG}
+    # COMMAND rm "${MODULE_CORE_BIN_DIR}/${MODULE_CORE_LIB_NAME}.bc"
+  )
 endif()
 
-custom_enable_cxx17(${META_OIS_LIBNAME})
-# target_link_libraries(${META_OIS_LIBNAME} X11)
+#_________________________________________________________________________________
+#                                                                            Tests
+if(MODULE_OIS_ENABLE_TESTS)
+  message(STATUS "Tests have been enabled")
+endif()
 
-# Добавляем построение примеров
+#_________________________________________________________________________________
+#                                                                         Examples
 if(MODULE_OIS_ENABLE_EXAMPLES)
   message(STATUS "Examples have been enabled")
   add_subdirectory("examples/01")

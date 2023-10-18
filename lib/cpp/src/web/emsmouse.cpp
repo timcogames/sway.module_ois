@@ -125,6 +125,10 @@ auto EMSMouse::onMouseMove(const EmscriptenMouseEvent &evt) -> bool {
     onMouseMoved_(evtArgs_);
   }
 
+  if (onMotion_) {
+    onMotion_(evtArgs_.position.getX(), evtArgs_.position.getY());
+  }
+
   return true;
 }
 
@@ -137,6 +141,39 @@ auto EMSMouse::onWheel(const EmscriptenWheelEvent &evt) -> bool {
 
   return true;
 }
+
+void EMSMouse::setMotionFunc(callback_t cb) { onMotion_ = std::function<void(int, int)>(cb); }
+
+#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+
+void registerMouseDevice(InputDeviceManager::InputDeviceManagerPtr mngr) {
+  auto obj = InputDeviceManager::fromJs(mngr);
+  if (!obj) {
+    // TODO
+  }
+
+  obj->registerDevice<EMSMouse>();
+}
+
+auto getMouseDevice(InputDeviceManager::InputDeviceManagerPtr mngr) -> EMSMouse::EMSMousePtr {
+  auto obj = InputDeviceManager::fromJs(mngr);
+  if (!obj) {
+    // TODO
+  }
+
+  return EMSMouse::toJs(obj->getDevice<EMSMouse>().get());
+}
+
+void onMotionCallback(EMSMouse::EMSMousePtr device, void (*callback)(int, int)) {
+  auto obj = EMSMouse::fromJs(device);
+  if (!obj) {
+    // TODO
+  }
+
+  obj->setMotionFunc(callback);
+}
+
+#endif
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)

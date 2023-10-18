@@ -20,6 +20,14 @@ class InputDeviceManager;
 
 class EMSMouse : public InputDevice {
 public:
+#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+  using EMSMousePtr = intptr_t;
+
+  static EMSMouse *fromJs(EMSMousePtr device) { return reinterpret_cast<EMSMouse *>(device); }
+
+  static EMSMousePtr toJs(EMSMouse *device) { return reinterpret_cast<EMSMousePtr>(device); }
+#endif
+
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE);
 
   static auto getTimestamp() -> double {
@@ -54,18 +62,36 @@ public:
 
   void setWindowSize(const math::size2i_t &dims) { screenDims_ = dims; }
 
+  typedef void (*callback_t)(int, int);
+  void setMotionFunc(callback_t fn);
+
 private:
   InputDeviceManager *mngr_;
+
   std::function<void(const struct MouseEventArgs &)> onMouseButtonDown_;
   std::function<void(const struct MouseEventArgs &)> onMouseDblClick_;
   std::function<void(const struct MouseEventArgs &)> onMouseButtonUp_;
   std::function<void(const struct MouseEventArgs &)> onMouseMoved_;
   std::function<void(const struct MouseEventArgs &)> onMouseWheeled_;
+
+  std::function<void(int, int)> onMotion_;
+
   math::size2i_t screenDims_;
   MouseEventArgs evtArgs_;
   double prevMouseDownTime_ = 0.0;
   bool firstClick_ = false;
 };
+
+#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+
+EXTERN_C EMSCRIPTEN_KEEPALIVE void registerMouseDevice(InputDeviceManager::InputDeviceManagerPtr mngr);
+
+EXTERN_C EMSCRIPTEN_KEEPALIVE auto getMouseDevice(InputDeviceManager::InputDeviceManagerPtr mngr)
+    -> EMSMouse::EMSMousePtr;
+
+EXTERN_C EMSCRIPTEN_KEEPALIVE void onMotionCallback(EMSMouse::EMSMousePtr device, void (*callback)(int, int));
+
+#endif
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)

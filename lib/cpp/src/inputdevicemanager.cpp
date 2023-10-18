@@ -22,5 +22,13 @@ void InputDeviceManager::setKeyboardUsed(bool used) { keyboardUsed_ = used; }
 
 void InputDeviceManager::setMouseUsed(bool used) { mouseUsed_ = used; }
 
+#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+
+auto createInputDeviceManager() -> InputDeviceManager::InputDeviceManagerPtr {
+  return InputDeviceManager::toJs(new InputDeviceManager());
+}
+
+#endif
+
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)

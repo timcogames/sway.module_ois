@@ -16,6 +16,14 @@ NAMESPACE_BEGIN(ois)
  */
 class InputDeviceManager {
 public:
+#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+  using InputDeviceManagerPtr = intptr_t;
+
+  static InputDeviceManager *fromJs(InputDeviceManagerPtr mngr) { return reinterpret_cast<InputDeviceManager *>(mngr); }
+
+  static InputDeviceManagerPtr toJs(InputDeviceManager *mngr) { return reinterpret_cast<InputDeviceManagerPtr>(mngr); }
+#endif
+
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
@@ -69,6 +77,12 @@ private:
 };
 
 #include <sway/ois/inputdevicemanager.inl>
+
+#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+
+EXTERN_C EMSCRIPTEN_KEEPALIVE auto createInputDeviceManager() -> InputDeviceManager::InputDeviceManagerPtr;
+
+#endif
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
