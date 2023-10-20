@@ -1,6 +1,11 @@
 [
+  "_malloc",
   "_createInputDeviceManager",
   "_registerMouseDevice",
+  "_registerMouseEventHandlers",
+  "_unregisterMouseEventHandlers",
   "_getMouseDevice",
+  "_setMouseCanvasId",
+  "_setMouseBoundingBox",
   "_onMotionCallback"
 ]

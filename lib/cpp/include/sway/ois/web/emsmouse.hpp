@@ -20,14 +20,7 @@ class InputDeviceManager;
 
 class EMSMouse : public InputDevice {
 public:
-#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
-  using EMSMousePtr = intptr_t;
-
-  static EMSMouse *fromJs(EMSMousePtr device) { return reinterpret_cast<EMSMouse *>(device); }
-
-  static EMSMousePtr toJs(EMSMouse *device) { return reinterpret_cast<EMSMousePtr>(device); }
-#endif
-
+  DECLARE_EMSCRIPTEN(EMSMouse)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE);
 
   static auto getTimestamp() -> double {
@@ -39,19 +32,23 @@ public:
 
   ~EMSMouse() = default;
 
+  void registerEventHandlers();
+
+  void unregisterEventHandlers();
+
   void pointerLock();
 
   void pointerUnlock();
 
   auto isPointerLocked() -> bool;
 
-  auto onMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool;
+  auto handleMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool;
 
-  auto onMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool;
+  auto handleMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool;
 
-  auto onMouseMove(const EmscriptenMouseEvent &evt) -> bool;
+  auto handleMouseMove(const EmscriptenMouseEvent &evt) -> bool;
 
-  auto onWheel(const EmscriptenWheelEvent &evt) -> bool;
+  auto handleWheel(const EmscriptenWheelEvent &evt) -> bool;
 
   /**
    * @brief Устанавливает слушатель событий.
@@ -60,7 +57,9 @@ public:
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
 
-  void setWindowSize(const math::size2i_t &dims) { screenDims_ = dims; }
+  void setCanvasId(lpcstr_t canvasId) { canvasId_ = canvasId; }
+
+  void setBoundingBox(const math::bbox2f_t &bounds) { bounds_ = bounds; }
 
   typedef void (*callback_t)(int, int);
   void setMotionFunc(callback_t fn);
@@ -76,21 +75,32 @@ private:
 
   std::function<void(int, int)> onMotion_;
 
-  math::size2i_t screenDims_;
+  std::string canvasId_;
+  math::bbox2f_t bounds_;
+
   MouseEventArgs evtArgs_;
   double prevMouseDownTime_ = 0.0;
   bool firstClick_ = false;
 };
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+EXTERN_C_BEGIN
 
-EXTERN_C EMSCRIPTEN_KEEPALIVE void registerMouseDevice(InputDeviceManager::InputDeviceManagerPtr mngr);
+EXPORT_API void registerMouseDevice(InputDeviceManager::JsPtr_t mngr);
 
-EXTERN_C EMSCRIPTEN_KEEPALIVE auto getMouseDevice(InputDeviceManager::InputDeviceManagerPtr mngr)
-    -> EMSMouse::EMSMousePtr;
+EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
 
-EXTERN_C EMSCRIPTEN_KEEPALIVE void onMotionCallback(EMSMouse::EMSMousePtr device, void (*callback)(int, int));
+EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
 
+EXPORT_API auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t;
+
+EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
+
+EXPORT_API void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h);
+
+EXPORT_API void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int));
+
+EXTERN_C_END
 #endif
 
 NAMESPACE_END(ois)

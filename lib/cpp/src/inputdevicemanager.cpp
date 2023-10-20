@@ -24,7 +24,7 @@ void InputDeviceManager::setMouseUsed(bool used) { mouseUsed_ = used; }
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 
-auto createInputDeviceManager() -> InputDeviceManager::InputDeviceManagerPtr {
+auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t {
   return InputDeviceManager::toJs(new InputDeviceManager());
 }
 

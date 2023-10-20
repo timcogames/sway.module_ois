@@ -23,6 +23,17 @@ enum class KeyModifier : u32_t {
 };
 // clang-format on
 
+enum class BtnState : u32_t { PRESSED, RELEASED };
+enum class MouseBtn { NONE, LEFT, RIGHT, MIDDLE, Latest };
+#define NUM_MOUSE_BTNS core::detail::toUnderlying(MouseBtn::Latest)
+
+struct TouchState {
+  uintptr_t id;
+  math::vec2f_t pos;
+  math::vec2f_t dpos;
+  BtnState state;
+};
+
 /**
  * @brief Предоставляет данные для событий, связанных с мышью.
  */
@@ -34,6 +45,7 @@ struct MouseEventArgs : public EventArgs {
   s32_t button;  // Код кнопок мыши.
   f32_t deltaZ;
   bool entered;
+  BtnState states[NUM_MOUSE_BTNS];
 };
 
 NAMESPACE_END(ois)

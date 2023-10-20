@@ -12,10 +12,14 @@
   </head>
   <body>
     <h1 class="heading">OIS</h1>
-    <div id="canvas" class="container mx-auto grid md:grid-cols-2 xl:gap-10 xl:px-10 xl:py-10">
+    <div class="container mx-auto grid">
 
-      <p id="x" class="content">0.0</p>
-      <p id="y" class="content">0.0</p>
+      <div id="playground">
+        <div class="sidebar grid md:grid-cols-2 xl:gap-10 xl:px-10 xl:py-10">
+          <p class="content">x: <span id="x">0</span></p>
+          <p class="content">y: <span id="y">0</span></p>
+        </div>
+      </div>
 
     </div>
 
@@ -47,6 +51,19 @@
           let inputDeviceManager = new InputDeviceManager(module);
           let mouseDevice = module._getMouseDevice(inputDeviceManager.addr);
 
+          const canvasElmName = "playground";
+
+          module._setMouseCanvasId(mouseDevice, (function(str) {
+            var lengthBytes = module.lengthBytesUTF8(str) + 1;
+            var stringOnWasmHeap = module._malloc(lengthBytes);
+            module.stringToUTF8(str, stringOnWasmHeap, lengthBytes);
+            return stringOnWasmHeap;
+          })("#" + canvasElmName));
+
+          let canvasElm = document.getElementById(canvasElmName);
+          module._setMouseBoundingBox(mouseDevice, canvasElm.clientWidth, canvasElm.clientHeight);
+
+          module._registerMouseEventHandlers(mouseDevice);
           module._onMotionCallback(mouseDevice, module.addFunction(function(x, y) {
             let xElm = document.getElementById("x");
             let yElm = document.getElementById("y");
@@ -54,6 +71,8 @@
             xElm.innerHTML = x;
             yElm.innerHTML = y;
           }, "vii"));
+
+          // module._unregisterMouseEventHandlers(mouseDevice);
         });
       });
     </script>

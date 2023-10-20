@@ -16,13 +16,7 @@ NAMESPACE_BEGIN(ois)
  */
 class InputDeviceManager {
 public:
-#if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
-  using InputDeviceManagerPtr = intptr_t;
-
-  static InputDeviceManager *fromJs(InputDeviceManagerPtr mngr) { return reinterpret_cast<InputDeviceManager *>(mngr); }
-
-  static InputDeviceManagerPtr toJs(InputDeviceManager *mngr) { return reinterpret_cast<InputDeviceManagerPtr>(mngr); }
-#endif
+  DECLARE_EMSCRIPTEN(InputDeviceManager)
 
   /**
    * @brief Конструктор класса.
@@ -79,9 +73,11 @@ private:
 #include <sway/ois/inputdevicemanager.inl>
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
+EXTERN_C_BEGIN
 
-EXTERN_C EMSCRIPTEN_KEEPALIVE auto createInputDeviceManager() -> InputDeviceManager::InputDeviceManagerPtr;
+EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t;
 
+EXTERN_C_END
 #endif
 
 NAMESPACE_END(ois)
