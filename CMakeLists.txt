@@ -63,17 +63,17 @@ set(MODULE_OIS_DIR ${CMAKE_CURRENT_LIST_DIR})
 #_________________________________________________________________________________
 #                                                          Include project headers
 include_directories("${SYSTEM_INCLUDE_DIRS}")
-include_directories("${MODULE_OIS_DIR}/lib/cpp/include")
+include_directories("${MODULE_OIS_DIR}/lib/cxx/include")
 include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/cxx/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/cpp/include/*.*")
+file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/cxx/include/*.*")
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cpp/src/inputdevicemanager.cpp"
-                                       "${MODULE_OIS_DIR}/lib/cpp/src/web/*.*")
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cxx/src/inputdevicemanager.cpp"
+                                       "${MODULE_OIS_DIR}/lib/cxx/src/web/*.*")
 else()
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cpp/src/mac/*.*")
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cxx/src/mac/*.*")
 endif()
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
@@ -100,7 +100,7 @@ endif()
 # # target_link_libraries(${META_OIS_LIBNAME} X11)
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_bitcode(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cpp/src/*.*")
+  create_bitcode(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*")
   enable_cxx17(${MODULE_OIS_TARGET})
 
   create_emscripten_library(${MODULE_OIS_TARGET} ${MODULE_OIS_ENVIRONMENT} ${MODULE_OIS_COMPILATION} OUTPUT_TARGET_NAME_LIST)

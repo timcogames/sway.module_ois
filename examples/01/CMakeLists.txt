@@ -11,7 +11,7 @@ set(SYSTEM_X11_INCLUDE_DIRS "/opt/X11/include")
 set(SYSTEM_X11_LIBRARY_DIRS "/opt/X11/lib")
 
 include_directories("${SYSTEM_X11_INCLUDE_DIRS}")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_ois-x11/lib/cpp/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_ois-x11/lib/cxx/include")
 
 # Получаем пути ко всем исходникам с тестами
 file(GLOB MODULE_OIS_SOURCE_EXAMPLES ${PROJECT_SOURCE_DIR}/*.cpp)
