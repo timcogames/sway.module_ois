@@ -16,6 +16,46 @@
   --body-bg: #b54;
 }
 
+#cursor{
+  position: fixed;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  transition: height 200ms, width 200ms, border-color 200ms, background-color 200ms;
+  pointer-events: none;
+  -webkit-transition: height 200ms, width 200ms, border-color 200ms, background-color 200ms;
+  -moz-transition: height 200ms, width 200ms, border-color 200ms, background-color 200ms;
+  -ms-transition: height 200ms, width 200ms, border-color 200ms, background-color 200ms;
+  -o-transition: height 200ms, width 200ms, border-color 200ms, background-color 200ms;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+.cursor-default {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+}
+
+.cursor-text {
+  height: 20px;
+  width: 4px;
+  border-radius: 8%;
+  -webkit-border-radius: 8%;
+  -moz-border-radius: 8%;
+  -ms-border-radius: 8%;
+  -o-border-radius: 8%;
+}
+
+.cursor-hover {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  border: 3px solid;
+  background-color: transparent !important;
+}
+
 h1, h2 {
   font-family: var(--heading-font-family);
   font-weight: var(--heading-font-weight);
@@ -73,6 +113,8 @@ body {
 
 .heading {
   text-align: center;
+  display: inline-block;
+  width: 100%;
 }
 
 #playground {

@@ -11,6 +11,8 @@
     <title></title>
   </head>
   <body>
+    <div id="cursor" class="cursor-default"></div>
+
     <h1 class="heading">OIS</h1>
     <div class="container mx-auto grid">
 
@@ -24,7 +26,7 @@
     </div>
 
     <script type="module">
-      import create_core_module from"./wwwroot/dist/libmodule_ois.0.6.0.js";
+      import create_core_module from"./wwwroot/dist/module_ois_wasm_web_async.js";
 
       function InputDeviceManager(module) {
         this._mod = module;
@@ -65,6 +67,11 @@
 
           module._registerMouseEventHandlers(mouseDevice);
           module._onMotionCallback(mouseDevice, module.addFunction(function(x, y) {
+            let cursorHalfSize = 8;
+            let cursorElm = document.getElementById("cursor");
+            cursorElm.style.transform = `translate(${canvasElm.offsetLeft + x - cursorHalfSize}px, ${canvasElm.offsetTop - document.documentElement.scrollTop + y - cursorHalfSize}px)`
+            cursorElm.style.backgroundColor = "var(--body-bg)"
+            
             let xElm = document.getElementById("x");
             let yElm = document.getElementById("y");
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
 set(MODULE_OIS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(MODULE_OIS_CMAKE_DIR ${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cmakehelpers)
+set(MODULE_OIS_CMAKE_DIR ${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cmake_modules)
 set(MODULE_OIS_LIB_DIR ${MODULE_OIS_ROOT_DIR}/lib)
 set(MODULE_OIS_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
 
@@ -11,15 +11,16 @@ include("${MODULE_OIS_CMAKE_DIR}/options.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/add_submodule.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/project_metadata.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/setup.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_modularize.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_environment.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_optimization.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_config.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/emscripten/compiler_flags/set_exports.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/detect_library_extension.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/create_library.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/logger.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/create_bitcode.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_environment.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_compilation.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/enable_coverage.cmake")
 
@@ -63,8 +64,8 @@ set(MODULE_OIS_DIR ${CMAKE_CURRENT_LIST_DIR})
 #                                                          Include project headers
 include_directories("${SYSTEM_INCLUDE_DIRS}")
 include_directories("${MODULE_OIS_DIR}/lib/cpp/include")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/cpp/include")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/cpp/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/cxx/include")
+include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/cxx/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
 file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/cpp/include/*.*")
@@ -99,21 +100,20 @@ endif()
 # # target_link_libraries(${META_OIS_LIBNAME} X11)
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_bitcode_library(${MODULE_OIS_TARGET} ${MODULE_OIS_PROJ_NAME} "${MODULE_OIS_ROOT_DIR}/lib/cpp/src/*.*")
+  create_bitcode(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cpp/src/*.*")
   enable_cxx17(${MODULE_OIS_TARGET})
 
-  set(LIB_NAME_LIST ${MODULE_OIS_LIB_NAME})
-
-  emscripten_set_compiler_javascript(MODULE_OIS_COMPILER_WEBJS_CONFIG
-    ${MODULE_OIS_BIN_DIR} LIB_NAME_LIST ${MODULE_OIS_VERSION})
-  emscripten_set_config(${MODULE_OIS_PROJ_NAME} MODULE_OIS_COMPILER_WEBJS_CONFIG)
-  emscripten_set_exports(MODULE_OIS_COMPILER_WEBJS_CONFIG ${MODULE_OIS_LIB_DIR}/exports.json)
-  emscripten_set_runtime_exports(MODULE_OIS_COMPILER_WEBJS_CONFIG ${MODULE_OIS_LIB_DIR}/runtime_exports.json 1)
-
-  add_custom_command(TARGET ${MODULE_OIS_TARGET} POST_BUILD
-    COMMAND ${MODULE_OIS_COMPILER_WEBJS_CONFIG}
-    # COMMAND rm "${MODULE_CORE_BIN_DIR}/${MODULE_CORE_LIB_NAME}.bc"
-  )
+  create_emscripten_library(${MODULE_OIS_TARGET} ${MODULE_OIS_ENVIRONMENT} ${MODULE_OIS_COMPILATION} OUTPUT_TARGET_NAME_LIST)
+  foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
+    target_link_options(${target} PUBLIC 
+      "SHELL:-s STRICT=1"
+      "SHELL:-s MODULARIZE=1"
+      "SHELL:-s ALLOW_TABLE_GROWTH=1"
+      "SHELL:-s EXPORT_NAME=\"create_ois_module\""
+      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_OIS_LIB_DIR}/exports.json"
+      "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_OIS_LIB_DIR}/runtime-exports.json")
+    printf_link_options(${target})
+  endforeach()
 endif()
 
 #_________________________________________________________________________________

@@ -24,7 +24,10 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DGLOB_EMSCRIPTEN_ROOT_DIR=/Users/<USER_NAME>/Documents/Third-party/emsdk/upstream/emscripten \
       -DGLOB_EMSCRIPTEN_PLATFORM=ON \
-      -DGLOB_EMSCRIPTEN_WEB_ENVIRONMENT=ON ../
+      -DMODULE_CORE_ENVIRONMENT=web,node \
+      -DMODULE_CORE_COMPILATION=ON \
+      -DMODULE_OIS_ENVIRONMENT=web,node \
+      -DMODULE_OIS_COMPILATION=ON ../
 ```
 
 Опция сборки | Описание | По умолчанию
@@ -35,6 +38,8 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 
 ```console
 cmake --build .
+
+python3 -m http.server <PORT>
 ```
 
 [codecov-svg]: https://codecov.io/gh/timcogames/sway.module_ois/branch/master/graph/badge.svg
