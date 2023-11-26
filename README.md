@@ -1,6 +1,6 @@
 # sway.module_ois [![Discord](https://discordapp.com/api/guilds/402238411639095297/widget.png)](https://discord.gg/vCMcgwQ)
 
-[![codecov][codecov-svg]][codecov-url] [![BCH compliance][bettercodehub-svg]][bettercodehub-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
+[![codecov][codecov-svg]][codecov-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
 
 ### Клонирование проекта
 
@@ -44,8 +44,6 @@ python3 -m http.server <PORT>
 
 [codecov-svg]: https://codecov.io/gh/timcogames/sway.module_ois/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/timcogames/sway.module_ois
-[bettercodehub-svg]: https://bettercodehub.com/edge/badge/timcogames/sway.module_ois?branch=master
-[bettercodehub-url]: https://bettercodehub.com/
 [codedocs-svg]: https://codedocs.xyz/timcogames/sway.module_ois.svg
 [codedocs-url]: https://codedocs.xyz/timcogames/sway.module_ois/
 [license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg
