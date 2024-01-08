@@ -1,20 +1,31 @@
-cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
+#---------------------------------------------------------------------------------
+# CMake version
+#---------------------------------------------------------------------------------
+
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
+
+#---------------------------------------------------------------------------------
+# Project directories
+#---------------------------------------------------------------------------------
 
 set(MODULE_OIS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(MODULE_OIS_CMAKE_DIR ${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cmake_modules)
 set(MODULE_OIS_LIB_DIR ${MODULE_OIS_ROOT_DIR}/lib)
 set(MODULE_OIS_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
 
-#_________________________________________________________________________________
-#                                                            Include CMake modules
+#---------------------------------------------------------------------------------
+# Include CMake modules
+#---------------------------------------------------------------------------------
+
 include("${MODULE_OIS_CMAKE_DIR}/options.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/add_submodule.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/logger.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/create_object.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/create_interface.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/create_bitcode.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
@@ -24,24 +35,32 @@ include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmak
 include("${MODULE_OIS_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/enable_coverage.cmake")
 
-#_________________________________________________________________________________
-#                                                                    Build options
+#---------------------------------------------------------------------------------
+# Build options
+#---------------------------------------------------------------------------------
+
 option(MODULE_OIS_SHARED_LIB "Build shared library" OFF)
 option(MODULE_OIS_ENABLE_TESTS "Build tests" OFF)
 option(MODULE_OIS_ENABLE_EXAMPLES "Build examples" OFF)
 
-#_________________________________________________________________________________
-#                                                                       Submodules
+#---------------------------------------------------------------------------------
+# Submodules
+#---------------------------------------------------------------------------------
+
 add_submodule("core" submodules/sway.module_core)
 
-#_________________________________________________________________________________
-#                                                              [Emscripten]: Setup
+#---------------------------------------------------------------------------------
+# [Emscripten]: Setup
+#---------------------------------------------------------------------------------
+
 if(GLOB_EMSCRIPTEN_PLATFORM)
   emscripten_setup()
 endif()
 
-#_________________________________________________________________________________
-#                                                                          Project
+#---------------------------------------------------------------------------------
+# Project
+#---------------------------------------------------------------------------------
+
 project_metadata("ois" 0.6.0)
 project(${MODULE_OIS_PROJ_NAME} VERSION ${MODULE_OIS_VERSION} LANGUAGES CXX)
 
@@ -52,16 +71,20 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
   #   -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
 endif()
 
-#_________________________________________________________________________________
-#                                                           Executable output path
+#---------------------------------------------------------------------------------
+# Executable output path
+#---------------------------------------------------------------------------------
+
 set_output_dir(${MODULE_OIS_BIN_DIR})
 
 set(SYSTEM_INCLUDE_DIRS "/opt/X11/include")
 set(SYSTEM_LIBRARY_DIRS "/opt/X11/lib")
 set(MODULE_OIS_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-#_________________________________________________________________________________
-#                                                          Include project headers
+#---------------------------------------------------------------------------------
+# Include project headers
+#---------------------------------------------------------------------------------
+
 include_directories("${SYSTEM_INCLUDE_DIRS}")
 include_directories("${MODULE_OIS_DIR}/lib/cxx/include")
 include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/cxx/include")
@@ -100,7 +123,7 @@ endif()
 # # target_link_libraries(${META_OIS_LIBNAME} X11)
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_bitcode(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*")
+  create_object(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
   enable_cxx17(${MODULE_OIS_TARGET})
 
   create_emscripten_library(${MODULE_OIS_TARGET} ${MODULE_OIS_ENVIRONMENT} ${MODULE_OIS_COMPILATION} OUTPUT_TARGET_NAME_LIST)
@@ -116,14 +139,18 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
   endforeach()
 endif()
 
-#_________________________________________________________________________________
-#                                                                            Tests
+#---------------------------------------------------------------------------------
+# Tests
+#---------------------------------------------------------------------------------
+
 if(MODULE_OIS_ENABLE_TESTS)
   message(STATUS "Tests have been enabled")
 endif()
 
-#_________________________________________________________________________________
-#                                                                         Examples
+#---------------------------------------------------------------------------------
+# Examples
+#---------------------------------------------------------------------------------
+
 if(MODULE_OIS_ENABLE_EXAMPLES)
   message(STATUS "Examples have been enabled")
   add_subdirectory("examples/01")
