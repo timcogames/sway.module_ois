@@ -44,12 +44,6 @@ option(MODULE_OIS_ENABLE_TESTS "Build tests" OFF)
 option(MODULE_OIS_ENABLE_EXAMPLES "Build examples" OFF)
 
 #---------------------------------------------------------------------------------
-# Submodules
-#---------------------------------------------------------------------------------
-
-add_submodule("core" submodules/sway.module_core)
-
-#---------------------------------------------------------------------------------
 # [Emscripten]: Setup
 #---------------------------------------------------------------------------------
 
@@ -70,6 +64,12 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-unicode-whitespace \
   #   -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
 endif()
+
+#---------------------------------------------------------------------------------
+# Submodules
+#---------------------------------------------------------------------------------
+
+add_submodule("module_core" submodules/sway.module_core)
 
 #---------------------------------------------------------------------------------
 # Executable output path
@@ -133,8 +133,12 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
       "SHELL:-s MODULARIZE=1"
       "SHELL:-s ALLOW_TABLE_GROWTH=1"
       "SHELL:-s EXPORT_NAME=\"create_ois_module\""
-      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_OIS_LIB_DIR}/exports.json"
       "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_OIS_LIB_DIR}/runtime-exports.json")
+
+    if(NOT GLOB_EMSCRIPTEN_USE_BINDINGS)
+      target_link_options(${target} PUBLIC "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_OIS_LIB_DIR}/exports.json")
+    endif()
+
     printf_link_options(${target})
   endforeach()
 endif()
