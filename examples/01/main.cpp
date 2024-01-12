@@ -1,6 +1,8 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/ois.hpp>
+#include <sway/ois/mac/dtpkeyboard.hpp>
+#include <sway/ois/mac/dtpkeymappinglist.hpp>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -15,9 +17,9 @@ public:
 
   virtual ~KeyboardInputListener() = default;
 
-  MTHD_OVERRIDE(void onKeyPressed(const ois::KeyboardEventArgs &evt)) { std::cout << evt.keycode << std::endl; }
+  MTHD_VIRTUAL(void onKeyPressed(const ois::KeyboardEventArgs &evt)) { std::cout << evt.keycode << std::endl; }
 
-  MTHD_OVERRIDE(void onKeyReleased(const ois::KeyboardEventArgs &evt)) {}
+  MTHD_VIRTUAL(void onKeyReleased(const ois::KeyboardEventArgs &evt)) {}
 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
@@ -42,22 +44,41 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   XStoreName(dpy, win, "sway.module_ois-x11");
 
-  Atom WM_DELETE_WINDOW = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
+  auto WM_DELETE_WINDOW = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
   XSetWMProtocols(dpy, win, &WM_DELETE_WINDOW, 1);
 
   XEvent evt;
   while (1) {
     XNextEvent(dpy, &evt);
-    if (evt.type == Expose) {
-      lpcstr_t heading = "Keyboard Input Device";
-      auto offset = math::point2i_t(10, 20);
+    XClearWindow(dpy, win);
 
-      XDrawString(dpy, win, DefaultGC(dpy, scr), offset.getX(), offset.getY(), heading, strlen(heading));
-      offset.setY(offset.getY() + 20);  // next
-    }
+    // if (evt.type == Expose || evt.type == LeaveNotify) {
+    auto offset = math::point2i_t(10, 20);
+
+    lpcstr_t heading = "Keyboard Input Device";
+    XDrawString(dpy, win, DefaultGC(dpy, scr), offset.getX(), offset.getY(), heading, strlen(heading));
+    offset.setY(offset.getY() + 20);  // next
+
+    lpcstr_t kcHeading = "Key code";
+    XDrawString(dpy, win, DefaultGC(dpy, scr), offset.getX(), offset.getY(), kcHeading, strlen(kcHeading));
+    // }
 
     if (evt.type == KeyPress) {
+      lpcstr_t kc = "";
+      offset = math::point2i_t(80, offset.getY());
+
       keyboardInputDevice->notifyKeyPressed(evt);
+
+      KeySym sym = NoSymbol;
+      XLookupString((XKeyEvent *)&evt.xkey, 0, 0, &sym, 0);
+
+      for (const ois::KeyMapping &mapping : ois::XtoKeyCode) {
+        if (mapping.symbol == sym) {
+          kc = std::to_string(core::detail::toUnderlying(mapping.code)).c_str();
+          XDrawString(dpy, win, DefaultGC(dpy, scr), offset.getX(), offset.getY(), kc, strlen(kc));
+          XSync(dpy, False);
+        }
+      }
     }
 
     if (evt.type == KeyRelease) {

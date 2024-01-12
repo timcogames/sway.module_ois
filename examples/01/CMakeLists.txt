@@ -1,6 +1,6 @@
 # Мета-информация о проекте
-set(META_PRJNAME_EXAMPLES module_ois_examples_01)
-set(META_LIBNAME_EXAMPLES lib${META_PRJNAME_EXAMPLES})
+set(META_PRJNAME_EXAMPLES "module_ois_examples_01")
+set(META_LIBNAME_EXAMPLES "${META_PRJNAME_EXAMPLES}")
 
 project(${META_PRJNAME_EXAMPLES} CXX)
 
