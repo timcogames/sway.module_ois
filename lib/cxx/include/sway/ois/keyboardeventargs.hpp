@@ -2,7 +2,7 @@
 #define SWAY_OIS_KEYBOARDEVENTARGS_HPP
 
 #include <sway/core.hpp>
-#include <sway/ois/inputevents.hpp>
+#include <sway/ois/inputeventargs.hpp>
 #include <sway/ois/keycodes.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(ois)
 /**
  * @brief Предоставляет данные для событий, связанных с клавиатуры.
  */
-struct KeyboardEventArgs : public EventArgs {
+struct KeyboardEventArgs : public InputEventArgs {
   KeyboardEventArgs(u32_t code)
       : keycode(code) {}
 

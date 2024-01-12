@@ -1,4 +1,6 @@
+#include <sway/ois/inputbuttonstates.hpp>
 #include <sway/ois/inputdevicemanager.hpp>
+#include <sway/ois/keymodifiers.hpp>
 #include <sway/ois/web/emsmouse.hpp>
 
 #include <algorithm>
@@ -73,7 +75,7 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
   evtArgs_.modifiers = modifiers;
   evtArgs_.button = evt.button;  // deprecated
   evtArgs_.entered = true;  // deprecated
-  evtArgs_.states[evt.button] = BtnState::PRESSED;
+  evtArgs_.states[evt.button] = InputButtonState::PRESSED;
 
   const auto timestamp = EMSMouse::getTimestamp();
   const auto timeDiff = timestamp - prevMouseDownTime_;
@@ -100,7 +102,7 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
 auto EMSMouse::handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool {
   evtArgs_.button = evt.button;  // deprecated
   evtArgs_.entered = false;  // deprecated
-  evtArgs_.states[evt.button] = BtnState::RELEASED;
+  evtArgs_.states[evt.button] = InputButtonState::RELEASED;
 
   if (onMouseButtonUp_) {
     onMouseButtonUp_(evtArgs_);

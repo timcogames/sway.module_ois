@@ -2,8 +2,9 @@
 #define SWAY_OIS_INPUTLISTENER_HPP
 
 #include <sway/core.hpp>
-#include <sway/ois/inputevents.hpp>
+#include <sway/ois/inputeventargs.hpp>
 #include <sway/ois/keyboardeventargs.hpp>
+#include <sway/ois/mouseeventargs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)

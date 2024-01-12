@@ -4,7 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
-#include <sway/ois/inputevents.hpp>
+#include <sway/ois/inputeventargs.hpp>
+#include <sway/ois/mouseeventargs.hpp>
 
 #include <chrono>  // std::chrono
 
