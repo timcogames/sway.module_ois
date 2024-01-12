@@ -1,8 +1,7 @@
 #ifndef SWAY_OIS_TYPEDEFS_HPP
 #define SWAY_OIS_TYPEDEFS_HPP
 
-#include <sway/namespacemacros.hpp>
-#include <sway/types.hpp>
+#include <sway/core.hpp>
 
 #include <functional>  // std::function
 #include <memory>  // std::shared_ptr

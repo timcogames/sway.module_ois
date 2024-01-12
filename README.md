@@ -19,15 +19,15 @@ mkdir build && cd ./build
 Конфигурируем проект для сборки
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release ../
+cmake -D CMAKE_BUILD_TYPE=Release ../
 
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DGLOB_EMSCRIPTEN_ROOT_DIR=/Users/<USER_NAME>/Documents/Third-party/emsdk/upstream/emscripten \
-      -DGLOB_EMSCRIPTEN_PLATFORM=ON \
-      -DMODULE_CORE_ENVIRONMENT=web,node \
-      -DMODULE_CORE_COMPILATION=ON \
-      -DMODULE_OIS_ENVIRONMENT=web,node \
-      -DMODULE_OIS_COMPILATION=ON ../
+cmake -D CMAKE_BUILD_TYPE=Release \
+      -D GLOB_EMSCRIPTEN_ROOT_DIR=/Users/<USER_NAME>/Documents/Third-party/emsdk/upstream/emscripten \
+      -D GLOB_EMSCRIPTEN_PLATFORM=ON \
+      -D MODULE_CORE_ENVIRONMENT=web,node \
+      -D MODULE_CORE_COMPILATION=ON \
+      -D MODULE_OIS_ENVIRONMENT=web,node \
+      -D MODULE_OIS_COMPILATION=ON ../
 ```
 
 Опция сборки | Описание | По умолчанию

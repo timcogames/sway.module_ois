@@ -7,7 +7,10 @@
 #include <sway/ois/inputevents.hpp>
 
 #include <chrono>  // std::chrono
-#include <emscripten/html5.h>
+
+#ifdef EMSCRIPTEN_PLATFORM
+#  include <emscripten/html5.h>
+#endif
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
@@ -15,6 +18,26 @@ NAMESPACE_BEGIN(ois)
 #define MOUSE_LBTN 0
 #define MOUSE_MBTN 1
 #define MOUSE_RBTN 2
+
+#ifdef EMSCRIPTEN_PLATFORM
+using EmscMouseEvent_t = EmscriptenMouseEvent;
+using EmscWheelEvent_t = EmscriptenWheelEvent;
+#else
+struct EmscMouseEvent_t {
+  unsigned short button;
+  long targetX;
+  long targetY;
+  long movementX;
+  long movementY;
+  int ctrlKey;
+  int shiftKey;
+  int altKey;
+};
+
+struct EmscWheelEvent_t {
+  double deltaY;
+};
+#endif
 
 class InputDeviceManager;
 
@@ -42,13 +65,13 @@ public:
 
   auto isPointerLocked() -> bool;
 
-  auto handleMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool;
+  auto handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool;
 
-  auto handleMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool;
+  auto handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool;
 
-  auto handleMouseMove(const EmscriptenMouseEvent &evt) -> bool;
+  auto handleMouseMove(const EmscMouseEvent_t &evt) -> bool;
 
-  auto handleWheel(const EmscriptenWheelEvent &evt) -> bool;
+  auto handleWheel(const EmscWheelEvent_t &evt) -> bool;
 
   /**
    * @brief Устанавливает слушатель событий.

@@ -1,7 +1,7 @@
 #ifndef SWAY_OIS_MAC_DTPKEYMAPPINGLIST_HPP
 #define SWAY_OIS_MAC_DTPKEYMAPPINGLIST_HPP
 
-#include <sway/namespacemacros.hpp>
+#include <sway/core.hpp>
 #include <sway/ois/keycodes.hpp>
 #include <sway/ois/keymapping.hpp>
 

@@ -8,6 +8,7 @@ NAMESPACE_BEGIN(ois)
 
 EMSKeyboard::EMSKeyboard(InputDeviceManager *mngr)
     : mngr_(mngr) {
+#ifdef EMSCRIPTEN_PLATFORM
   const EM_BOOL toUseCapture = EM_FALSE;
 
   emscripten_set_keydown_callback(
@@ -24,6 +25,7 @@ EMSKeyboard::EMSKeyboard(InputDeviceManager *mngr)
       EMSCRIPTEN_EVENT_TARGET_DOCUMENT, this, toUseCapture, [](int, const EmscriptenKeyboardEvent *evt, void *data) {
         return EM_BOOL(static_cast<EMSKeyboard *>(data)->onKeyPress(*evt));
       });
+#endif
 }
 
 void EMSKeyboard::setListener(InputListener *listener) {
@@ -32,7 +34,7 @@ void EMSKeyboard::setListener(InputListener *listener) {
   onKeyPress_ = std::bind(&InputListener::onKeyPress, listener, std::placeholders::_1);
 }
 
-auto EMSKeyboard::onKeyDown(const EmscriptenKeyboardEvent &evt) -> bool {
+auto EMSKeyboard::onKeyDown(const EmscKeyboardEvent_t &evt) -> bool {
   if (onKeyDown_) {
     onKeyDown_(KeyboardEventArgs(evt.keyCode));
   }
@@ -40,7 +42,7 @@ auto EMSKeyboard::onKeyDown(const EmscriptenKeyboardEvent &evt) -> bool {
   return true;
 }
 
-auto EMSKeyboard::onKeyUp(const EmscriptenKeyboardEvent &evt) -> bool {
+auto EMSKeyboard::onKeyUp(const EmscKeyboardEvent_t &evt) -> bool {
   if (onKeyUp_) {
     onKeyUp_(KeyboardEventArgs(evt.keyCode));
   }
@@ -48,7 +50,7 @@ auto EMSKeyboard::onKeyUp(const EmscriptenKeyboardEvent &evt) -> bool {
   return true;
 }
 
-auto EMSKeyboard::onKeyPress(const EmscriptenKeyboardEvent &evt) -> bool {
+auto EMSKeyboard::onKeyPress(const EmscKeyboardEvent_t &evt) -> bool {
   if (onKeyPress_) {
     onKeyPress_(KeyboardEventArgs(evt.keyCode));
   }

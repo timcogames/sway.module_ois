@@ -14,6 +14,7 @@ EMSMouse::EMSMouse(InputDeviceManager *mngr)
     , bounds_(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>(300.0F, 240.0F))) {}
 
 void EMSMouse::registerEventHandlers() {
+#ifdef EMSCRIPTEN_PLATFORM
   const EM_BOOL toUseCapture = EM_TRUE;
 
   // clang-format off
@@ -32,14 +33,17 @@ void EMSMouse::registerEventHandlers() {
   emscripten_set_wheel_callback(canvasId_.c_str(), this, toUseCapture, [](int, const EmscriptenWheelEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->handleWheel(*evt));
   });
-  // clang-format on
+// clang-format on
+#endif
 }
 
 void EMSMouse::unregisterEventHandlers() {
+#ifdef EMSCRIPTEN_PLATFORM
   emscripten_set_mousedown_callback(canvasId_.c_str(), nullptr, 0, nullptr);
   emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, nullptr, 0, nullptr);
   emscripten_set_mousemove_callback(canvasId_.c_str(), nullptr, 0, nullptr);
   emscripten_set_wheel_callback(canvasId_.c_str(), nullptr, 0, nullptr);
+#endif
 }
 
 void EMSMouse::setListener(InputListener *listener) {
@@ -50,7 +54,7 @@ void EMSMouse::setListener(InputListener *listener) {
   onMouseWheeled_ = std::bind(&InputListener::onMouseWheeled, listener, std::placeholders::_1);
 }
 
-auto EMSMouse::handleMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool {
+auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
   auto modifiers = 0;
 
   if (bool(evt.ctrlKey)) {
@@ -93,7 +97,7 @@ auto EMSMouse::handleMouseButtonDown(const EmscriptenMouseEvent &evt) -> bool {
   return true;
 }
 
-auto EMSMouse::handleMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
+auto EMSMouse::handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool {
   evtArgs_.button = evt.button;  // deprecated
   evtArgs_.entered = false;  // deprecated
   evtArgs_.states[evt.button] = BtnState::RELEASED;
@@ -105,19 +109,31 @@ auto EMSMouse::handleMouseButtonUp(const EmscriptenMouseEvent &evt) -> bool {
   return true;
 }
 
-void EMSMouse::pointerLock() { emscripten_request_pointerlock(canvasId_.c_str(), false); }
+void EMSMouse::pointerLock() {
+#ifdef EMSCRIPTEN_PLATFORM
+  emscripten_request_pointerlock(canvasId_.c_str(), false);
+#endif
+}
 
-void EMSMouse::pointerUnlock() { emscripten_exit_pointerlock(); }
+void EMSMouse::pointerUnlock() {
+#ifdef EMSCRIPTEN_PLATFORM
+  emscripten_exit_pointerlock();
+#endif
+}
 
 auto EMSMouse::isPointerLocked() -> bool {
+#ifdef EMSCRIPTEN_PLATFORM
   // clang-format off
   EmscriptenPointerlockChangeEvent status;
   return (emscripten_get_pointerlock_status(&status) == EMSCRIPTEN_RESULT_SUCCESS)
     ? bool(status.isActive) : false;
-  // clang-format on
+// clang-format on
+#else
+  return true;
+#endif
 }
 
-auto EMSMouse::handleMouseMove(const EmscriptenMouseEvent &evt) -> bool {
+auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   // clang-format off
   if (!isPointerLocked()) {
     evtArgs_.position = math::point2f_t(
@@ -144,7 +160,7 @@ auto EMSMouse::handleMouseMove(const EmscriptenMouseEvent &evt) -> bool {
   return true;
 }
 
-auto EMSMouse::handleWheel(const EmscriptenWheelEvent &evt) -> bool {
+auto EMSMouse::handleWheel(const EmscWheelEvent_t &evt) -> bool {
   evtArgs_.deltaZ = -evt.deltaY;
 
   if (onMouseWheeled_) {

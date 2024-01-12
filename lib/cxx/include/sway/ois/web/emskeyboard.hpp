@@ -6,10 +6,20 @@
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/keyboardeventargs.hpp>
 
-#include <emscripten/html5.h>
+#ifdef EMSCRIPTEN_PLATFORM
+#  include <emscripten/html5.h>
+#endif
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
+
+#ifdef EMSCRIPTEN_PLATFORM
+using EmscKeyboardEvent_t = EmscriptenKeyboardEvent;
+#else
+struct EmscKeyboardEvent_t {
+  u64_t keyCode;
+};
+#endif
 
 class InputDeviceManager;
 
@@ -21,11 +31,11 @@ public:
 
   ~EMSKeyboard() = default;
 
-  auto onKeyDown(const EmscriptenKeyboardEvent &evt) -> bool;
+  auto onKeyDown(const EmscKeyboardEvent_t &evt) -> bool;
 
-  auto onKeyUp(const EmscriptenKeyboardEvent &evt) -> bool;
+  auto onKeyUp(const EmscKeyboardEvent_t &evt) -> bool;
 
-  auto onKeyPress(const EmscriptenKeyboardEvent &evt) -> bool;
+  auto onKeyPress(const EmscKeyboardEvent_t &evt) -> bool;
 
   /**
    * @brief Устанавливает слушатель событий.

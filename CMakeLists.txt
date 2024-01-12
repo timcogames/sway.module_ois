@@ -8,10 +8,14 @@ cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 # Project directories
 #---------------------------------------------------------------------------------
 
-set(MODULE_OIS_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(MODULE_OIS_CMAKE_DIR ${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cmake_modules)
-set(MODULE_OIS_LIB_DIR ${MODULE_OIS_ROOT_DIR}/lib)
-set(MODULE_OIS_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
+set(MODULE_OIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(MODULE_OIS_LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
+set(MODULE_OIS_CMAKE_DIR "${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cmake_modules")
+set(MODULE_OIS_LIB_DIR "${MODULE_OIS_ROOT_DIR}/lib")
+set(MODULE_OIS_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+
+set(SYSTEM_INC_DIR "/opt/X11/include")
+set(SYSTEM_LIB_DIR "/opt/X11/lib")
 
 #---------------------------------------------------------------------------------
 # Include CMake modules
@@ -21,6 +25,8 @@ include("${MODULE_OIS_CMAKE_DIR}/options.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/add_submodule.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/project_metadata.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/enable_cxx17.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/enable_coverage.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/logger.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/create_object.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/create_interface.cmake")
@@ -32,8 +38,6 @@ include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cm
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_environment.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_compilation.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/enable_cxx17.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/enable_coverage.cmake")
 
 #---------------------------------------------------------------------------------
 # Build options
@@ -77,27 +81,29 @@ add_submodule("module_core" submodules/sway.module_core)
 
 set_output_dir(${MODULE_OIS_BIN_DIR})
 
-set(SYSTEM_INCLUDE_DIRS "/opt/X11/include")
-set(SYSTEM_LIBRARY_DIRS "/opt/X11/lib")
-set(MODULE_OIS_DIR ${CMAKE_CURRENT_LIST_DIR})
-
 #---------------------------------------------------------------------------------
 # Include project headers
 #---------------------------------------------------------------------------------
 
-include_directories("${SYSTEM_INCLUDE_DIRS}")
-include_directories("${MODULE_OIS_DIR}/lib/cxx/include")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_OIS_DIR}/submodules/sway.module_math/lib/cxx/include")
+include_directories("${SYSTEM_INC_DIR}")
+include_directories("${MODULE_OIS_LIST_DIR}/lib/cxx/include")
+include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
+include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
 
-# Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_OIS_HEADERS "${MODULE_OIS_DIR}/lib/cxx/include/*.*")
+#---------------------------------------------------------------------------------
+# Find the project headers, sources
+#---------------------------------------------------------------------------------
+
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cxx/src/inputdevicemanager.cpp"
-                                       "${MODULE_OIS_DIR}/lib/cxx/src/web/*.*")
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_LIST_DIR}/lib/cxx/src/inputdevicemanager.cpp"
+                                       "${MODULE_OIS_LIST_DIR}/lib/cxx/src/web/*.*")
 else()
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_DIR}/lib/cxx/src/mac/*.*")
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_LIST_DIR}/lib/cxx/src/mac/*.*")
 endif()
+
+#---------------------------------------------------------------------------------
+# Find packages
+#---------------------------------------------------------------------------------
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
   # Empty
@@ -105,22 +111,9 @@ else()
   find_package(X11 REQUIRED)
 endif()
 
-# if(MODULE_OIS_SHARED_LIB)
-#   # Добавляем в проект цель для сборки статической библиотеки
-#   add_library(${MODULE_OIS_TARGET} SHARED ${MODULE_OIS_SOURCES})
-#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_OIS_TARGET})
-#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES PREFIX "")
-#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES SUFFIX ".so")
-# else()
-#   # Добавляем в проект цель для сборки динамической библиотеки
-#   add_library(${MODULE_OIS_TARGET} STATIC ${MODULE_OIS_SOURCES})
-#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_OIS_TARGET})
-#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES PREFIX "")
-#   set_target_properties(${MODULE_OIS_TARGET} PROPERTIES SUFFIX ".a")
-# endif()
-
-# enable_cxx17(${MODULE_OIS_TARGET})
-# # target_link_libraries(${META_OIS_LIBNAME} X11)
+#---------------------------------------------------------------------------------
+# Build libraries
+#---------------------------------------------------------------------------------
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
   create_object(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
@@ -141,6 +134,9 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
 
     printf_link_options(${target})
   endforeach()
+else()
+  create_library(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*")
+  enable_cxx17(${MODULE_OIS_TARGET})
 endif()
 
 #---------------------------------------------------------------------------------
@@ -149,6 +145,7 @@ endif()
 
 if(MODULE_OIS_ENABLE_TESTS)
   message(STATUS "Tests have been enabled")
+  add_subdirectory("lib/cxx/tests/google")
 endif()
 
 #---------------------------------------------------------------------------------
