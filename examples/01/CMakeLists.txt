@@ -21,4 +21,5 @@ find_package(X11 REQUIRED)
 link_directories("${SYSTEM_X11_LIBRARY_DIRS}")
 
 add_executable(${META_LIBNAME_EXAMPLES} ${MODULE_OIS_SOURCE_EXAMPLES})
-target_link_libraries(${META_LIBNAME_EXAMPLES} -lX11 -lpthread module_ois module_core)
+target_link_libraries(${META_LIBNAME_EXAMPLES} -lX11 -lpthread module_ois_obj module_core_obj)
+enable_cxx17(${META_LIBNAME_EXAMPLES})

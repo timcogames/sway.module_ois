@@ -28,7 +28,7 @@ include("${MODULE_OIS_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/enable_coverage.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/logger.cmake")
-include("${MODULE_OIS_CMAKE_DIR}/modules/create_object.cmake")
+include("${MODULE_OIS_CMAKE_DIR}/modules/create_object_library.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/create_interface.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
 include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
@@ -43,7 +43,9 @@ include("${MODULE_OIS_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmak
 # Build options
 #---------------------------------------------------------------------------------
 
-option(MODULE_OIS_SHARED_LIB "Build shared library" OFF)
+set_glob_options()
+
+option(MODULE_OIS_LIB_TYPE "Build type library" OFF)
 option(MODULE_OIS_ENABLE_TESTS "Build tests" OFF)
 option(MODULE_OIS_ENABLE_EXAMPLES "Build examples" OFF)
 
@@ -112,14 +114,18 @@ else()
 endif()
 
 #---------------------------------------------------------------------------------
+# Create object
+#---------------------------------------------------------------------------------
+
+create_object_library(${MODULE_OIS_OBJ_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
+enable_cxx17(${MODULE_OIS_OBJ_TARGET})
+
+#---------------------------------------------------------------------------------
 # Build libraries
 #---------------------------------------------------------------------------------
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_object(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
-  enable_cxx17(${MODULE_OIS_TARGET})
-
-  create_emscripten_library(${MODULE_OIS_TARGET} ${MODULE_OIS_ENVIRONMENT} ${MODULE_OIS_COMPILATION} OUTPUT_TARGET_NAME_LIST)
+  create_emscripten_library(${MODULE_OIS_LIB_TARGET} ${MODULE_OIS_ENVIRONMENT} ${MODULE_OIS_COMPILATION} OUTPUT_TARGET_NAME_LIST)
   foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
     target_link_options(${target} PUBLIC 
       "SHELL:-s STRICT=1"
@@ -135,8 +141,7 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
     printf_link_options(${target})
   endforeach()
 else()
-  create_library(${MODULE_OIS_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*")
-  enable_cxx17(${MODULE_OIS_TARGET})
+  create_clang_library(${MODULE_OIS_LIB_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*")
 endif()
 
 #---------------------------------------------------------------------------------

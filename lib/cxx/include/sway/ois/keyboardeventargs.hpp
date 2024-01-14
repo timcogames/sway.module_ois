@@ -16,6 +16,8 @@ struct KeyboardEventArgs : public InputEventArgs {
       : keycode(code) {}
 
   u32_t keycode;  // Код клавиши клавиатуры.
+  // InputButtonState state;
+  // std::string text;
 };
 
 NAMESPACE_END(ois)
