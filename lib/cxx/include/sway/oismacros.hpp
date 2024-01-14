@@ -1,0 +1,18 @@
+#ifndef SWAY_OISMACROS_HPP
+#define SWAY_OISMACROS_HPP
+
+#include <sway/core.hpp>
+
+#undef MODULE_OIS_INTERFACE_EXPORT_API
+#ifdef MODULE_OIS_INTERFACE_EXPORT
+#  if defined(EMSCRIPTEN_PLATFORM)
+#    include <emscripten.h>
+#    define MODULE_OIS_INTERFACE_EXPORT_API EMSCRIPTEN_KEEPALIVE
+#  else
+#    define MODULE_OIS_INTERFACE_EXPORT_API PUBLIC_ATTRIB
+#  endif
+#else
+#  define MODULE_OIS_INTERFACE_EXPORT_API
+#endif
+
+#endif  // SWAY_OISMACROS_HPP

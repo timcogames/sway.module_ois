@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
+#include <sway/oismacros.hpp>
 
 #include <memory>
 #include <unordered_map>
@@ -75,7 +76,7 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t;
+MODULE_OIS_INTERFACE_EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t;
 
 EXTERN_C_END
 #endif

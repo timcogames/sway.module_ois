@@ -6,6 +6,7 @@
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputeventargs.hpp>
 #include <sway/ois/mouseeventargs.hpp>
+#include <sway/oismacros.hpp>
 
 #include <chrono>  // std::chrono
 
@@ -110,19 +111,19 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-EXPORT_API void registerMouseDevice(InputDeviceManager::JsPtr_t mngr);
+MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(InputDeviceManager::JsPtr_t mngr);
 
-EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
+MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
 
-EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
+MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
 
-EXPORT_API auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t;
+MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t;
 
-EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
+MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
 
-EXPORT_API void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h);
+MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h);
 
-EXPORT_API void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int));
+MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int));
 
 EXTERN_C_END
 #endif
