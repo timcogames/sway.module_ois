@@ -9,9 +9,6 @@ NAMESPACE_BEGIN(ois)
 
 class InputDevice {
 public:
-  /**
-   * @brief Деструктор класса.
-   */
   virtual ~InputDevice() = default;
 
   /**

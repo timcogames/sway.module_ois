@@ -12,8 +12,9 @@
 #include <sway/ois/keycodes.hpp>
 #include <sway/ois/keymapping.hpp>
 #include <sway/ois/keymodifiers.hpp>
-#include <sway/ois/mousebuttons.hpp>
+#include <sway/ois/mousebuttoncodes.hpp>
 #include <sway/ois/mouseeventargs.hpp>
+#include <sway/ois/mousewheelscrollactions.hpp>
 #include <sway/ois/touchstate.hpp>
 #include <sway/ois/typedefs.hpp>
 

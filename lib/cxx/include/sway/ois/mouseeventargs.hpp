@@ -5,7 +5,7 @@
 #include <sway/math.hpp>
 #include <sway/ois/inputbuttonstates.hpp>
 #include <sway/ois/inputeventargs.hpp>
-#include <sway/ois/mousebuttons.hpp>
+#include <sway/ois/mousebuttoncodes.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
