@@ -2,6 +2,7 @@
 #define SWAY_OIS_INPUTDEVICEMANAGER_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/events/eventbus.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/oismacros.hpp>
@@ -19,15 +20,8 @@ class InputDeviceManager {
 public:
   DECLARE_EMSCRIPTEN(InputDeviceManager)
 
-  /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
-   */
   InputDeviceManager();
 
-  /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
-   */
   virtual ~InputDeviceManager() = default;
 
   /**
@@ -65,7 +59,12 @@ public:
    */
   void setMouseUsed(bool used);
 
+  void setEventBus(std::shared_ptr<ois::EventBus> evtbus) { evtbus_ = evtbus; }
+
+  auto getEventBus() -> std::shared_ptr<ois::EventBus> { return evtbus_; }
+
 private:
+  std::shared_ptr<ois::EventBus> evtbus_;
   std::unordered_map<u32_t, std::shared_ptr<InputDevice>> factories_;
   bool keyboardUsed_;  // Используется ли клавиатура.
   bool mouseUsed_;  // Используется ли мышка.
@@ -76,7 +75,7 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-MODULE_OIS_INTERFACE_EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t;
+D_MODULE_OIS_INTERFACE_EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t;
 
 EXTERN_C_END
 #endif

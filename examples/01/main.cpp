@@ -17,9 +17,9 @@ public:
 
   virtual ~KeyboardInputListener() = default;
 
-  MTHD_VIRTUAL(void onKeyPressed(const ois::KeyboardEventArgs &evt)) { std::cout << evt.keycode << std::endl; }
+  MTHD_VIRTUAL(void onKeyPressed(const ois::KeyboardEventParams &params)) { std::cout << params.keycode << std::endl; }
 
-  MTHD_VIRTUAL(void onKeyReleased(const ois::KeyboardEventArgs &evt)) {}
+  MTHD_VIRTUAL(void onKeyReleased(const ois::KeyboardEventParams &params)) {}
 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {

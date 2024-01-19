@@ -34,31 +34,31 @@ void DTPMouse::setListener(InputListener *listener) {
 }
 
 void DTPMouse::notifyMouseMove(const XEvent &event) {
-  MouseEventArgs args;
-  args.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
+  MouseEventParams params;
+  params.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
 
   if (onMouseMove_) {
-    onMouseMove_(args);
+    onMouseMove_(params);
   }
 }
 
 void DTPMouse::notifyMouseButtonDown(const XEvent &event) {
-  MouseEventArgs args;
-  args.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
-  args.button = event.xbutton.button;
+  MouseEventParams params;
+  params.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
+  params.button = event.xbutton.button;
 
   if (onMouseButtonDown_) {
-    onMouseButtonDown_(args);
+    onMouseButtonDown_(params);
   }
 }
 
 void DTPMouse::notifyMouseButtonUp(const XEvent &event) {
-  MouseEventArgs args;
-  args.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
-  args.button = event.xbutton.button;
+  MouseEventParams params;
+  params.position = math::point2f_t(event.xmotion.x, event.xmotion.y);
+  params.button = event.xbutton.button;
 
   if (onMouseButtonUp_) {
-    onMouseButtonUp_(args);
+    onMouseButtonUp_(params);
   }
 }
 

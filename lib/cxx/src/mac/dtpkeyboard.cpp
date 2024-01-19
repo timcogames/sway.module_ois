@@ -1,5 +1,5 @@
 #include <sway/ois/inputdevicemanager.hpp>
-#include <sway/ois/keyboardeventargs.hpp>
+#include <sway/ois/keyboardeventparams.hpp>
 #include <sway/ois/mac/dtpkeyboard.hpp>
 #include <sway/ois/mac/dtpkeymappinglist.hpp>
 
@@ -50,7 +50,7 @@ void DTPKeyboard::notifyKeyPressed(const XEvent &evt) {
 
   for (const KeyMapping &mapping : XtoKeyCode) {
     if (mapping.symbol == sym) {
-      // listener_->onKeyPressed(KeyboardEventArgs(core::detail::toUnderlying(mapping.code)));
+      // listener_->onKeyPressed(KeyboardEventParams(core::detail::toUnderlying(mapping.code)));
     }
   }
 }
@@ -65,7 +65,7 @@ void DTPKeyboard::notifyKeyReleased(const XEvent &evt) {
 
   for (const KeyMapping &mapping : XtoKeyCode) {
     if (mapping.symbol == sym) {
-      // listener_->onKeyReleased(KeyboardEventArgs(core::detail::toUnderlying(mapping.code)));
+      // listener_->onKeyReleased(KeyboardEventParams(core::detail::toUnderlying(mapping.code)));
     }
   }
 }

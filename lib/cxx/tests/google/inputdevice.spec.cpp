@@ -4,5 +4,3 @@
 #include <gtest/gtest.h>
 
 using namespace sway;
-
-TEST(InputDevice, Test) {}

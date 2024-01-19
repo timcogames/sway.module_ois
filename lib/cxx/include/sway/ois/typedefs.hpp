@@ -18,8 +18,8 @@ using MouseRef_t = std::shared_ptr<class DTPMouse>;
 using InputDeviceCreator_t = std::function<InputDeviceRef_t()>;
 using InputDeviceFactory_t = std::unordered_map<u32_t, InputDeviceCreator_t>;
 
-using KeyboardEventCallbackFunc_t = std::function<void(const struct KeyboardEventArgs &)>;
-using MouseEventCallbackFunc_t = std::function<void(const struct MouseEventArgs &)>;
+using KeyboardEventCallbackFunc_t = std::function<void(const struct KeyboardEventParams &)>;
+using MouseEventCallbackFunc_t = std::function<void(const struct MouseEventParams &)>;
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)

@@ -1,4 +1,4 @@
-#include <sway/ois/inputbuttonstates.hpp>
+#include <sway/ois/inputactionstates.hpp>
 #include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/keymodifiers.hpp>
 #include <sway/ois/web/emsmouse.hpp>
@@ -22,20 +22,22 @@ void EMSMouse::registerEventHandlers() {
   // clang-format off
   emscripten_set_mousedown_callback(canvasId_.c_str(), this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->handleMouseButtonDown(*evt));
-  });
+  });  // clang-format on
 
+  // clang-format off
   emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->handleMouseButtonUp(*evt));
-  });
+  });  // clang-format on
 
+  // clang-format off
   emscripten_set_mousemove_callback(canvasId_.c_str(), this, toUseCapture, [](int, const EmscriptenMouseEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->handleMouseMove(*evt));
-  });
+  });  // clang-format on
 
+  // clang-format off
   emscripten_set_wheel_callback(canvasId_.c_str(), this, toUseCapture, [](int, const EmscriptenWheelEvent *evt, void *data) {
     return EM_BOOL(static_cast<EMSMouse *>(data)->handleWheel(*evt));
-  });
-// clang-format on
+  });  // clang-format on
 #endif
 }
 
@@ -69,13 +71,13 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
     modifiers |= core::detail::toUnderlying(KeyModifier::ALT);
   }
 
-  evtArgs_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
+  eventParams_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
-  evtArgs_.drag = evtArgs_.position.toVec();
-  evtArgs_.modifiers = modifiers;
-  evtArgs_.button = evt.button;  // deprecated
-  evtArgs_.entered = true;  // deprecated
-  evtArgs_.states[evt.button] = InputButtonState::PRESSED;
+  eventParams_.drag = eventParams_.position.toVec();
+  eventParams_.modifiers = modifiers;
+  eventParams_.button = evt.button;  // deprecated
+  eventParams_.entered = true;  // deprecated
+  eventParams_.states[evt.button] = InputActionState::PRESSED;
 
   const auto timestamp = EMSMouse::getTimestamp();
   const auto timeDiff = timestamp - prevMouseDownTime_;
@@ -84,13 +86,13 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
     firstClick_ = false;
 
     if (onMouseDblClick_) {
-      onMouseDblClick_(evtArgs_);
+      onMouseDblClick_(eventParams_);
     }
   } else {
     firstClick_ = true;
 
     if (onMouseButtonDown_) {
-      onMouseButtonDown_(evtArgs_);
+      onMouseButtonDown_(eventParams_);
     }
   }
 
@@ -100,12 +102,12 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
 }
 
 auto EMSMouse::handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool {
-  evtArgs_.button = evt.button;  // deprecated
-  evtArgs_.entered = false;  // deprecated
-  evtArgs_.states[evt.button] = InputButtonState::RELEASED;
+  eventParams_.button = evt.button;  // deprecated
+  eventParams_.entered = false;  // deprecated
+  eventParams_.states[evt.button] = InputActionState::RELEASED;
 
   if (onMouseButtonUp_) {
-    onMouseButtonUp_(evtArgs_);
+    onMouseButtonUp_(eventParams_);
   }
 
   return true;
@@ -128,8 +130,7 @@ auto EMSMouse::isPointerLocked() -> bool {
   // clang-format off
   EmscriptenPointerlockChangeEvent status;
   return (emscripten_get_pointerlock_status(&status) == EMSCRIPTEN_RESULT_SUCCESS)
-    ? bool(status.isActive) : false;
-  // clang-format on
+    ? bool(status.isActive) : false;  // clang-format on
 #else
   return true;
 #endif
@@ -138,35 +139,35 @@ auto EMSMouse::isPointerLocked() -> bool {
 auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   // clang-format off
   if (!isPointerLocked()) {
-    evtArgs_.position = math::point2f_t(
+    eventParams_.position = math::point2f_t(
       std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
   } else {
-    evtArgs_.position = math::point2f_t(
+    eventParams_.position = math::point2f_t(
       std::clamp<f32_t>((f32_t)evt.targetX + (f32_t)evt.movementX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY + (f32_t)evt.movementY, 0.0F, bounds_.max[1]));
   }
   // clang-format on
 
-  evtArgs_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
-  evtArgs_.drag = evtArgs_.position.toVec();
+  eventParams_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
+  eventParams_.drag = eventParams_.position.toVec();
 
   if (onMouseMoved_) {
-    onMouseMoved_(evtArgs_);
+    onMouseMoved_(eventParams_);
   }
 
   if (onMotion_) {
-    onMotion_(evtArgs_.position.getX(), evtArgs_.position.getY());
+    onMotion_(eventParams_.position.getX(), eventParams_.position.getY());
   }
 
   return true;
 }
 
 auto EMSMouse::handleWheel(const EmscWheelEvent_t &evt) -> bool {
-  evtArgs_.deltaZ = -evt.deltaY;
+  eventParams_.deltaZ = -evt.deltaY;
 
   if (onMouseWheeled_) {
-    onMouseWheeled_(evtArgs_);
+    onMouseWheeled_(eventParams_);
   }
 
   return true;

@@ -1,0 +1,14 @@
+#ifndef SWAY_OIS_INPUTACTIONSTATES_HPP
+#define SWAY_OIS_INPUTACTIONSTATES_HPP
+
+#include <sway/core.hpp>
+
+NAMESPACE_BEGIN(sway)
+NAMESPACE_BEGIN(ois)
+
+enum class InputActionState : u32_t { PRESSED, RELEASED };
+
+NAMESPACE_END(ois)
+NAMESPACE_END(sway)
+
+#endif  // SWAY_OIS_INPUTACTIONSTATES_HPP

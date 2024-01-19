@@ -40,6 +40,8 @@ public:
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
 
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener)) {}
+
   /**
    * @brief Уведомляет об нажатии на клавишу.
    *

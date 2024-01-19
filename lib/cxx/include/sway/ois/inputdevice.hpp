@@ -17,6 +17,8 @@ public:
    * @param[in] listener Слушатель событий клавиатуры.
    */
   PURE_VIRTUAL(void setListener(InputListener *listener));
+
+  PURE_VIRTUAL(void setInputEventListener(InputEventListener *listener));
 };
 
 NAMESPACE_END(ois)

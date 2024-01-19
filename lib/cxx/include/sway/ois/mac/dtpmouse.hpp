@@ -4,7 +4,7 @@
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
-#include <sway/ois/inputeventargs.hpp>
+#include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/prereqs.hpp>
 #include <sway/ois/typedefs.hpp>
@@ -40,6 +40,8 @@ public:
    * @param[in] listener Слушатель событий мышки.
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
+
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener)) {}
 
   void notifyMouseMove(const XEvent &event);
 

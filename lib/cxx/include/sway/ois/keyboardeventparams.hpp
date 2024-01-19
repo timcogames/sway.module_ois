@@ -1,8 +1,9 @@
-#ifndef SWAY_OIS_KEYBOARDEVENTARGS_HPP
-#define SWAY_OIS_KEYBOARDEVENTARGS_HPP
+#ifndef SWAY_OIS_KEYBOARDEVENTPARAMS_HPP
+#define SWAY_OIS_KEYBOARDEVENTPARAMS_HPP
 
 #include <sway/core.hpp>
-#include <sway/ois/inputeventargs.hpp>
+#include <sway/ois/inputactionstates.hpp>
+#include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/keycodes.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -11,16 +12,17 @@ NAMESPACE_BEGIN(ois)
 /**
  * @brief Предоставляет данные для событий, связанных с клавиатуры.
  */
-struct KeyboardEventArgs : public InputEventArgs {
-  KeyboardEventArgs(u32_t code)
+struct KeyboardEventParams : public InputEventParams {
+  KeyboardEventParams(u32_t code)
       : keycode(code) {}
 
   u32_t keycode;  // Код клавиши клавиатуры.
-  // InputButtonState state;
+  // InputActionState state;
   // std::string text;
+  // std::bitset<KeyModifier> modifiers;
 };
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_OIS_KEYBOARDEVENTARGS_HPP
+#endif  // SWAY_OIS_KEYBOARDEVENTPARAMS_HPP

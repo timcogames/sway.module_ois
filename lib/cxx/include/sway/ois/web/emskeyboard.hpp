@@ -4,7 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
-#include <sway/ois/keyboardeventargs.hpp>
+#include <sway/ois/keyboardeventparams.hpp>
 
 #ifdef EMSCRIPTEN_PLATFORM
 #  include <emscripten/html5.h>
@@ -31,11 +31,11 @@ public:
 
   ~EMSKeyboard() = default;
 
-  auto onKeyDown(const EmscKeyboardEvent_t &evt) -> bool;
+  auto handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool;
 
-  auto onKeyUp(const EmscKeyboardEvent_t &evt) -> bool;
+  auto handleKeyUp(const EmscKeyboardEvent_t &evt) -> bool;
 
-  auto onKeyPress(const EmscKeyboardEvent_t &evt) -> bool;
+  auto handleKeyPress(const EmscKeyboardEvent_t &evt) -> bool;
 
   /**
    * @brief Устанавливает слушатель событий.
@@ -44,11 +44,15 @@ public:
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
 
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener));
+
 private:
   InputDeviceManager *mngr_;
-  std::function<void(const struct KeyboardEventArgs &)> onKeyDown_;
-  std::function<void(const struct KeyboardEventArgs &)> onKeyUp_;
-  std::function<void(const struct KeyboardEventArgs &)> onKeyPress_;
+  std::function<void(InputEventParams *)> actionCallback_;
+
+  std::function<void(const struct KeyboardEventParams &)> onKeyDown_;
+  std::function<void(const struct KeyboardEventParams &)> onKeyUp_;
+  std::function<void(const struct KeyboardEventParams &)> onKeyPress_;
 };
 
 NAMESPACE_END(ois)

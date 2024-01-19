@@ -15,8 +15,11 @@ include_directories(${GTEST_INC_DIR} ${GMOCK_INC_DIR})
 
 file(GLOB MODULE_OIS_SOURCE_TESTS "${PROJECT_SOURCE_DIR}/*.spec.cpp")
 
+# find_package(X11 REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L/opt/X11/lib")
+
 add_executable(${META_OIS_EXENAME_TESTS} ${MODULE_OIS_SOURCE_TESTS} "${GTEST_SRC_DIR}/gtest_main.cc")
-target_link_libraries(${META_OIS_EXENAME_TESTS} module_ois module_core pthread ${GLOB_GTEST_LIB_DIR}/libgtest.a ${GLOB_GMOCK_LIB_DIR}/libgmock.a)
+target_link_libraries(${META_OIS_EXENAME_TESTS} module_ois_obj module_core_obj X11 pthread ${GLOB_GTEST_LIB_DIR}/libgtest.a ${GLOB_GMOCK_LIB_DIR}/libgmock.a)
 enable_cxx17(${META_OIS_EXENAME_TESTS})
 
 add_test(NAME ${META_OIS_EXENAME_TESTS} COMMAND ${META_OIS_EXENAME_TESTS})

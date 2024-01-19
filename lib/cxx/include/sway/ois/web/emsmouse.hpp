@@ -4,8 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
-#include <sway/ois/inputeventargs.hpp>
-#include <sway/ois/mouseeventargs.hpp>
+#include <sway/ois/inputeventparams.hpp>
+#include <sway/ois/mouseeventparams.hpp>
 #include <sway/oismacros.hpp>
 
 #include <chrono>  // std::chrono
@@ -82,6 +82,8 @@ public:
    */
   MTHD_OVERRIDE(void setListener(InputListener *listener));
 
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener)) {}
+
   void setCanvasId(lpcstr_t canvasId) { canvasId_ = canvasId; }
 
   void setBoundingBox(const math::bbox2f_t &bounds) { bounds_ = bounds; }
@@ -92,18 +94,18 @@ public:
 private:
   InputDeviceManager *mngr_;
 
-  std::function<void(const struct MouseEventArgs &)> onMouseButtonDown_;
-  std::function<void(const struct MouseEventArgs &)> onMouseDblClick_;
-  std::function<void(const struct MouseEventArgs &)> onMouseButtonUp_;
-  std::function<void(const struct MouseEventArgs &)> onMouseMoved_;
-  std::function<void(const struct MouseEventArgs &)> onMouseWheeled_;
+  std::function<void(const struct MouseEventParams &)> onMouseButtonDown_;
+  std::function<void(const struct MouseEventParams &)> onMouseDblClick_;
+  std::function<void(const struct MouseEventParams &)> onMouseButtonUp_;
+  std::function<void(const struct MouseEventParams &)> onMouseMoved_;
+  std::function<void(const struct MouseEventParams &)> onMouseWheeled_;
 
   std::function<void(int, int)> onMotion_;
 
   std::string canvasId_;
   math::bbox2f_t bounds_;
 
-  MouseEventArgs evtArgs_;
+  MouseEventParams eventParams_;
   double prevMouseDownTime_ = 0.0;
   bool firstClick_ = false;
 };
@@ -111,19 +113,19 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(InputDeviceManager::JsPtr_t mngr);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(InputDeviceManager::JsPtr_t mngr);
 
-MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
 
-MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
+D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
 
-MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t;
+D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t;
 
-MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
+D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
 
-MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h);
+D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h);
 
-MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int));
+D_MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int));
 
 EXTERN_C_END
 #endif

@@ -11,7 +11,7 @@ struct TouchState {
   uintptr_t id;
   math::vec2f_t pos;
   math::vec2f_t dpos;
-  InputButtonState state;
+  InputActionState state;
 };
 
 NAMESPACE_END(ois)
