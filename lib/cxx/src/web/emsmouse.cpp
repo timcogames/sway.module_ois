@@ -1,3 +1,4 @@
+#include <sway/ois/events/mouseevent.hpp>
 #include <sway/ois/inputactionstates.hpp>
 #include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/keymodifiers.hpp>
@@ -13,7 +14,9 @@ NAMESPACE_BEGIN(ois)
 EMSMouse::EMSMouse(InputDeviceManager *mngr)
     : mngr_(mngr)
     , canvasId_(CANVAS_ID)
-    , bounds_(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>(300.0F, 240.0F))) {}
+    , bounds_(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>(300.0F, 240.0F))) {
+  registerEventHandlers();
+}
 
 void EMSMouse::registerEventHandlers() {
 #ifdef EMSCRIPTEN_PLATFORM
@@ -78,6 +81,14 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
   eventParams_.button = evt.button;  // deprecated
   eventParams_.entered = true;  // deprecated
   eventParams_.states[evt.button] = InputActionState::PRESSED;
+
+  auto *eventdata = new MouseEventData();
+  eventdata->point = eventParams_.position;
+  eventdata->btncode = eventParams_.button;
+  eventdata->state = core::detail::toUnderlying(InputActionState::PRESSED);
+
+  auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_BUTTON), eventdata);
+  mngr_->getEventBus()->addToQueue(std::move(event));
 
   const auto timestamp = EMSMouse::getTimestamp();
   const auto timeDiff = timestamp - prevMouseDownTime_;

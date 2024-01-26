@@ -5,6 +5,7 @@
 #include <sway/ois/events/eventhandler.hpp>
 #include <sway/ois/events/inputevent.hpp>
 #include <sway/ois/events/keyevent.hpp>
+#include <sway/ois/events/mouseevent.hpp>
 #include <sway/ois/inputeventparams.hpp>
 
 #include <list>
@@ -21,6 +22,14 @@ struct InputEventUtil {
 
   static auto asKeyEvent(const std::unique_ptr<core::foundation::Event> &event) -> KeyEvent * {
     return static_cast<KeyEvent *>(event.get());
+  }
+
+  static auto isMouseEvent(const std::unique_ptr<core::foundation::Event> &event) -> bool {
+    return event->type() == core::detail::toUnderlying(InputActionType::MOUSE_BUTTON);
+  }
+
+  static auto asMouseEvent(const std::unique_ptr<core::foundation::Event> &event) -> MouseEvent * {
+    return static_cast<MouseEvent *>(event.get());
   }
 };
 
