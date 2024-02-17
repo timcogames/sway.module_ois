@@ -4,21 +4,21 @@
 #include <sway/core.hpp>
 #include <sway/ois/events/eventhandler.hpp>
 
-#include <list>
 #include <memory>
 #include <queue>
+#include <vector>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 class Subscribable {
 protected:
-  std::list<EventHandler *> subscriptions_;
+  std::vector<EventHandler *> subscriptions_;
 
 public:
   using Subscriber = decltype(subscriptions_)::iterator;
 
-  Subscriber subscribe(EventHandler *handler) { return subscriptions_.insert(subscriptions_.end(), handler); }
+  auto subscribe(EventHandler *handler) -> Subscriber { return subscriptions_.insert(subscriptions_.end(), handler); }
 
   void unsubscribe(Subscriber subscriber) { subscriptions_.erase(subscriber); }
 
