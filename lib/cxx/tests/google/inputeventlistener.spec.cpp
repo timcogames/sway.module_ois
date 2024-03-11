@@ -1,7 +1,6 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 #include <sway/ois.hpp>
-#include <sway/ois/events/eventbus.hpp>
 #include <sway/ois/events/keyevent.hpp>
 
 #undef Bool
@@ -16,7 +15,7 @@ using namespace sway;
 
 class StupInputEventListener : public ois::InputEventListener {
 public:
-  StupInputEventListener(ois::EventBus *evtbus)
+  StupInputEventListener(core::evts::EventBus *evtbus)
       : evtbus_(evtbus) {}
 
   MTHD_OVERRIDE(void processInputEvent(ois::InputEventParams *params)) {
@@ -26,7 +25,7 @@ public:
   }
 
 private:
-  ois::EventBus *evtbus_;
+  core::evts::EventBus *evtbus_;
 };
 
 class FakeInputDevice : public ois::InputDevice {
@@ -53,7 +52,7 @@ private:
 };
 
 TEST(InputEventListener, Test) {
-  ois::EventBus *evtbus = new ois::EventBus();
+  core::evts::EventBus *evtbus = new core::evts::EventBus();
 
   FakeInputDevice device;
   device.setInputEventListener(new StupInputEventListener(evtbus));

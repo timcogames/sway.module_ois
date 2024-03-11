@@ -2,7 +2,6 @@
 #define SWAY_OIS_KEYEVENTHANDLER_HPP
 
 #include <sway/core.hpp>
-#include <sway/ois/events/eventhandler.hpp>
 #include <sway/ois/events/inputevent.hpp>
 #include <sway/ois/events/keyevent.hpp>
 #include <sway/ois/events/mouseevent.hpp>
@@ -33,9 +32,9 @@ struct InputEventUtil {
   }
 };
 
-struct KeyEventHandler : public EventHandler {
+struct KeyEventHandler : public core::evts::EventHandler {
   KeyEventHandler()
-      : EventHandler() {}
+      : core::evts::EventHandler() {}
 
   ~KeyEventHandler() override = default;
 

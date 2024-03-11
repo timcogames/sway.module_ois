@@ -2,7 +2,6 @@
 #define SWAY_OIS_INPUTDEVICEMANAGER_HPP
 
 #include <sway/core.hpp>
-#include <sway/ois/events/eventbus.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/oismacros.hpp>
@@ -59,12 +58,12 @@ public:
    */
   void setMouseUsed(bool used);
 
-  void setEventBus(std::shared_ptr<ois::EventBus> evtbus) { evtbus_ = evtbus; }
+  void setEventBus(std::shared_ptr<core::evts::EventBus> evtbus) { evtbus_ = evtbus; }
 
-  auto getEventBus() -> std::shared_ptr<ois::EventBus> { return evtbus_; }
+  auto getEventBus() -> std::shared_ptr<core::evts::EventBus> { return evtbus_; }
 
 private:
-  std::shared_ptr<ois::EventBus> evtbus_;
+  std::shared_ptr<core::evts::EventBus> evtbus_;
   std::unordered_map<u32_t, std::shared_ptr<InputDevice>> factories_;
   bool keyboardUsed_;  // Используется ли клавиатура.
   bool mouseUsed_;  // Используется ли мышка.
