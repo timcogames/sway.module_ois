@@ -62,29 +62,24 @@ void EMSMouse::setListener(InputListener *listener) {
 }
 
 auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
-  auto modifiers = 0;
+  auto *eventdata = new MouseEventData();
 
   if (bool(evt.ctrlKey)) {
-    modifiers |= core::detail::toUnderlying(KeyModifier::CTRL);
+    eventdata->modifiers |= core::detail::toUnderlying(KeyModifier::CTRL);
   }
+
   if (bool(evt.shiftKey)) {
-    modifiers |= core::detail::toUnderlying(KeyModifier::SHIFT);
+    eventdata->modifiers |= core::detail::toUnderlying(KeyModifier::SHIFT);
   }
+
   if (bool(evt.altKey)) {
-    modifiers |= core::detail::toUnderlying(KeyModifier::ALT);
+    eventdata->modifiers |= core::detail::toUnderlying(KeyModifier::ALT);
   }
 
-  eventParams_.position = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
+  eventdata->point = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
-  eventParams_.drag = eventParams_.position.toVec();
-  eventParams_.modifiers = modifiers;
-  eventParams_.button = evt.button;  // deprecated
-  eventParams_.entered = true;  // deprecated
-  eventParams_.states[evt.button] = InputActionState::PRESSED;
-
-  auto *eventdata = new MouseEventData();
-  eventdata->point = eventParams_.position;
-  eventdata->btncode = eventParams_.button;
+  eventdata->drag = eventdata->point.toVec();
+  eventdata->btnCode = evt.button;
   eventdata->state = core::detail::toUnderlying(InputActionState::PRESSED);
 
   auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_BUTTON), eventdata);
@@ -97,13 +92,13 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
     firstClick_ = false;
 
     if (onMouseDblClick_) {
-      onMouseDblClick_(eventParams_);
+      // onMouseDblClick_(eventParams_);
     }
   } else {
     firstClick_ = true;
 
     if (onMouseButtonDown_) {
-      onMouseButtonDown_(eventParams_);
+      // onMouseButtonDown_(eventParams_);
     }
   }
 
@@ -148,27 +143,32 @@ auto EMSMouse::isPointerLocked() -> bool {
 }
 
 auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
+  auto *eventdata = new MouseEventData();
+
   // clang-format off
   if (!isPointerLocked()) {
-    eventParams_.position = math::point2f_t(
+     eventdata->point = math::point2f_t(
       std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
   } else {
-    eventParams_.position = math::point2f_t(
+     eventdata->point = math::point2f_t(
       std::clamp<f32_t>((f32_t)evt.targetX + (f32_t)evt.movementX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY + (f32_t)evt.movementY, 0.0F, bounds_.max[1]));
   }
   // clang-format on
 
-  eventParams_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
-  eventParams_.drag = eventParams_.position.toVec();
+  // eventParams_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
+  // eventParams_.drag = eventParams_.position.toVec();
 
   if (onMouseMoved_) {
-    onMouseMoved_(eventParams_);
+    // onMouseMoved_(eventParams_);
+
+    auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_MOVED), eventdata);
+    mngr_->getEventBus()->addToQueue(std::move(event));
   }
 
   if (onMotion_) {
-    onMotion_(eventParams_.position.getX(), eventParams_.position.getY());
+    onMotion_(eventdata->point.getX(), eventdata->point.getY());
   }
 
   return true;

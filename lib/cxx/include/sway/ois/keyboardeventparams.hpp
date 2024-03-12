@@ -14,9 +14,9 @@ NAMESPACE_BEGIN(ois)
  */
 struct KeyboardEventParams : public InputEventParams {
   KeyboardEventParams(u32_t code)
-      : keycode(code) {}
+      : keyCode(code) {}
 
-  u32_t keycode;  // Код клавиши клавиатуры.
+  u32_t keyCode;  // Код клавиши клавиатуры.
   // InputActionState state;
   // std::string text;
   // std::bitset<KeyModifier> modifiers;

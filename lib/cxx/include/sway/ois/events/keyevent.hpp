@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 struct KeyEventData : core::foundation::EventData {
-  u32_t keycode;
+  u32_t keyCode;
   u32_t state;
 
   // clang-format off

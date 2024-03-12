@@ -9,9 +9,16 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 struct MouseEventData : core::foundation::EventData {
-  math::point2f_t point;
-  u32_t btncode;
+  math::point2f_t point;  // Координаты позиции курсора.
+  math::vec2f_t offset;
+  math::vec2f_t drag;
+  f32_t deltaZ;
+  u32_t modifiers;
+  u32_t btnCode;  // Код кнопок мыши.
   u32_t state;
+
+  MouseEventData()
+      : modifiers(0) {}
 
   // clang-format off
   MTHD_OVERRIDE(auto serialize() const -> std::string) {  // clang-format on
