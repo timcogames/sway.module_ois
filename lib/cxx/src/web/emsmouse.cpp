@@ -157,15 +157,15 @@ auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   }
   // clang-format on
 
-  // eventParams_.offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
-  // eventParams_.drag = eventParams_.position.toVec();
+  eventdata->offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
+  eventdata->drag = eventParams_.position.toVec();
 
-  if (onMouseMoved_) {
-    // onMouseMoved_(eventParams_);
+  // if (onMouseMoved_) {
+  // onMouseMoved_(eventParams_);
+  // }
 
-    auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_MOVED), eventdata);
-    mngr_->getEventBus()->addToQueue(std::move(event));
-  }
+  auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_MOVED), eventdata);
+  mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onMotion_) {
     onMotion_(eventdata->point.getX(), eventdata->point.getY());

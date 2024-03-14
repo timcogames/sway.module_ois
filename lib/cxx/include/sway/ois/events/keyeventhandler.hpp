@@ -24,7 +24,8 @@ struct InputEventUtil {
   }
 
   static auto isMouseEvent(const std::unique_ptr<core::foundation::Event> &event) -> bool {
-    return event->type() == core::detail::toUnderlying(InputActionType::MOUSE_BUTTON);
+    return event->type() == core::detail::toUnderlying(InputActionType::MOUSE_BUTTON) ||
+           event->type() == core::detail::toUnderlying(InputActionType::MOUSE_MOVED);
   }
 
   static auto asMouseEvent(const std::unique_ptr<core::foundation::Event> &event) -> MouseEvent * {
