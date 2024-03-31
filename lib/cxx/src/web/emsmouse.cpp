@@ -188,7 +188,7 @@ void EMSMouse::setMotionFunc(callback_t cb) { onMotion_ = std::function<void(int
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 
-void registerMouseDevice(InputDeviceManager::JsPtr_t mngr) {
+void registerMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr) {
   auto obj = InputDeviceManager::fromJs(mngr);
   if (!obj) {
     // TODO
@@ -215,7 +215,7 @@ void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device) {
   obj->unregisterEventHandlers();
 }
 
-auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t {
+auto getMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr) -> EMSMouse::JsPtr_t {
   auto obj = InputDeviceManager::fromJs(mngr);
   if (!obj) {
     // TODO

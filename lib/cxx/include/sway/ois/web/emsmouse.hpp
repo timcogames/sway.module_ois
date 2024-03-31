@@ -3,7 +3,9 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
+#include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/mouseeventparams.hpp>
 #include <sway/oismacros.hpp>
@@ -113,13 +115,14 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(InputDeviceManager::JsPtr_t mngr);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr);
 
 D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
 
 D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(InputDeviceManager::JsPtr_t mngr) -> EMSMouse::JsPtr_t;
+D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(
+    intptr_t /* InputDeviceManager::JsPtr_t */ mngr) -> EMSMouse::JsPtr_t;
 
 D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
 
