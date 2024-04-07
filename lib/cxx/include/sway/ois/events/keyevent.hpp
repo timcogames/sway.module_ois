@@ -12,9 +12,7 @@ struct KeyEventData : core::foundation::EventData {
   u32_t state;
 
   // clang-format off
-  MTHD_OVERRIDE(auto serialize() const -> std::string) {  // clang-format on
-    return "";
-  }
+  MTHD_OVERRIDE(auto serialize() const -> std::string) { return ""; }  // clang-format on
 
   MTHD_OVERRIDE(void deserialize(const std::string &jdata)) {}
 };
