@@ -15,6 +15,7 @@
 #include <sway/ois/keymodifiers.hpp>
 #include <sway/ois/mousebuttoncodes.hpp>
 #include <sway/ois/mouseeventparams.hpp>
+#include <sway/ois/mousefilters.hpp>
 #include <sway/ois/mousewheelscrollactions.hpp>
 #include <sway/ois/touchstate.hpp>
 #include <sway/ois/typedefs.hpp>
