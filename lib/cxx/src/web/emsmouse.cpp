@@ -78,7 +78,7 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
 
   eventdata->point = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
-  eventdata->drag = eventdata->point.toVec();
+  eventdata->drag = eventdata->point.asVec();
   eventdata->btnCode = evt.button;
   eventdata->state = core::detail::toUnderlying(InputActionState::PRESSED);
 
@@ -158,7 +158,7 @@ auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   // clang-format on
 
   eventdata->offset = math::vec2f_t((f32_t)evt.movementX, (f32_t)evt.movementY);
-  eventdata->drag = eventParams_.position.toVec();
+  eventdata->drag = eventParams_.position.asVec();
 
   // if (onMouseMoved_) {
   // onMouseMoved_(eventParams_);
