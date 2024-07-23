@@ -74,7 +74,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
       for (const ois::KeyMapping &mapping : ois::XtoKeyCode) {
         if (mapping.symbol == sym) {
-          kc = std::to_string(core::detail::toUnderlying(mapping.code)).c_str();
+          kc = std::to_string(core::detail::toBase(mapping.code)).c_str();
           XDrawString(dpy, win, DefaultGC(dpy, scr), offset.getX(), offset.getY(), kc, strlen(kc));
           XSync(dpy, False);
         }

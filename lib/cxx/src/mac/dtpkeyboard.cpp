@@ -50,7 +50,7 @@ void DTPKeyboard::notifyKeyPressed(const XEvent &evt) {
 
   for (const KeyMapping &mapping : XtoKeyCode) {
     if (mapping.symbol == sym) {
-      // listener_->onKeyPressed(KeyboardEventParams(core::detail::toUnderlying(mapping.code)));
+      // listener_->onKeyPressed(KeyboardEventParams(core::detail::toBase(mapping.code)));
     }
   }
 }
@@ -65,7 +65,7 @@ void DTPKeyboard::notifyKeyReleased(const XEvent &evt) {
 
   for (const KeyMapping &mapping : XtoKeyCode) {
     if (mapping.symbol == sym) {
-      // listener_->onKeyReleased(KeyboardEventParams(core::detail::toUnderlying(mapping.code)));
+      // listener_->onKeyReleased(KeyboardEventParams(core::detail::toBase(mapping.code)));
     }
   }
 }

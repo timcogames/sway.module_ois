@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(ois)
 /**
  * @brief Перечисление типов устройств ввода.
  */
-enum class InputDeviceType : s32_t {
+enum class InputDeviceType : u32_t {
   UNDEFINED = -1,
   KEYBOARD = 0,  // Клавиатура.
   MOUSE,  // Мышка.

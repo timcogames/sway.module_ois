@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(ois)
 
 enum class MouseButtonCode { LMB, RMB, MMB, MB4, MB5, OTHER, Latest };
 
-#define NUM_MOUSE_BTNS (core::detail::toUnderlying(MouseButtonCode::Latest) - 1)
+#define NUM_MOUSE_BTNS (core::detail::toBase(MouseButtonCode::Latest) - 1)
 
 NAMESPACE_END(ois)
 NAMESPACE_END(sway)

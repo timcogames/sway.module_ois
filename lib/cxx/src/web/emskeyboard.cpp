@@ -44,9 +44,9 @@ void EMSKeyboard::setInputEventListener(InputEventListener *listener) {
 auto EMSKeyboard::handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool {
   auto *eventdata = new KeyEventData();
   eventdata->keyCode = evt.keyCode;
-  eventdata->state = core::detail::toUnderlying(InputActionState::PRESSED);
+  eventdata->state = core::detail::toBase(InputActionState::PRESSED);
 
-  auto event = std::make_unique<KeyEvent>(core::detail::toUnderlying(InputActionType::KEY), eventdata);
+  auto event = std::make_unique<KeyEvent>(core::detail::toBase(InputActionType::KEY), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onKeyDown_) {
@@ -63,9 +63,9 @@ auto EMSKeyboard::handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool {
 auto EMSKeyboard::handleKeyUp(const EmscKeyboardEvent_t &evt) -> bool {
   auto *eventdata = new KeyEventData();
   eventdata->keyCode = evt.keyCode;
-  eventdata->state = core::detail::toUnderlying(InputActionState::RELEASED);
+  eventdata->state = core::detail::toBase(InputActionState::RELEASED);
 
-  auto event = std::make_unique<KeyEvent>(core::detail::toUnderlying(InputActionType::KEY), eventdata);
+  auto event = std::make_unique<KeyEvent>(core::detail::toBase(InputActionType::KEY), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onKeyUp_) {

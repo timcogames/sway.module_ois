@@ -20,7 +20,7 @@ public:
 
   MTHD_OVERRIDE(void processInputEvent(ois::InputEventParams *params)) {
     auto eventData = new ois::KeyEventData();
-    auto event = std::make_unique<ois::KeyEvent>(core::detail::toUnderlying(ois::InputActionType::KEY), eventData);
+    auto event = std::make_unique<ois::KeyEvent>(core::detail::toBase(ois::InputActionType::KEY), eventData);
     evtbus_->addToQueue(std::move(event));
   }
 

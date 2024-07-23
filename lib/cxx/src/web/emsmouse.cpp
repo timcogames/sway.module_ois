@@ -65,24 +65,24 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
   auto *eventdata = new MouseEventData();
 
   if (bool(evt.ctrlKey)) {
-    eventdata->modifiers |= core::detail::toUnderlying(KeyModifier::CTRL);
+    eventdata->modifiers |= core::detail::toBase(KeyModifier::CTRL);
   }
 
   if (bool(evt.shiftKey)) {
-    eventdata->modifiers |= core::detail::toUnderlying(KeyModifier::SHIFT);
+    eventdata->modifiers |= core::detail::toBase(KeyModifier::SHIFT);
   }
 
   if (bool(evt.altKey)) {
-    eventdata->modifiers |= core::detail::toUnderlying(KeyModifier::ALT);
+    eventdata->modifiers |= core::detail::toBase(KeyModifier::ALT);
   }
 
   eventdata->point = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
   eventdata->drag = eventdata->point.asVec();
   eventdata->btnCode = evt.button;
-  eventdata->state = core::detail::toUnderlying(InputActionState::PRESSED);
+  eventdata->state = core::detail::toBase(InputActionState::PRESSED);
 
-  auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_BUTTON), eventdata);
+  auto event = std::make_unique<MouseEvent>(core::detail::toBase(InputActionType::MOUSE_BUTTON), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   const auto timestamp = EMSMouse::getTimestamp();
@@ -164,7 +164,7 @@ auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   // onMouseMoved_(eventParams_);
   // }
 
-  auto event = std::make_unique<MouseEvent>(core::detail::toUnderlying(InputActionType::MOUSE_MOVED), eventdata);
+  auto event = std::make_unique<MouseEvent>(core::detail::toBase(InputActionType::MOUSE_MOVED), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onMotion_) {
