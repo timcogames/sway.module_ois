@@ -38,7 +38,7 @@ void DTPKeyboard::enableSystemKeys_() {
   // }
 }
 
-void DTPKeyboard::setListener(InputListener *listener) { listener_ = listener; }
+void DTPKeyboard::setListener(InputListener::Ptr_t listener) { listener_ = listener; }
 
 void DTPKeyboard::notifyKeyPressed(const XEvent &evt) {
   if (listener_ == nullptr) {

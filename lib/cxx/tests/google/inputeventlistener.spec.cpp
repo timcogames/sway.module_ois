@@ -2,6 +2,7 @@
 #include <sway/math.hpp>
 #include <sway/ois.hpp>
 #include <sway/ois/events/keyevent.hpp>
+#include <sway/ois/events/keyeventdata.hpp>
 
 #undef Bool
 #undef None
@@ -15,7 +16,7 @@ using namespace sway;
 
 class StupInputEventListener : public ois::InputEventListener {
 public:
-  StupInputEventListener(core::evts::EventBus *evtbus)
+  StupInputEventListener(core::evts::EventBus::Ptr_t evtbus)
       : evtbus_(evtbus) {}
 
   MTHD_OVERRIDE(void processInputEvent(ois::InputEventParams *params)) {
@@ -25,16 +26,16 @@ public:
   }
 
 private:
-  core::evts::EventBus *evtbus_;
+  core::evts::EventBus::Ptr_t evtbus_;
 };
 
 class FakeInputDevice : public ois::InputDevice {
 public:
-  MTHD_OVERRIDE(void setListener(ois::InputListener *)) {
+  MTHD_OVERRIDE(void setListener(ois::InputListener::Ptr_t)) {
     // DEPRECATED
   }
 
-  MTHD_OVERRIDE(void setInputEventListener(ois::InputEventListener *listener)) {
+  MTHD_OVERRIDE(void setInputEventListener(ois::InputEventListener::Ptr_t listener)) {
     handleEvent_ = std::bind(&ois::InputEventListener::processInputEvent, listener, std::placeholders::_1);
   }
 
@@ -52,7 +53,7 @@ private:
 };
 
 TEST(InputEventListener, Test) {
-  core::evts::EventBus *evtbus = new core::evts::EventBus();
+  auto *evtbus = new core::evts::EventBus();
 
   FakeInputDevice device;
   device.setInputEventListener(new StupInputEventListener(evtbus));

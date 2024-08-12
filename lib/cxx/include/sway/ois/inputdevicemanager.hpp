@@ -16,9 +16,9 @@ NAMESPACE_BEGIN(ois)
  * @brief Класс управления вводом системы.
  */
 class InputDeviceManager {
-public:
   DECLARE_EMSCRIPTEN(InputDeviceManager)
 
+public:
   InputDeviceManager();
 
   virtual ~InputDeviceManager() = default;

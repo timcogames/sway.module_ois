@@ -16,12 +16,20 @@ NAMESPACE_BEGIN(ois)
 
 class InputEventListener {
 public:
+  using Ptr_t = InputEventListener *;
+
+#pragma region "Pure virtual methods"
+
   PURE_VIRTUAL(void processInputEvent(InputEventParams *params));
+
+#pragma endregion
 };
 
 class InputListener {
 public:
-#pragma region Методы обработки событий клавиатуры
+  using Ptr_t = InputListener *;
+
+#pragma region "Методы обработки событий клавиатуры"
 
   // MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventParams &params)) {}
 
@@ -35,7 +43,7 @@ public:
 
 #pragma endregion
 
-#pragma region Методы обработки событий мышки
+#pragma region "Методы обработки событий мышки"
 
   MTHD_VIRTUAL(void onMouseButtonDown(const MouseEventParams &params)) {}
 

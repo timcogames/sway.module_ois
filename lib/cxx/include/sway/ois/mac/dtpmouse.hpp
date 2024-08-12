@@ -18,8 +18,10 @@ class InputDeviceManager;
  * @brief Представляет устройство мыши.
  */
 class DTPMouse : public InputDevice {
-public:
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE)
+
+public:
+#pragma region "Ctors/Dtor"
 
   /**
    * @brief Конструктор класса.
@@ -34,14 +36,20 @@ public:
    */
   virtual ~DTPMouse();
 
+#pragma endregion
+
+#pragma region "Override InputDevice methods"
+
   /**
    * @brief Устанавливает слушатель событий.
    *
    * @param[in] listener Слушатель событий мышки.
    */
-  MTHD_OVERRIDE(void setListener(InputListener *listener));
+  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener)) {}
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener)) {}
+
+#pragma endregion
 
   void notifyMouseMove(const XEvent &event);
 

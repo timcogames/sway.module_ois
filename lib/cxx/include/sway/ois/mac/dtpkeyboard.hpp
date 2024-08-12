@@ -17,8 +17,10 @@ class InputDeviceManager;
  * @brief Представляет устройство клавиатуры.
  */
 class DTPKeyboard : public InputDevice {
-public:
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::KEYBOARD)
+
+public:
+#pragma region "Ctors/Dtor"
 
   /**
    * @brief Конструктор класса.
@@ -33,14 +35,20 @@ public:
    */
   virtual ~DTPKeyboard();
 
+#pragma endregion
+
+#pragma region "Override InputDevice methods"
+
   /**
    * @brief Устанавливает слушатель событий.
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  MTHD_OVERRIDE(void setListener(InputListener *listener));
+  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener)) {}
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener)) {}
+
+#pragma endregion
 
   /**
    * @brief Уведомляет об нажатии на клавишу.
@@ -69,7 +77,7 @@ private:
   void enableSystemKeys_();
 
   InputDeviceManager *manager_;  // Указатель на менеджер ввода.
-  InputListener *listener_;
+  InputListener::Ptr_t listener_;
   bool keyboardGrabbed_;
 };
 

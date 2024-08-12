@@ -1,4 +1,5 @@
 #include <sway/ois/events/keyevent.hpp>
+#include <sway/ois/events/keyeventdata.hpp>
 #include <sway/ois/inputactionstates.hpp>
 #include <sway/ois/inputactiontypes.hpp>
 #include <sway/ois/inputdevicemanager.hpp>
@@ -31,13 +32,13 @@ EMSKeyboard::EMSKeyboard(InputDeviceManager *mngr)
 #endif
 }
 
-void EMSKeyboard::setListener(InputListener *listener) {
+void EMSKeyboard::setListener(InputListener::Ptr_t listener) {
   onKeyDown_ = std::bind(&InputListener::onKeyDown, listener, std::placeholders::_1);
   onKeyUp_ = std::bind(&InputListener::onKeyUp, listener, std::placeholders::_1);
   onKeyPress_ = std::bind(&InputListener::onKeyPress, listener, std::placeholders::_1);
 }
 
-void EMSKeyboard::setInputEventListener(InputEventListener *listener) {
+void EMSKeyboard::setInputEventListener(InputEventListener::Ptr_t listener) {
   actionCallback_ = std::bind(&InputEventListener::processInputEvent, listener, std::placeholders::_1);
 }
 

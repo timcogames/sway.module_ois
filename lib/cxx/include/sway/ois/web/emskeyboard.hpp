@@ -24,12 +24,16 @@ struct EmscKeyboardEvent_t {
 class InputDeviceManager;
 
 class EMSKeyboard : public InputDevice {
-public:
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::KEYBOARD);
+
+public:
+#pragma region "Ctors/Dtor"
 
   EMSKeyboard(InputDeviceManager *mngr);
 
   ~EMSKeyboard() = default;
+
+#pragma endregion
 
   auto handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool;
 
@@ -37,14 +41,18 @@ public:
 
   auto handleKeyPress(const EmscKeyboardEvent_t &evt) -> bool;
 
+#pragma region "Override InputDevice methods"
+
   /**
    * @brief Устанавливает слушатель событий.
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  MTHD_OVERRIDE(void setListener(InputListener *listener));
+  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener));
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener));
+
+#pragma endregion
 
 private:
   InputDeviceManager *mngr_;

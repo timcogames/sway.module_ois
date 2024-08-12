@@ -1,4 +1,5 @@
 #include <sway/ois/events/mouseevent.hpp>
+#include <sway/ois/events/mouseeventdata.hpp>
 #include <sway/ois/inputactionstates.hpp>
 #include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/keymodifiers.hpp>
@@ -53,7 +54,7 @@ void EMSMouse::unregisterEventHandlers() {
 #endif
 }
 
-void EMSMouse::setListener(InputListener *listener) {
+void EMSMouse::setListener(InputListener::Ptr_t listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
   onMouseDblClick_ = std::bind(&InputListener::onMouseDblClick, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
@@ -136,7 +137,9 @@ auto EMSMouse::isPointerLocked() -> bool {
   // clang-format off
   EmscriptenPointerlockChangeEvent status;
   return (emscripten_get_pointerlock_status(&status) == EMSCRIPTEN_RESULT_SUCCESS)
-    ? bool(status.isActive) : false;  // clang-format on
+    ? bool(status.isActive)
+    : false;
+  // clang-format on
 #else
   return true;
 #endif

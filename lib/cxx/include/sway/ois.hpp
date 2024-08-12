@@ -1,6 +1,13 @@
 #ifndef SWAY_OIS_HPP
 #define SWAY_OIS_HPP
 
+#include <sway/ois/events/inputevent.hpp>
+#include <sway/ois/events/inputeventutil.hpp>
+#include <sway/ois/events/keyevent.hpp>
+#include <sway/ois/events/keyeventdata.hpp>
+#include <sway/ois/events/keyeventhandler.hpp>
+#include <sway/ois/events/mouseevent.hpp>
+#include <sway/ois/events/mouseeventdata.hpp>
 #include <sway/ois/inputactionstates.hpp>
 #include <sway/ois/inputactiontypes.hpp>
 #include <sway/ois/inputdevice.hpp>

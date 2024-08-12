@@ -46,18 +46,26 @@ struct EmscWheelEvent_t {
 class InputDeviceManager;
 
 class EMSMouse : public InputDevice {
-public:
   DECLARE_EMSCRIPTEN(EMSMouse)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE);
+
+public:
+#pragma region "Static methods"
 
   static auto getTimestamp() -> double {
     static auto start = std::chrono::steady_clock::now();
     return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
   }
 
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
   EMSMouse(InputDeviceManager *mngr);
 
   ~EMSMouse() = default;
+
+#pragma endregion
 
   void registerEventHandlers();
 
@@ -77,14 +85,18 @@ public:
 
   auto handleWheel(const EmscWheelEvent_t &evt) -> bool;
 
+#pragma region "Override InputDevice methods"
+
   /**
    * @brief Устанавливает слушатель событий.
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  MTHD_OVERRIDE(void setListener(InputListener *listener));
+  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener *listener)) {}
+  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener)) {}
+
+#pragma endregion
 
   void setCanvasId(lpcstr_t canvasId) { canvasId_ = canvasId; }
 

@@ -3,6 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/ois/events/inputevent.hpp>
+#include <sway/ois/events/inputeventutil.hpp>
 #include <sway/ois/events/keyevent.hpp>
 #include <sway/ois/events/mouseevent.hpp>
 #include <sway/ois/inputeventparams.hpp>
@@ -14,39 +15,23 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-struct InputEventUtil {
-  static auto isKeyEvent(const std::unique_ptr<core::foundation::Event> &event) -> bool {
-    return event->type() == core::detail::toBase(InputActionType::KEY);
-  }
-
-  static auto asKeyEvent(const std::unique_ptr<core::foundation::Event> &event) -> KeyEvent * {
-    return static_cast<KeyEvent *>(event.get());
-  }
-
-  static auto isMouseEvent(const std::unique_ptr<core::foundation::Event> &event) -> bool {
-    return event->type() == core::detail::toBase(InputActionType::MOUSE_BUTTON) ||
-           event->type() == core::detail::toBase(InputActionType::MOUSE_MOVED);
-  }
-
-  static auto asMouseEvent(const std::unique_ptr<core::foundation::Event> &event) -> MouseEvent * {
-    return static_cast<MouseEvent *>(event.get());
-  }
-};
-
 struct KeyEventHandler : public core::evts::EventHandler {
   KeyEventHandler()
       : core::evts::EventHandler() {}
 
   ~KeyEventHandler() override = default;
 
-  // clang-format off
-  MTHD_OVERRIDE(auto invoke(const std::unique_ptr<core::foundation::Event> &event) -> bool) final {  // clang-format on
+#pragma region "Override EventHandler methods"
+
+  MTHD_OVERRIDE(auto invoke(const std::unique_ptr<core::foundation::Event> &event) -> bool) final {
     if (InputEventUtil::isKeyEvent(event)) {
       onKeyEvent(InputEventUtil::asKeyEvent(event));
     }
 
     return true;
   }
+
+#pragma endregion
 
   void onKeyEvent(KeyEvent *event) { printf("type %i\n", event->type()); }
 

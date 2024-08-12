@@ -27,7 +27,7 @@ void DTPMouse::initialize_() {
   // }
 }
 
-void DTPMouse::setListener(InputListener *listener) {
+void DTPMouse::setListener(InputListener::Ptr_t listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
   onMouseMove_ = std::bind(&InputListener::onMouseMoved, listener, std::placeholders::_1);

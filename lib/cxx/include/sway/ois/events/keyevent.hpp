@@ -7,19 +7,11 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-struct KeyEventData : core::foundation::EventData {
-  u32_t keyCode;
-  u32_t state;
-
-  // clang-format off
-  MTHD_OVERRIDE(auto serialize() const -> std::string) { return ""; }  // clang-format on
-
-  MTHD_OVERRIDE(void deserialize(const std::string &jdata)) {}
-};
-
 class KeyEvent : public InputEvent {
 public:
-  explicit KeyEvent(u32_t type, core::foundation::EventData *data)
+  using Ptr_t = KeyEvent *;
+
+  explicit KeyEvent(u32_t type, core::foundation::EventData::Ptr_t data)
       : InputEvent(type, data) {}
 
   ~KeyEvent() = default;
