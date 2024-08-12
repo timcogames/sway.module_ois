@@ -24,6 +24,9 @@
 #include <sway/ois/mouseeventparams.hpp>
 #include <sway/ois/mousefilters.hpp>
 #include <sway/ois/mousewheelscrollactions.hpp>
+#include <sway/ois/scheme/controlbutton.hpp>
+#include <sway/ois/scheme/controlbuttondefinition.hpp>
+#include <sway/ois/scheme/controlbuttonutil.hpp>
 #include <sway/ois/touchstate.hpp>
 #include <sway/ois/typedefs.hpp>
 
