@@ -10,7 +10,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-EMSKeyboard::EMSKeyboard(InputDeviceManager *mngr)
+EMSKeyboard::EMSKeyboard(InputDeviceManagerPtr_t mngr)
     : mngr_(mngr) {
 #ifdef EMSCRIPTEN_PLATFORM
   const EM_BOOL toUseCapture = EM_FALSE;

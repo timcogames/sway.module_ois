@@ -4,7 +4,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-DTPMouse::DTPMouse(InputDeviceManager *mngr)
+DTPMouse::DTPMouse(InputDeviceManagerPtr_t mngr)
     : manager_(mngr)
     , mouseGrabbed_(false) {
   initialize_();

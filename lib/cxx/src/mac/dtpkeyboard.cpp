@@ -6,7 +6,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-DTPKeyboard::DTPKeyboard(InputDeviceManager *mngr)
+DTPKeyboard::DTPKeyboard(InputDeviceManagerPtr_t mngr)
     : manager_(mngr)
     , listener_(nullptr)
     , keyboardGrabbed_(false) {

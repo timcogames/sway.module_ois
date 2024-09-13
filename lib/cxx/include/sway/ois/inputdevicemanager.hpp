@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
+#include <sway/ois/typedefs.hpp>
 #include <sway/oismacros.hpp>
 
 #include <memory>
@@ -17,6 +18,7 @@ NAMESPACE_BEGIN(ois)
  */
 class InputDeviceManager {
   DECLARE_EMSCRIPTEN(InputDeviceManager)
+  DECLARE_CLASS_POINTER_ALIASES(InputDeviceManager)
 
 public:
   InputDeviceManager();

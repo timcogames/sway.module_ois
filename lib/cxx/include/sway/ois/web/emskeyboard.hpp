@@ -32,7 +32,7 @@ class EMSKeyboard : public InputDevice {
 public:
 #pragma region "Ctors/Dtor"
 
-  EMSKeyboard(InputDeviceManager *mngr);
+  EMSKeyboard(InputDeviceManagerPtr_t mngr);
 
   ~EMSKeyboard() = default;
 
@@ -58,7 +58,7 @@ public:
 #pragma endregion
 
 private:
-  InputDeviceManager *mngr_;
+  InputDeviceManagerPtr_t mngr_;
   std::function<void(InputEventParams *)> actionCallback_;
 
   std::function<void(const struct KeyboardEventParams &)> onKeyDown_;

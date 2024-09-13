@@ -3,11 +3,14 @@
 
 #include <sway/core.hpp>
 #include <sway/ois/inputlistener.hpp>
+#include <sway/ois/typedefs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 class InputDevice {
+  DECLARE_CLASS_POINTER_ALIASES(InputDevice)
+
 public:
 #pragma region "Ctors/Dtor"
 

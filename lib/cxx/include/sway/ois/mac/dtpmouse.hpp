@@ -12,12 +12,11 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-class InputDeviceManager;
-
 /**
  * @brief Представляет устройство мыши.
  */
 class DTPMouse : public InputDevice {
+  DECLARE_CLASS_POINTER_ALIASES(DTPMouse)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE)
 
 public:
@@ -29,7 +28,7 @@ public:
    *
    * @param[in] mngr Указатель на менеджер ввода.
    */
-  DTPMouse(InputDeviceManager *mngr);
+  DTPMouse(InputDeviceManagerPtr_t mngr);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
@@ -65,7 +64,7 @@ private:
    */
   void initialize_();
 
-  InputDeviceManager *manager_;  // Указатель на менеджер ввода.
+  InputDeviceManagerPtr_t manager_;  // Указатель на менеджер ввода.
   MouseEventCallbackFunc_t onMouseButtonDown_;
   MouseEventCallbackFunc_t onMouseButtonUp_;
   MouseEventCallbackFunc_t onMouseMove_;

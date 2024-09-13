@@ -61,7 +61,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  EMSMouse(InputDeviceManager *mngr);
+  EMSMouse(InputDeviceManagerPtr_t mngr);
 
   ~EMSMouse() = default;
 
@@ -106,7 +106,7 @@ public:
   void setMotionFunc(callback_t fn);
 
 private:
-  InputDeviceManager *mngr_;
+  InputDeviceManagerPtr_t mngr_;
 
   std::function<void(const struct MouseEventParams &)> onMouseButtonDown_;
   std::function<void(const struct MouseEventParams &)> onMouseDblClick_;

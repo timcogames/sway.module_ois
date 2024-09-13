@@ -6,6 +6,7 @@
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/keyboardeventparams.hpp>
 #include <sway/ois/mouseeventparams.hpp>
+#include <sway/ois/typedefs.hpp>
 
 #include <list>
 #include <memory>
@@ -15,9 +16,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 class InputEventListener {
-public:
-  using Ptr_t = InputEventListener *;
+  DECLARE_CLASS_POINTER_ALIASES(InputEventListener)
 
+public:
 #pragma region "Pure virtual methods"
 
   PURE_VIRTUAL(void processInputEvent(InputEventParams *params));
@@ -26,9 +27,9 @@ public:
 };
 
 class InputListener {
-public:
-  using Ptr_t = InputListener *;
+  DECLARE_CLASS_POINTER_ALIASES(InputListener)
 
+public:
 #pragma region "Методы обработки событий клавиатуры"
 
   // MTHD_VIRTUAL(void onKeyPressed(const KeyboardEventParams &params)) {}

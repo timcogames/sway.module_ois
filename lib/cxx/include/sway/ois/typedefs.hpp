@@ -3,19 +3,22 @@
 
 #include <sway/core.hpp>
 
-#include <functional>  // std::function
-#include <memory>  // std::shared_ptr
-#include <unordered_map>  // std::unordered_map
+#include <functional>
+#include <unordered_map>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
-using InputDeviceManagerRef_t = std::shared_ptr<class DTPInputDeviceManager>;
-using InputDeviceRef_t = std::shared_ptr<class InputDevice>;
-using KeyboardRef_t = std::shared_ptr<class DTPKeyboard>;
-using MouseRef_t = std::shared_ptr<class DTPMouse>;
+DECLARE_CLASS_POINTER_TYPES(InputDevice)
+DECLARE_CLASS_POINTER_TYPES(InputDeviceManager)
+DECLARE_CLASS_POINTER_TYPES(InputEventListener)
+DECLARE_CLASS_POINTER_TYPES(InputListener)
+DECLARE_CLASS_POINTER_TYPES(KeyEvent)
+DECLARE_CLASS_POINTER_TYPES(MouseEvent)
+DECLARE_CLASS_POINTER_TYPES(DTPKeyboard)
+DECLARE_CLASS_POINTER_TYPES(DTPMouse)
 
-using InputDeviceCreator_t = std::function<InputDeviceRef_t()>;
+using InputDeviceCreator_t = std::function<InputDeviceSharedPtr_t()>;
 using InputDeviceFactory_t = std::unordered_map<u32_t, InputDeviceCreator_t>;
 
 using KeyboardEventCallbackFunc_t = std::function<void(const struct KeyboardEventParams &)>;

@@ -23,9 +23,9 @@ struct KeyEventHandler : public core::evts::EventHandler {
 
 #pragma region "Override EventHandler methods"
 
-  MTHD_OVERRIDE(auto invoke(const std::unique_ptr<core::foundation::Event> &event) -> bool) final {
-    if (InputEventUtil::isKeyEvent(event)) {
-      onKeyEvent(InputEventUtil::asKeyEvent(event));
+  MTHD_OVERRIDE(auto invoke(const core::foundation::Event::UniquePtr_t &evt) -> bool) final {
+    if (InputEventUtil::isKeyEvent(evt)) {
+      onKeyEvent(InputEventUtil::asKeyEvent(evt));
     }
 
     return true;
@@ -33,7 +33,7 @@ struct KeyEventHandler : public core::evts::EventHandler {
 
 #pragma endregion
 
-  void onKeyEvent(KeyEvent *event) { printf("type %i\n", event->type()); }
+  void onKeyEvent(KeyEvent *evt) { printf("type %i\n", evt->type()); }
 
   // void onKeyDown(const KeyboardEventParams &params) {}
 

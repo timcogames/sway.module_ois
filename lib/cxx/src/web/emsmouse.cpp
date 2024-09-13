@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(ois)
 
 #define CANVAS_ID "#canvas"
 
-EMSMouse::EMSMouse(InputDeviceManager *mngr)
+EMSMouse::EMSMouse(InputDeviceManagerPtr_t mngr)
     : mngr_(mngr)
     , canvasId_(CANVAS_ID)
     , bounds_(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>(300.0F, 240.0F))) {
@@ -109,12 +109,19 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
 }
 
 auto EMSMouse::handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool {
-  eventParams_.button = evt.button;  // deprecated
-  eventParams_.entered = false;  // deprecated
-  eventParams_.states[evt.button] = InputActionState::RELEASED;
+  auto *eventdata = new MouseEventData();
+  eventdata->btnCode = evt.button;
+  eventdata->state = core::detail::toBase(InputActionState::RELEASED);
+
+  auto event = std::make_unique<MouseEvent>(core::detail::toBase(InputActionType::MOUSE_BUTTON), eventdata);
+  mngr_->getEventBus()->addToQueue(std::move(event));
+
+  // eventParams_.button = evt.button;  // deprecated
+  // eventParams_.entered = false;  // deprecated
+  // eventParams_.states[evt.button] = InputActionState::RELEASED;
 
   if (onMouseButtonUp_) {
-    onMouseButtonUp_(eventParams_);
+    // onMouseButtonUp_(eventParams_);
   }
 
   return true;

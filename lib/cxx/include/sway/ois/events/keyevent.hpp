@@ -3,14 +3,15 @@
 
 #include <sway/core.hpp>
 #include <sway/ois/events/inputevent.hpp>
+#include <sway/ois/typedefs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(ois)
 
 class KeyEvent : public InputEvent {
-public:
-  using Ptr_t = KeyEvent *;
+  DECLARE_CLASS_POINTER_ALIASES(KeyEvent)
 
+public:
   explicit KeyEvent(u32_t type, core::foundation::EventData::Ptr_t data)
       : InputEvent(type, data) {}
 
