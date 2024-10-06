@@ -3,15 +3,15 @@
 #include <memory>  // std::static_pointer_cast, std::make_shared
 #include <utility>  // std::make_pair
 
-template <typename TConcreteInputDevice>
+template <typename CONCRETE_DEVICE>
 void InputDeviceManager::registerDevice() {
-  auto deviceType = core::detail::toBase(TConcreteInputDevice::getDeviceType());
-  auto devicePtr = std::make_shared<TConcreteInputDevice>(this);
+  auto deviceType = core::detail::toBase(CONCRETE_DEVICE::getDeviceType());
+  auto devicePtr = std::make_shared<CONCRETE_DEVICE>(this);
   factories_.insert(std::make_pair(deviceType, devicePtr));
 }
 
-template <typename TConcreteInputDevice>
-auto InputDeviceManager::getDevice() -> std::shared_ptr<TConcreteInputDevice> {
-  return std::static_pointer_cast<TConcreteInputDevice>(
-      factories_.at(core::detail::toBase(TConcreteInputDevice::getDeviceType())));
+template <typename CONCRETE_DEVICE>
+auto InputDeviceManager::getDevice() -> std::shared_ptr<CONCRETE_DEVICE> {
+  return std::static_pointer_cast<CONCRETE_DEVICE>(
+      factories_.at(core::detail::toBase(CONCRETE_DEVICE::getDeviceType())));
 }

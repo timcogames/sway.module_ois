@@ -5,8 +5,8 @@
 
 #include <string>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 struct KeyEventData : core::foundation::EventData {
   u32_t keyCode;
@@ -21,7 +21,7 @@ struct KeyEventData : core::foundation::EventData {
 #pragma endregion
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_KEYEVENTDATA_HPP

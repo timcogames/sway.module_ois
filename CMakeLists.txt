@@ -87,6 +87,11 @@ set_output_dir(${MODULE_OIS_BIN_DIR})
 # Include project headers
 #---------------------------------------------------------------------------------
 
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  include_directories("/usr/local/include/c++/v1")
+endif()
+
 include_directories("${SYSTEM_INC_DIR}")
 include_directories("${MODULE_OIS_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")

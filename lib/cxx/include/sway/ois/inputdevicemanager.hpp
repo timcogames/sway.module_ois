@@ -10,15 +10,15 @@
 #include <memory>
 #include <unordered_map>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 /**
  * @brief Класс управления вводом системы.
  */
 class InputDeviceManager {
-  DECLARE_EMSCRIPTEN(InputDeviceManager)
   DECLARE_CLASS_POINTER_ALIASES(InputDeviceManager)
+  DECLARE_EMSCRIPTEN(InputDeviceManager)
 
 public:
   InputDeviceManager();
@@ -28,14 +28,14 @@ public:
   /**
    * @brief Регистрирует устройство ввода.
    */
-  template <typename TConcreteInputDevice>
+  template <typename CONCRETE_DEVICE>
   inline void registerDevice();
 
   /**
    * @brief Получает устройство ввода.
    */
-  template <typename TConcreteInputDevice>
-  inline auto getDevice() -> std::shared_ptr<TConcreteInputDevice>;
+  template <typename CONCRETE_DEVICE>
+  inline auto getDevice() -> std::shared_ptr<CONCRETE_DEVICE>;
 
   /**
    * @brief Проверяет устройство.
@@ -60,13 +60,13 @@ public:
    */
   void setMouseUsed(bool used);
 
-  void setEventBus(std::shared_ptr<core::evts::EventBus> evtbus) { evtbus_ = evtbus; }
+  void setEventBus(core::evts::EventBus::SharedPtr_t evtbus) { evtbus_ = evtbus; }
 
-  auto getEventBus() -> std::shared_ptr<core::evts::EventBus> { return evtbus_; }
+  auto getEventBus() -> core::evts::EventBus::SharedPtr_t { return evtbus_; }
 
 private:
-  std::shared_ptr<core::evts::EventBus> evtbus_;
-  std::unordered_map<u32_t, std::shared_ptr<InputDevice>> factories_;
+  core::evts::EventBus::SharedPtr_t evtbus_;
+  std::unordered_map<u32_t, InputDevice::SharedPtr_t> factories_;
   bool keyboardUsed_;  // Используется ли клавиатура.
   bool mouseUsed_;  // Используется ли мышка.
 };
@@ -76,12 +76,12 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-D_MODULE_OIS_INTERFACE_EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t;
+D_MODULE_OIS_INTERFACE_EXPORT_API auto createInputDeviceManager() -> InputDeviceManager::JavaScriptPtr_t;
 
 EXTERN_C_END
 #endif
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_INPUTDEVICEMANAGER_HPP

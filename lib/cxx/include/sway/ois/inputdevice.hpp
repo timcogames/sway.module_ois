@@ -5,8 +5,8 @@
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/typedefs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 class InputDevice {
   DECLARE_CLASS_POINTER_ALIASES(InputDevice)
@@ -32,7 +32,7 @@ public:
 #pragma endregion
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_INPUTDEVICE_HPP

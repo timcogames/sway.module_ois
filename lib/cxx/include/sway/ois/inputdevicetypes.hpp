@@ -3,8 +3,8 @@
 
 #include <sway/core.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 /**
  * @brief Перечисление типов устройств ввода.
@@ -16,7 +16,7 @@ enum class InputDeviceType : i32_t {
   Latest
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_INPUTDEVICETYPES_HPP

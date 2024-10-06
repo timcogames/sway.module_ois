@@ -16,8 +16,8 @@
 #  include <emscripten/html5.h>
 #endif
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 #define MOUSE_LBTN 0
 #define MOUSE_MBTN 1
@@ -127,25 +127,25 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JsPtr_t device);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device);
+D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device);
 
 D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(
-    intptr_t /* InputDeviceManager::JsPtr_t */ mngr) -> EMSMouse::JsPtr_t;
+    intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) -> EMSMouse::JavaScriptPtr_t;
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId);
+D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h);
+D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int));
+D_MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JavaScriptPtr_t device, void (*callback)(int, int));
 
 EXTERN_C_END
 #endif
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_WEB_EMSMOUSE_HPP

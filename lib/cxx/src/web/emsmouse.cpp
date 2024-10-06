@@ -7,8 +7,8 @@
 
 #include <algorithm>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 #define CANVAS_ID "#canvas"
 
@@ -198,7 +198,7 @@ void EMSMouse::setMotionFunc(callback_t cb) { onMotion_ = std::function<void(int
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 
-void registerMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr) {
+void registerMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) {
   auto obj = InputDeviceManager::fromJs(mngr);
   if (!obj) {
     // TODO
@@ -207,7 +207,7 @@ void registerMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr) {
   obj->registerDevice<EMSMouse>();
 }
 
-void registerMouseEventHandlers(EMSMouse::JsPtr_t device) {
+void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
   auto obj = EMSMouse::fromJs(device);
   if (!obj) {
     // TODO
@@ -216,7 +216,7 @@ void registerMouseEventHandlers(EMSMouse::JsPtr_t device) {
   obj->registerEventHandlers();
 }
 
-void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device) {
+void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
   auto obj = EMSMouse::fromJs(device);
   if (!obj) {
     // TODO
@@ -225,7 +225,7 @@ void unregisterMouseEventHandlers(EMSMouse::JsPtr_t device) {
   obj->unregisterEventHandlers();
 }
 
-auto getMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr) -> EMSMouse::JsPtr_t {
+auto getMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) -> EMSMouse::JavaScriptPtr_t {
   auto obj = InputDeviceManager::fromJs(mngr);
   if (!obj) {
     // TODO
@@ -234,7 +234,7 @@ auto getMouseDevice(intptr_t /* InputDeviceManager::JsPtr_t */ mngr) -> EMSMouse
   return EMSMouse::toJs(obj->getDevice<EMSMouse>().get());
 }
 
-void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId) {
+void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId) {
   auto obj = EMSMouse::fromJs(device);
   if (!obj) {
     // TODO
@@ -244,7 +244,7 @@ void setMouseCanvasId(EMSMouse::JsPtr_t device, lpcstr_t canvasId) {
   obj->setCanvasId(canvasId);
 }
 
-void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h) {
+void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h) {
   auto obj = EMSMouse::fromJs(device);
   if (!obj) {
     // TODO
@@ -253,7 +253,7 @@ void setMouseBoundingBox(EMSMouse::JsPtr_t device, int w, int h) {
   obj->setBoundingBox(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>((f32_t)w, (f32_t)h)));
 }
 
-void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int)) {
+void onMotionCallback(EMSMouse::JavaScriptPtr_t device, void (*callback)(int, int)) {
   auto obj = EMSMouse::fromJs(device);
   if (!obj) {
     // TODO
@@ -264,5 +264,5 @@ void onMotionCallback(EMSMouse::JsPtr_t device, void (*callback)(int, int)) {
 
 #endif
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway

@@ -6,8 +6,8 @@
 #include <sway/ois/events/inputevent.hpp>
 #include <sway/ois/typedefs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 class MouseEvent : public InputEvent {
   DECLARE_CLASS_POINTER_ALIASES(MouseEvent)
@@ -19,7 +19,7 @@ public:
   ~MouseEvent() = default;
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_MOUSEEVENT_HPP

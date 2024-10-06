@@ -1,7 +1,7 @@
 #include <sway/ois/inputdevicemanager.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 InputDeviceManager::InputDeviceManager()
     : keyboardUsed_(false)
@@ -24,11 +24,11 @@ void InputDeviceManager::setMouseUsed(bool used) { mouseUsed_ = used; }
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 
-auto createInputDeviceManager() -> InputDeviceManager::JsPtr_t {
+auto createInputDeviceManager() -> InputDeviceManager::JavaScriptPtr_t {
   return InputDeviceManager::toJs(new InputDeviceManager());
 }
 
 #endif
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway

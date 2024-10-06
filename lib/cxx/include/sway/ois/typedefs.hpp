@@ -6,8 +6,8 @@
 #include <functional>
 #include <unordered_map>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 DECLARE_CLASS_POINTER_TYPES(InputDevice)
 DECLARE_CLASS_POINTER_TYPES(InputDeviceManager)
@@ -24,7 +24,7 @@ using InputDeviceFactory_t = std::unordered_map<u32_t, InputDeviceCreator_t>;
 using KeyboardEventCallbackFunc_t = std::function<void(const struct KeyboardEventParams &)>;
 using MouseEventCallbackFunc_t = std::function<void(const struct MouseEventParams &)>;
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_TYPEDEFS_HPP

@@ -9,8 +9,8 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 template <typename TYPE>
 struct Equalable {
@@ -131,7 +131,7 @@ struct ControlButton<InputActionType::MOUSE_WHEEL> : public Equalable<u32_t> {
 #pragma endregion
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_SCHEME_CONTROLBUTTON_HPP

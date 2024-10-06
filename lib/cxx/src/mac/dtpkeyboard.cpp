@@ -3,8 +3,8 @@
 #include <sway/ois/mac/dtpkeyboard.hpp>
 #include <sway/ois/mac/dtpkeymappinglist.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 DTPKeyboard::DTPKeyboard(InputDeviceManagerPtr_t mngr)
     : manager_(mngr)
@@ -70,5 +70,5 @@ void DTPKeyboard::notifyKeyReleased(const XEvent &evt) {
   }
 }
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway

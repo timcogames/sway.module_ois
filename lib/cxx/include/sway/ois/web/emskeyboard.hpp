@@ -13,8 +13,8 @@
 #  include <emscripten/html5.h>
 #endif
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 #ifdef EMSCRIPTEN_PLATFORM
 using EmscKeyboardEvent_t = EmscriptenKeyboardEvent;
@@ -66,7 +66,7 @@ private:
   std::function<void(const struct KeyboardEventParams &)> onKeyPress_;
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_WEB_EMSKEYBOARD_HPP

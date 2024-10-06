@@ -12,8 +12,8 @@
 #include <memory>
 #include <queue>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 struct KeyEventHandler : public core::evts::EventHandler {
   KeyEventHandler()
@@ -42,7 +42,7 @@ struct KeyEventHandler : public core::evts::EventHandler {
   // void onKeyPress(const KeyboardEventParams &params) {}
 };
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_KEYEVENTHANDLER_HPP

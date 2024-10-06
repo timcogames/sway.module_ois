@@ -1,8 +1,8 @@
 #include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/mac/dtpmouse.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 DTPMouse::DTPMouse(InputDeviceManagerPtr_t mngr)
     : manager_(mngr)
@@ -62,5 +62,5 @@ void DTPMouse::notifyMouseButtonUp(const XEvent &event) {
   }
 }
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway

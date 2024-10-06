@@ -3,14 +3,14 @@
 
 #include <sway/core.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 enum class MouseButtonCode { LMB, RMB, MMB, MB4, MB5, OTHER, Latest };
 
 #define NUM_MOUSE_BTNS (core::detail::toBase(MouseButtonCode::Latest) - 1)
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_MOUSEBUTTONCODES_HPP

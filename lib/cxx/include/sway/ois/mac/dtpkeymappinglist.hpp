@@ -5,8 +5,8 @@
 #include <sway/ois/keycodes.hpp>
 #include <sway/ois/keymapping.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(ois)
+NS_BEGIN_SWAY()
+NS_BEGIN(ois)
 
 // clang-format off
 static const KeyMapping XtoKeyCode[] = {
@@ -38,7 +38,7 @@ static const KeyMapping XtoKeyCode[] = {
   {XK_z, KeyCode::KC_Z}
 };  // clang-format on
 
-NAMESPACE_END(ois)
-NAMESPACE_END(sway)
+NS_END()  // namespace ois
+NS_END()  // namespace sway
 
 #endif  // SWAY_OIS_MAC_DTPKEYMAPPINGLIST_HPP
