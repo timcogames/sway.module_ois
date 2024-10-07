@@ -208,7 +208,7 @@ void registerMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr
 }
 
 void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
-  auto obj = EMSMouse::fromJs(device);
+  auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
   }
@@ -217,7 +217,7 @@ void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
 }
 
 void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
-  auto obj = EMSMouse::fromJs(device);
+  auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
   }
@@ -235,7 +235,7 @@ auto getMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) -> 
 }
 
 void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId) {
-  auto obj = EMSMouse::fromJs(device);
+  auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
   }
@@ -245,7 +245,7 @@ void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId) {
 }
 
 void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h) {
-  auto obj = EMSMouse::fromJs(device);
+  auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
   }
@@ -254,7 +254,7 @@ void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h) {
 }
 
 void onMotionCallback(EMSMouse::JavaScriptPtr_t device, void (*callback)(int, int)) {
-  auto obj = EMSMouse::fromJs(device);
+  auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
   }
