@@ -9,7 +9,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(ois)
 
 class KeyEvent : public InputEvent {
-  DECLARE_CLASS_POINTER_ALIASES(KeyEvent)
+  DECLARE_PTR_ALIASES(KeyEvent)
 
 public:
   explicit KeyEvent(u32_t type, core::foundation::EventData::Ptr_t data)

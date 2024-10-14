@@ -17,7 +17,7 @@ NS_BEGIN(ois)
  * @brief Класс управления вводом системы.
  */
 class InputDeviceManager {
-  DECLARE_CLASS_POINTER_ALIASES(InputDeviceManager)
+  DECLARE_PTR_ALIASES(InputDeviceManager)
   DECLARE_EMSCRIPTEN(InputDeviceManager)
 
 public:

@@ -15,7 +15,7 @@ NS_BEGIN(ois)
  * @brief Представляет устройство клавиатуры.
  */
 class DTPKeyboard : public InputDevice {
-  DECLARE_CLASS_POINTER_ALIASES(DTPKeyboard)
+  DECLARE_PTR_ALIASES(DTPKeyboard)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::KEYBOARD)
 
 public:

@@ -6,7 +6,7 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(ois)
 
-enum class MouseFilter { IGNORE, STOP, PASS, Latest };
+DECLARE_ENUM(MouseFilter, IGNORE, STOP, PASS)
 
 NS_END()  // namespace ois
 NS_END()  // namespace sway

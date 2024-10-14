@@ -16,7 +16,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(ois)
 
 class InputEventListener {
-  DECLARE_CLASS_POINTER_ALIASES(InputEventListener)
+  DECLARE_PTR_ALIASES(InputEventListener)
 
 public:
 #pragma region "Pure virtual methods"
@@ -27,7 +27,7 @@ public:
 };
 
 class InputListener {
-  DECLARE_CLASS_POINTER_ALIASES(InputListener)
+  DECLARE_PTR_ALIASES(InputListener)
 
 public:
 #pragma region "Методы обработки событий клавиатуры"

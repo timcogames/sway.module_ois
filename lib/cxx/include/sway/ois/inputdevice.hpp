@@ -9,7 +9,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(ois)
 
 class InputDevice {
-  DECLARE_CLASS_POINTER_ALIASES(InputDevice)
+  DECLARE_PTR_ALIASES(InputDevice)
 
 public:
 #pragma region "Ctors/Dtor"

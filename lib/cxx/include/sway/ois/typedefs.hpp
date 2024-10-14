@@ -9,14 +9,14 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(ois)
 
-DECLARE_CLASS_POINTER_TYPES(InputDevice)
-DECLARE_CLASS_POINTER_TYPES(InputDeviceManager)
-DECLARE_CLASS_POINTER_TYPES(InputEventListener)
-DECLARE_CLASS_POINTER_TYPES(InputListener)
-DECLARE_CLASS_POINTER_TYPES(KeyEvent)
-DECLARE_CLASS_POINTER_TYPES(MouseEvent)
-DECLARE_CLASS_POINTER_TYPES(DTPKeyboard)
-DECLARE_CLASS_POINTER_TYPES(DTPMouse)
+DECLARE_PTR_TYPES(InputDevice)
+DECLARE_PTR_TYPES(InputDeviceManager)
+DECLARE_PTR_TYPES(InputEventListener)
+DECLARE_PTR_TYPES(InputListener)
+DECLARE_PTR_TYPES(KeyEvent)
+DECLARE_PTR_TYPES(MouseEvent)
+DECLARE_PTR_TYPES(DTPKeyboard)
+DECLARE_PTR_TYPES(DTPMouse)
 
 using InputDeviceCreator_t = std::function<InputDeviceSharedPtr_t()>;
 using InputDeviceFactory_t = std::unordered_map<u32_t, InputDeviceCreator_t>;

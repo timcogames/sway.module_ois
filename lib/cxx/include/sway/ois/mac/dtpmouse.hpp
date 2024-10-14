@@ -16,7 +16,7 @@ NS_BEGIN(ois)
  * @brief Представляет устройство мыши.
  */
 class DTPMouse : public InputDevice {
-  DECLARE_CLASS_POINTER_ALIASES(DTPMouse)
+  DECLARE_PTR_ALIASES(DTPMouse)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE)
 
 public:

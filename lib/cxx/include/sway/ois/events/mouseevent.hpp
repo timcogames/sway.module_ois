@@ -10,7 +10,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(ois)
 
 class MouseEvent : public InputEvent {
-  DECLARE_CLASS_POINTER_ALIASES(MouseEvent)
+  DECLARE_PTR_ALIASES(MouseEvent)
 
 public:
   explicit MouseEvent(u32_t type, core::foundation::EventData::Ptr_t data)
