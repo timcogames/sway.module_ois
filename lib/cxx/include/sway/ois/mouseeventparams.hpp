@@ -22,14 +22,14 @@ struct MouseWheelEventParams {
 };
 
 /**
- * @brief Предоставляет данные для событий, связанных с мышью.
+ * @brief \~english Provides data for mouse events. \~russian Предоставляет данные для событий, связанных с мышью.
  */
 struct MouseEventParams : public InputEventParams {
-  math::point2f_t position;  // Координаты позиции курсора.
+  math::point2f_t position;  //!< \~english Cursor position. \~russian Координаты позиции курсора.
   math::vec2f_t offset;
   math::vec2f_t drag;
   u32_t modifiers;
-  i32_t button;  // Код кнопок мыши.
+  i32_t button;  //!< \~english Button code. \~russian Код кнопок мыши.
   f32_t deltaZ;
   bool entered;
   InputActionState states[NUM_MOUSE_BTNS];

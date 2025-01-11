@@ -1,8 +1,8 @@
 #ifndef SWAY_OIS_KEYMAPPING_HPP
 #define SWAY_OIS_KEYMAPPING_HPP
 
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/keycodes.hpp>
-#include <sway/ois/prereqs.hpp>
 
 namespace sway::ois {
 

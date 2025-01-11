@@ -1,5 +1,5 @@
-#ifndef SWAY_OIS_PREREQS_HPP
-#define SWAY_OIS_PREREQS_HPP
+#ifndef SWAY_OIS_STDAFX_HPP
+#define SWAY_OIS_STDAFX_HPP
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
@@ -9,4 +9,4 @@
 #include <stdio.h>  // printf, NULL
 #include <stdlib.h>  // strtoull
 
-#endif  // SWAY_OIS_PREREQS_HPP
+#endif  // SWAY_OIS_STDAFX_HPP

@@ -1,11 +1,11 @@
 #ifndef SWAY_OIS_MAC_DTPKEYBOARD_HPP
 #define SWAY_OIS_MAC_DTPKEYBOARD_HPP
 
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputlistener.hpp>
-#include <sway/ois/prereqs.hpp>
 #include <sway/ois/typedefs.hpp>
 
 namespace sway::ois {
