@@ -5,12 +5,9 @@
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 class InputDevice {
-  DECLARE_PTR_ALIASES(InputDevice)
-
 public:
 #pragma region "Ctors/Dtor"
 
@@ -25,14 +22,13 @@ public:
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  PURE_VIRTUAL(void setListener(InputListener::Ptr_t listener));
+  PURE_VIRTUAL(void setListener(typedefs::InputListenerPtr_t listener));
 
-  PURE_VIRTUAL(void setInputEventListener(InputEventListener::Ptr_t listener));
+  PURE_VIRTUAL(void setInputEventListener(typedefs::InputEventListenerPtr_t listener));
 
 #pragma endregion
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_INPUTDEVICE_HPP

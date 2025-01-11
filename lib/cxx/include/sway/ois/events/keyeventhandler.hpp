@@ -12,18 +12,17 @@
 #include <memory>
 #include <queue>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-struct KeyEventHandler : public core::evts::EventHandler {
+struct KeyEventHandler : public core::EventHandler {
   KeyEventHandler()
-      : core::evts::EventHandler() {}
+      : core::EventHandler(nullptr) {}
 
   ~KeyEventHandler() override = default;
 
 #pragma region "Override EventHandler methods"
 
-  MTHD_OVERRIDE(auto invoke(const core::foundation::Event::UniquePtr_t &evt) -> bool) final {
+  MTHD_OVERRIDE(auto invoke(const core::EventTypedefs::UniquePtr_t &evt) -> bool) final {
     if (InputEventUtil::isKeyEvent(evt)) {
       onKeyEvent(InputEventUtil::asKeyEvent(evt));
     }
@@ -33,7 +32,7 @@ struct KeyEventHandler : public core::evts::EventHandler {
 
 #pragma endregion
 
-  void onKeyEvent(KeyEvent *evt) { printf("type %i\n", evt->type()); }
+  void onKeyEvent(KeyEvent *evt) { printf("type %i\n", evt->getType()); }
 
   // void onKeyDown(const KeyboardEventParams &params) {}
 
@@ -42,7 +41,6 @@ struct KeyEventHandler : public core::evts::EventHandler {
   // void onKeyPress(const KeyboardEventParams &params) {}
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_KEYEVENTHANDLER_HPP

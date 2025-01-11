@@ -16,8 +16,7 @@
 #  include <emscripten/html5.h>
 #endif
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 #define MOUSE_LBTN 0
 #define MOUSE_MBTN 1
@@ -45,8 +44,7 @@ struct EmscWheelEvent_t {
 
 class InputDeviceManager;
 
-class EMSMouse : public InputDevice {
-  DECLARE_EMSCRIPTEN(EMSMouse)
+class EMSMouse : public InputDevice, public core::Emscripteable<EMSMouse> {
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE);
 
 public:
@@ -61,7 +59,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  EMSMouse(InputDeviceManagerPtr_t mngr);
+  EMSMouse(typedefs::InputDeviceManagerPtr_t mngr);
 
   ~EMSMouse() = default;
 
@@ -92,9 +90,9 @@ public:
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
+  MTHD_OVERRIDE(void setListener(typedefs::InputListenerPtr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener)) {}
+  MTHD_OVERRIDE(void setInputEventListener(typedefs::InputEventListenerPtr_t listener)) {}
 
 #pragma endregion
 
@@ -106,7 +104,7 @@ public:
   void setMotionFunc(callback_t fn);
 
 private:
-  InputDeviceManagerPtr_t mngr_;
+  typedefs::InputDeviceManagerPtr_t mngr_;
 
   std::function<void(const struct MouseEventParams &)> onMouseButtonDown_;
   std::function<void(const struct MouseEventParams &)> onMouseDblClick_;
@@ -133,8 +131,8 @@ D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::Java
 
 D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(
-    intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) -> EMSMouse::JavaScriptPtr_t;
+D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr)
+    -> EMSMouse::JavaScriptPtr_t;
 
 D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId);
 
@@ -145,7 +143,6 @@ D_MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JavaScriptPtr_
 EXTERN_C_END
 #endif
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_WEB_EMSMOUSE_HPP

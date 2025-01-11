@@ -3,12 +3,10 @@
 
 #include <sway/core.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 DECLARE_ENUM(MouseFilter, IGNORE, STOP, PASS)
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_MOUSEFILTERS_HPP

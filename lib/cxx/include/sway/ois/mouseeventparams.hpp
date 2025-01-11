@@ -7,8 +7,7 @@
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/mousebuttoncodes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 struct MouseButtonEventParams {
   i32_t button;
@@ -36,7 +35,6 @@ struct MouseEventParams : public InputEventParams {
   InputActionState states[NUM_MOUSE_BTNS];
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_MOUSEEVENTPARAMS_HPP

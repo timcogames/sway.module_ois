@@ -13,8 +13,7 @@
 #  include <emscripten/html5.h>
 #endif
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 #ifdef EMSCRIPTEN_PLATFORM
 using EmscKeyboardEvent_t = EmscriptenKeyboardEvent;
@@ -32,7 +31,7 @@ class EMSKeyboard : public InputDevice {
 public:
 #pragma region "Ctors/Dtor"
 
-  EMSKeyboard(InputDeviceManagerPtr_t mngr);
+  EMSKeyboard(typedefs::InputDeviceManagerPtr_t mngr);
 
   ~EMSKeyboard() = default;
 
@@ -51,14 +50,14 @@ public:
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
+  MTHD_OVERRIDE(void setListener(typedefs::InputListenerPtr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener));
+  MTHD_OVERRIDE(void setInputEventListener(typedefs::InputEventListenerPtr_t listener));
 
 #pragma endregion
 
 private:
-  InputDeviceManagerPtr_t mngr_;
+  typedefs::InputDeviceManagerPtr_t mngr_;
   std::function<void(InputEventParams *)> actionCallback_;
 
   std::function<void(const struct KeyboardEventParams &)> onKeyDown_;
@@ -66,7 +65,6 @@ private:
   std::function<void(const struct KeyboardEventParams &)> onKeyPress_;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_WEB_EMSKEYBOARD_HPP

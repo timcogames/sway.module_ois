@@ -7,12 +7,11 @@
 
 #include <algorithm>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 #define CANVAS_ID "#canvas"
 
-EMSMouse::EMSMouse(InputDeviceManagerPtr_t mngr)
+EMSMouse::EMSMouse(typedefs::InputDeviceManagerPtr_t mngr)
     : mngr_(mngr)
     , canvasId_(CANVAS_ID)
     , bounds_(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>(300.0F, 240.0F))) {
@@ -54,7 +53,7 @@ void EMSMouse::unregisterEventHandlers() {
 #endif
 }
 
-void EMSMouse::setListener(InputListener::Ptr_t listener) {
+void EMSMouse::setListener(typedefs::InputListenerPtr_t listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
   onMouseDblClick_ = std::bind(&InputListener::onMouseDblClick, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
@@ -66,24 +65,24 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
   auto *eventdata = new MouseEventData();
 
   if (bool(evt.ctrlKey)) {
-    eventdata->modifiers |= core::detail::toBase(KeyModifier::CTRL);
+    eventdata->modifiers |= core::toBase(KeyModifier::CTRL);
   }
 
   if (bool(evt.shiftKey)) {
-    eventdata->modifiers |= core::detail::toBase(KeyModifier::SHIFT);
+    eventdata->modifiers |= core::toBase(KeyModifier::SHIFT);
   }
 
   if (bool(evt.altKey)) {
-    eventdata->modifiers |= core::detail::toBase(KeyModifier::ALT);
+    eventdata->modifiers |= core::toBase(KeyModifier::ALT);
   }
 
   eventdata->point = math::point2f_t(std::clamp<f32_t>((f32_t)evt.targetX, 0.0F, bounds_.max[0]),
       std::clamp<f32_t>((f32_t)evt.targetY, 0.0F, bounds_.max[1]));
   eventdata->drag = eventdata->point.asVec();
   eventdata->btnCode = evt.button;
-  eventdata->state = core::detail::toBase(InputActionState::PRESSED);
+  eventdata->state = core::toBase(InputActionState::PRESSED);
 
-  auto event = std::make_unique<MouseEvent>(core::detail::toBase(InputActionType::MOUSE_BUTTON), eventdata);
+  auto event = std::make_unique<MouseEvent>(core::toBase(InputActionType::MOUSE_BUTTON), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   const auto timestamp = EMSMouse::getTimestamp();
@@ -111,9 +110,9 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
 auto EMSMouse::handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool {
   auto *eventdata = new MouseEventData();
   eventdata->btnCode = evt.button;
-  eventdata->state = core::detail::toBase(InputActionState::RELEASED);
+  eventdata->state = core::toBase(InputActionState::RELEASED);
 
-  auto event = std::make_unique<MouseEvent>(core::detail::toBase(InputActionType::MOUSE_BUTTON), eventdata);
+  auto event = std::make_unique<MouseEvent>(core::toBase(InputActionType::MOUSE_BUTTON), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   // eventParams_.button = evt.button;  // deprecated
@@ -174,7 +173,7 @@ auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   // onMouseMoved_(eventParams_);
   // }
 
-  auto event = std::make_unique<MouseEvent>(core::detail::toBase(InputActionType::MOUSE_MOVED), eventdata);
+  auto event = std::make_unique<MouseEvent>(core::toBase(InputActionType::MOUSE_MOVED), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onMotion_) {
@@ -264,5 +263,4 @@ void onMotionCallback(EMSMouse::JavaScriptPtr_t device, void (*callback)(int, in
 
 #endif
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois

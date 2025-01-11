@@ -10,65 +10,80 @@
 #include <memory>
 #include <unordered_map>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 /**
- * @brief Класс управления вводом системы.
+ * @brief \~english Class for input device management. \~russian Класс управления вводом системы.
  */
-class InputDeviceManager {
-  DECLARE_PTR_ALIASES(InputDeviceManager)
-  DECLARE_EMSCRIPTEN(InputDeviceManager)
+class InputDeviceManager : public core::Emscripteable<InputDeviceManager> {
 
 public:
+#pragma region "Ctors/Dtor"
+
   InputDeviceManager();
 
   virtual ~InputDeviceManager() = default;
 
+#pragma endregion
+
   /**
-   * @brief Регистрирует устройство ввода.
+   * @brief \~english Registers input device. \~russian Регистрирует устройство ввода.
    */
   template <typename CONCRETE_DEVICE>
   inline void registerDevice();
 
   /**
-   * @brief Получает устройство ввода.
+   * @brief \~english Gets input device. \~russian Получает устройство ввода.
    */
   template <typename CONCRETE_DEVICE>
   inline auto getDevice() -> std::shared_ptr<CONCRETE_DEVICE>;
 
   /**
-   * @brief Проверяет устройство.
+   * \~english
+   * @brief Checks device.
+   * @param[in] type Device type for check.
    *
+   * \~russian
+   * @brief Проверяет устройство.
    * @param[in] type Тип устройства для проверки.
    */
   auto hasFreeDevice(InputDeviceType type) -> bool;
 
   /**
-   * @brief Устанавливает логическое значение использования клавиатуры.
+   * \~english
+   * @brief Sets logical value of keyboard usage.
+   * @param[in] used Process keyboard events?
+   * @note Internal method.
    *
+   * \~russian
+   * @brief Устанавливает логическое значение использования клавиатуры.
    * @param[in] used Обрабатывать события от клавиатуры?
    * @note Внутренний метод.
    */
   void setKeyboardUsed(bool used);
 
   /**
-   * @brief Устанавливает логическое значение использования мышки.
+   * \~english
+   * @brief Sets logical value of mouse usage.
+   * @param[in] used Process mouse events?
+   * @note Internal method.
    *
+   * \~russian
+   * @brief Устанавливает логическое значение использования мышки.
    * @param[in] used Обрабатывать события от мышки?
    * @note Внутренний метод.
    */
   void setMouseUsed(bool used);
 
-  void setEventBus(core::evts::EventBus::SharedPtr_t evtbus) { evtbus_ = evtbus; }
+  void setEventBus(core::EventBusTypedefs::SharedPtr_t evtbus) { evtbus_ = evtbus; }
 
-  auto getEventBus() -> core::evts::EventBus::SharedPtr_t { return evtbus_; }
+  auto getEventBus() -> core::EventBusTypedefs::SharedPtr_t { return evtbus_; }
 
 private:
-  core::evts::EventBus::SharedPtr_t evtbus_;
-  std::unordered_map<u32_t, InputDevice::SharedPtr_t> factories_;
-  bool keyboardUsed_;  // Используется ли клавиатура.
-  bool mouseUsed_;  // Используется ли мышка.
+  core::EventBusTypedefs::SharedPtr_t evtbus_;
+  typedefs::InputDeviceContainer_t factories_;
+  bool keyboardUsed_;  //!< \~english Keyboard used. \~russian Используется ли клавиатура.
+  bool mouseUsed_;  //!< \~english Mouse used. \~russian Используется ли мышка.
 };
 
 #include <sway/ois/inputdevicemanager.inl>
@@ -81,7 +96,6 @@ D_MODULE_OIS_INTERFACE_EXPORT_API auto createInputDeviceManager() -> InputDevice
 EXTERN_C_END
 #endif
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_INPUTDEVICEMANAGER_HPP

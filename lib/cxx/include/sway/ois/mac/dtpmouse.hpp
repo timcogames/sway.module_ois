@@ -9,14 +9,12 @@
 #include <sway/ois/prereqs.hpp>
 #include <sway/ois/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 /**
  * @brief Представляет устройство мыши.
  */
 class DTPMouse : public InputDevice {
-  DECLARE_PTR_ALIASES(DTPMouse)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::MOUSE)
 
 public:
@@ -28,7 +26,7 @@ public:
    *
    * @param[in] mngr Указатель на менеджер ввода.
    */
-  DTPMouse(InputDeviceManagerPtr_t mngr);
+  DTPMouse(typedefs::InputDeviceManagerPtr_t mngr);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
@@ -44,9 +42,9 @@ public:
    *
    * @param[in] listener Слушатель событий мышки.
    */
-  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
+  MTHD_OVERRIDE(void setListener(typedefs::InputListenerPtr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener)) {}
+  MTHD_OVERRIDE(void setInputEventListener(typedefs::InputEventListenerPtr_t listener)) {}
 
 #pragma endregion
 
@@ -64,14 +62,13 @@ private:
    */
   void initialize_();
 
-  InputDeviceManagerPtr_t manager_;  // Указатель на менеджер ввода.
+  typedefs::InputDeviceManagerPtr_t manager_;  // Указатель на менеджер ввода.
   MouseEventCallbackFunc_t onMouseButtonDown_;
   MouseEventCallbackFunc_t onMouseButtonUp_;
   MouseEventCallbackFunc_t onMouseMove_;
   bool mouseGrabbed_;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_MAC_DTPMOUSE_HPP

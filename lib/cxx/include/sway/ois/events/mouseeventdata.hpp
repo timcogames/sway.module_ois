@@ -6,10 +6,9 @@
 
 #include <string>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-struct MouseEventData : core::foundation::EventData {
+struct MouseEventData : core::EventData {
   math::point2f_t point;  // Координаты позиции курсора.
   math::vec2f_t offset;
   math::vec2f_t drag;
@@ -23,14 +22,13 @@ struct MouseEventData : core::foundation::EventData {
 
 #pragma region "Override EventData methods"
 
-  MTHD_OVERRIDE(auto serialize() const -> std::string) { return ""; }
+  // MTHD_OVERRIDE(auto serialize() const -> std::string) { return ""; }
 
-  MTHD_OVERRIDE(void deserialize(const std::string &jdata)) {}
+  // MTHD_OVERRIDE(void deserialize(const std::string &jdata)) {}
 
 #pragma endregion
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_MOUSEEVENTDATA_HPP

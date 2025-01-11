@@ -1,7 +1,6 @@
 #include <sway/ois/inputdevicemanager.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 InputDeviceManager::InputDeviceManager()
     : keyboardUsed_(false)
@@ -30,5 +29,4 @@ auto createInputDeviceManager() -> InputDeviceManager::JavaScriptPtr_t {
 
 #endif
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois

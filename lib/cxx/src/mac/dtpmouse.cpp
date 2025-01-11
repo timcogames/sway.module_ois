@@ -1,10 +1,9 @@
 #include <sway/ois/inputdevicemanager.hpp>
 #include <sway/ois/mac/dtpmouse.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-DTPMouse::DTPMouse(InputDeviceManagerPtr_t mngr)
+DTPMouse::DTPMouse(typedefs::InputDeviceManagerPtr_t mngr)
     : manager_(mngr)
     , mouseGrabbed_(false) {
   initialize_();
@@ -27,7 +26,7 @@ void DTPMouse::initialize_() {
   // }
 }
 
-void DTPMouse::setListener(InputListener::Ptr_t listener) {
+void DTPMouse::setListener(typedefs::InputListenerPtr_t listener) {
   onMouseButtonDown_ = std::bind(&InputListener::onMouseButtonDown, listener, std::placeholders::_1);
   onMouseButtonUp_ = std::bind(&InputListener::onMouseButtonUp, listener, std::placeholders::_1);
   onMouseMove_ = std::bind(&InputListener::onMouseMoved, listener, std::placeholders::_1);
@@ -62,5 +61,4 @@ void DTPMouse::notifyMouseButtonUp(const XEvent &event) {
   }
 }
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois

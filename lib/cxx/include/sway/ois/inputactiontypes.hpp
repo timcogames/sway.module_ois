@@ -3,8 +3,7 @@
 
 #include <sway/core.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 enum class InputActionType : u32_t {
   UNKNOWN = 0,
@@ -18,7 +17,6 @@ enum class InputActionType : u32_t {
   Latest
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_INPUTACTIONTYPES_HPP

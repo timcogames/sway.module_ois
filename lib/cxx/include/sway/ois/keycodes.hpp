@@ -3,8 +3,7 @@
 
 #include <sway/core.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 enum class KeyCode : u32_t {
   KC_UNKNOWN = 0,
@@ -116,7 +115,6 @@ enum class KeyCode : u32_t {
   KC_NUMPAD_9 = 105
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_KEYCODES_HPP

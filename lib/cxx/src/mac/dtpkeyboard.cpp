@@ -3,10 +3,9 @@
 #include <sway/ois/mac/dtpkeyboard.hpp>
 #include <sway/ois/mac/dtpkeymappinglist.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-DTPKeyboard::DTPKeyboard(InputDeviceManagerPtr_t mngr)
+DTPKeyboard::DTPKeyboard(typedefs::InputDeviceManagerPtr_t mngr)
     : manager_(mngr)
     , listener_(nullptr)
     , keyboardGrabbed_(false) {
@@ -38,7 +37,7 @@ void DTPKeyboard::enableSystemKeys_() {
   // }
 }
 
-void DTPKeyboard::setListener(InputListener::Ptr_t listener) { listener_ = listener; }
+void DTPKeyboard::setListener(typedefs::InputListenerPtr_t listener) { listener_ = listener; }
 
 void DTPKeyboard::notifyKeyPressed(const XEvent &evt) {
   if (listener_ == nullptr) {
@@ -70,5 +69,4 @@ void DTPKeyboard::notifyKeyReleased(const XEvent &evt) {
   }
 }
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois

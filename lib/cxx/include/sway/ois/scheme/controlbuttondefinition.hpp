@@ -6,15 +6,13 @@
 
 #include <string>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 struct ControlButtonDefinition {
   Equalable<u32_t>::SharedPtr_t button;
   std::string description;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_SCHEME_CONTROLBUTTONDEFINITION_HPP

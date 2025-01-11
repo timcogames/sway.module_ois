@@ -7,35 +7,35 @@
 #undef Bool
 #undef None
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <gmock/gmock.h>
 #include <memory>
 
 using namespace sway;
 
 class StupInputEventListener : public ois::InputEventListener {
 public:
-  StupInputEventListener(core::evts::EventBus::Ptr_t evtbus)
+  StupInputEventListener(core::EventBusTypedefs::Ptr_t evtbus)
       : evtbus_(evtbus) {}
 
   MTHD_OVERRIDE(void processInputEvent(ois::InputEventParams *params)) {
     auto eventData = new ois::KeyEventData();
-    auto event = std::make_unique<ois::KeyEvent>(core::detail::toBase(ois::InputActionType::KEY), eventData);
+    auto event = std::make_unique<ois::KeyEvent>(core::toBase(ois::InputActionType::KEY), eventData);
     evtbus_->addToQueue(std::move(event));
   }
 
 private:
-  core::evts::EventBus::Ptr_t evtbus_;
+  core::EventBusTypedefs::Ptr_t evtbus_;
 };
 
 class FakeInputDevice : public ois::InputDevice {
 public:
-  MTHD_OVERRIDE(void setListener(ois::InputListener::Ptr_t)) {
+  MTHD_OVERRIDE(void setListener(ois::typedefs::InputListenerPtr_t)) {
     // DEPRECATED
   }
 
-  MTHD_OVERRIDE(void setInputEventListener(ois::InputEventListener::Ptr_t listener)) {
+  MTHD_OVERRIDE(void setInputEventListener(ois::typedefs::InputEventListenerPtr_t listener)) {
     handleEvent_ = std::bind(&ois::InputEventListener::processInputEvent, listener, std::placeholders::_1);
   }
 
@@ -53,7 +53,7 @@ private:
 };
 
 TEST(InputEventListener, Test) {
-  auto *evtbus = new core::evts::EventBus();
+  auto *evtbus = new core::EventBus();
 
   FakeInputDevice device;
   device.setInputEventListener(new StupInputEventListener(evtbus));

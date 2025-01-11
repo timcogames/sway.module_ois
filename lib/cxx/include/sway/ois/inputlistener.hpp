@@ -12,11 +12,9 @@
 #include <memory>
 #include <queue>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 class InputEventListener {
-  DECLARE_PTR_ALIASES(InputEventListener)
 
 public:
 #pragma region "Pure virtual methods"
@@ -27,8 +25,6 @@ public:
 };
 
 class InputListener {
-  DECLARE_PTR_ALIASES(InputListener)
-
 public:
 #pragma region "Методы обработки событий клавиатуры"
 
@@ -59,7 +55,6 @@ public:
 #pragma endregion
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_INPUTLISTENER_HPP

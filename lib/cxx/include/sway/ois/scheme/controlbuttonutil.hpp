@@ -8,8 +8,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 struct ControlButtonUtil {
   static auto makeKeyboardControlButton(KeyCode key) -> std::shared_ptr<ControlButton<InputActionType::KEY>> {
@@ -21,7 +20,6 @@ struct ControlButtonUtil {
   }
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_SCHEME_CONTROLBUTTONUTIL_HPP

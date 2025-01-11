@@ -8,14 +8,12 @@
 #include <sway/ois/prereqs.hpp>
 #include <sway/ois/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 /**
  * @brief Представляет устройство клавиатуры.
  */
 class DTPKeyboard : public InputDevice {
-  DECLARE_PTR_ALIASES(DTPKeyboard)
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::KEYBOARD)
 
 public:
@@ -27,7 +25,7 @@ public:
    *
    * @param[in] mngr Указатель на менеджер ввода.
    */
-  DTPKeyboard(InputDeviceManagerPtr_t mngr);
+  DTPKeyboard(typedefs::InputDeviceManagerPtr_t mngr);
 
   /**
    * @brief Деструктор класса. Освобождает захваченные ресурсы.
@@ -43,9 +41,9 @@ public:
    *
    * @param[in] listener Слушатель событий клавиатуры.
    */
-  MTHD_OVERRIDE(void setListener(InputListener::Ptr_t listener));
+  MTHD_OVERRIDE(void setListener(typedefs::InputListenerPtr_t listener));
 
-  MTHD_OVERRIDE(void setInputEventListener(InputEventListener::Ptr_t listener)) {}
+  MTHD_OVERRIDE(void setInputEventListener(typedefs::InputEventListenerPtr_t listener)) {}
 
 #pragma endregion
 
@@ -75,12 +73,11 @@ private:
 
   void enableSystemKeys_();
 
-  InputDeviceManagerPtr_t manager_;  // Указатель на менеджер ввода.
-  InputListener::Ptr_t listener_;
+  typedefs::InputDeviceManagerPtr_t manager_;  // Указатель на менеджер ввода.
+  typedefs::InputListenerPtr_t listener_;
   bool keyboardGrabbed_;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_MAC_DTPKEYBOARD_HPP

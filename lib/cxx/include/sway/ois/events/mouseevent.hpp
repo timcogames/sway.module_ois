@@ -6,20 +6,16 @@
 #include <sway/ois/events/inputevent.hpp>
 #include <sway/ois/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 class MouseEvent : public InputEvent {
-  DECLARE_PTR_ALIASES(MouseEvent)
-
 public:
-  explicit MouseEvent(u32_t type, core::foundation::EventData::Ptr_t data)
+  explicit MouseEvent(u32_t type, core::EventDataTypedefs::Ptr_t data)
       : InputEvent(type, data) {}
 
   ~MouseEvent() = default;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_MOUSEEVENT_HPP

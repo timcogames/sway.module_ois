@@ -4,8 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/math.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 struct TouchState {
   uintptr_t id;
@@ -14,7 +13,6 @@ struct TouchState {
   InputActionState state;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_TOUCHSTATE_HPP

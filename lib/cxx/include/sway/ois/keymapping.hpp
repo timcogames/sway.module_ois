@@ -4,15 +4,13 @@
 #include <sway/ois/keycodes.hpp>
 #include <sway/ois/prereqs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 struct KeyMapping {
   KeySym symbol;
   KeyCode code;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_KEYMAPPING_HPP

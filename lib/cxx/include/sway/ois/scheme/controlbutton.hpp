@@ -9,8 +9,7 @@
 
 #include <memory>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 template <typename TYPE>
 struct Equalable {
@@ -55,7 +54,7 @@ struct ControlButton<InputActionType::KEY> : public Equalable<u32_t> {
 #pragma region "Ctors/Dtor"
 
   ControlButton(KeyCode code)
-      : keyCode(core::detail::toBase(code)) {}
+      : keyCode(core::toBase(code)) {}
 
   ControlButton(u32_t code)
       : keyCode(code) {}
@@ -86,7 +85,7 @@ struct ControlButton<InputActionType::MOUSE_BUTTON> : public Equalable<u32_t> {
 #pragma region "Ctors/Dtor"
 
   ControlButton(MouseButtonCode btn)
-      : btnCode(core::detail::toBase(btn)) {}
+      : btnCode(core::toBase(btn)) {}
 
   ControlButton(u32_t btn)
       : btnCode(btn) {}
@@ -117,7 +116,7 @@ struct ControlButton<InputActionType::MOUSE_WHEEL> : public Equalable<u32_t> {
 #pragma region "Ctors/Dtor"
 
   ControlButton(MouseWheelScrollAction act)
-      : action(core::detail::toBase(act)) {}
+      : action(core::toBase(act)) {}
 
   ControlButton(u32_t act)
       : action(act) {}
@@ -131,7 +130,6 @@ struct ControlButton<InputActionType::MOUSE_WHEEL> : public Equalable<u32_t> {
 #pragma endregion
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_SCHEME_CONTROLBUTTON_HPP

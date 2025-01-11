@@ -5,23 +5,21 @@
 
 #include <string>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-struct KeyEventData : core::foundation::EventData {
+struct KeyEventData : core::EventData {
   u32_t keyCode;
   u32_t state;
 
 #pragma region "Override EventData methods"
 
-  MTHD_OVERRIDE(auto serialize() const -> std::string) { return ""; }
+  // MTHD_OVERRIDE(auto serialize() const -> std::string) { return ""; }
 
-  MTHD_OVERRIDE(void deserialize(const std::string &jdata)) {}
+  // MTHD_OVERRIDE(void deserialize(const std::string &jdata)) {}
 
 #pragma endregion
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_KEYEVENTDATA_HPP

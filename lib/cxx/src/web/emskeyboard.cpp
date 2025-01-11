@@ -7,10 +7,9 @@
 
 #include <algorithm>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-EMSKeyboard::EMSKeyboard(InputDeviceManagerPtr_t mngr)
+EMSKeyboard::EMSKeyboard(typedefs::InputDeviceManagerPtr_t mngr)
     : mngr_(mngr) {
 #ifdef EMSCRIPTEN_PLATFORM
   const EM_BOOL toUseCapture = EM_FALSE;
@@ -32,22 +31,22 @@ EMSKeyboard::EMSKeyboard(InputDeviceManagerPtr_t mngr)
 #endif
 }
 
-void EMSKeyboard::setListener(InputListener::Ptr_t listener) {
+void EMSKeyboard::setListener(typedefs::InputListenerPtr_t listener) {
   onKeyDown_ = std::bind(&InputListener::onKeyDown, listener, std::placeholders::_1);
   onKeyUp_ = std::bind(&InputListener::onKeyUp, listener, std::placeholders::_1);
   onKeyPress_ = std::bind(&InputListener::onKeyPress, listener, std::placeholders::_1);
 }
 
-void EMSKeyboard::setInputEventListener(InputEventListener::Ptr_t listener) {
+void EMSKeyboard::setInputEventListener(typedefs::InputEventListenerPtr_t listener) {
   actionCallback_ = std::bind(&InputEventListener::processInputEvent, listener, std::placeholders::_1);
 }
 
 auto EMSKeyboard::handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool {
   auto *eventdata = new KeyEventData();
   eventdata->keyCode = evt.keyCode;
-  eventdata->state = core::detail::toBase(InputActionState::PRESSED);
+  eventdata->state = core::toBase(InputActionState::PRESSED);
 
-  auto event = std::make_unique<KeyEvent>(core::detail::toBase(InputActionType::KEY), eventdata);
+  auto event = std::make_unique<KeyEvent>(core::toBase(InputActionType::KEY), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onKeyDown_) {
@@ -64,9 +63,9 @@ auto EMSKeyboard::handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool {
 auto EMSKeyboard::handleKeyUp(const EmscKeyboardEvent_t &evt) -> bool {
   auto *eventdata = new KeyEventData();
   eventdata->keyCode = evt.keyCode;
-  eventdata->state = core::detail::toBase(InputActionState::RELEASED);
+  eventdata->state = core::toBase(InputActionState::RELEASED);
 
-  auto event = std::make_unique<KeyEvent>(core::detail::toBase(InputActionType::KEY), eventdata);
+  auto event = std::make_unique<KeyEvent>(core::toBase(InputActionType::KEY), eventdata);
   mngr_->getEventBus()->addToQueue(std::move(event));
 
   if (onKeyUp_) {
@@ -84,5 +83,4 @@ auto EMSKeyboard::handleKeyPress(const EmscKeyboardEvent_t &evt) -> bool {
   return true;
 }
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois

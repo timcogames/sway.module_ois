@@ -6,25 +6,48 @@
 #include <functional>
 #include <unordered_map>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
-DECLARE_PTR_TYPES(InputDevice)
-DECLARE_PTR_TYPES(InputDeviceManager)
-DECLARE_PTR_TYPES(InputEventListener)
-DECLARE_PTR_TYPES(InputListener)
-DECLARE_PTR_TYPES(KeyEvent)
-DECLARE_PTR_TYPES(MouseEvent)
-DECLARE_PTR_TYPES(DTPKeyboard)
-DECLARE_PTR_TYPES(DTPMouse)
+class InputDevice;
 
-using InputDeviceCreator_t = std::function<InputDeviceSharedPtr_t()>;
+class InputDeviceManager;
+
+class InputListener;
+
+class InputEventListener;
+
+class KeyEvent;
+
+class MouseEvent;
+
+namespace typedefs {
+
+using InputDeviceSharedPtr_t = std::shared_ptr<InputDevice>;
+
+using InputDeviceContainer_t = std::unordered_map<u32_t, InputDeviceSharedPtr_t>;
+
+using InputDeviceManagerPtr_t = InputDeviceManager *;
+
+using InputDeviceManagerSharedPtr_t = std::shared_ptr<InputDeviceManager>;
+
+using InputListenerPtr_t = InputListener *;
+
+using InputEventListenerPtr_t = InputEventListener *;
+
+using KeyEventPtr_t = KeyEvent *;
+
+using MouseEventPtr_t = MouseEvent *;
+
+}  // namespace typedefs
+
+using InputDeviceCreator_t = std::function<typedefs::InputDeviceSharedPtr_t()>;
+
 using InputDeviceFactory_t = std::unordered_map<u32_t, InputDeviceCreator_t>;
 
 using KeyboardEventCallbackFunc_t = std::function<void(const struct KeyboardEventParams &)>;
+
 using MouseEventCallbackFunc_t = std::function<void(const struct MouseEventParams &)>;
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_TYPEDEFS_HPP

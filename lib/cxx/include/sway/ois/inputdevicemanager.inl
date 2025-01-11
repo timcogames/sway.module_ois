@@ -5,13 +5,12 @@
 
 template <typename CONCRETE_DEVICE>
 void InputDeviceManager::registerDevice() {
-  auto deviceType = core::detail::toBase(CONCRETE_DEVICE::getDeviceType());
+  auto deviceType = core::toBase(CONCRETE_DEVICE::getDeviceType());
   auto devicePtr = std::make_shared<CONCRETE_DEVICE>(this);
   factories_.insert(std::make_pair(deviceType, devicePtr));
 }
 
 template <typename CONCRETE_DEVICE>
 auto InputDeviceManager::getDevice() -> std::shared_ptr<CONCRETE_DEVICE> {
-  return std::static_pointer_cast<CONCRETE_DEVICE>(
-      factories_.at(core::detail::toBase(CONCRETE_DEVICE::getDeviceType())));
+  return std::static_pointer_cast<CONCRETE_DEVICE>(factories_.at(core::toBase(CONCRETE_DEVICE::getDeviceType())));
 }

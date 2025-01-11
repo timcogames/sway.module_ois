@@ -6,8 +6,7 @@
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/keycodes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(ois)
+namespace sway::ois {
 
 /**
  * @brief Предоставляет данные для событий, связанных с клавиатуры.
@@ -22,7 +21,6 @@ struct KeyboardEventParams : public InputEventParams {
   // std::bitset<KeyModifier> modifiers;
 };
 
-NS_END()  // namespace ois
-NS_END()  // namespace sway
+}  // namespace sway::ois
 
 #endif  // SWAY_OIS_KEYBOARDEVENTPARAMS_HPP
