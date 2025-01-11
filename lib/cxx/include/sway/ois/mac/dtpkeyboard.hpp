@@ -18,28 +18,43 @@ class DTPKeyboard : public InputDevice {
 
 public:
 #pragma region "Ctors/Dtor"
+  /** \~english @name Constructor & Destructor */ /** \~russian @name Конструктор и Деструктор */
+  /** @{ */
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~english
+   * @brief Constructor class. Initializes new instance of class.
+   * @param[in] mngr Pointer to input device manager.
    *
+   * \~russian
+   * @brief Конструктор класса. Выполняет инициализацию нового экземпляра класса.
    * @param[in] mngr Указатель на менеджер ввода.
    */
   DTPKeyboard(typedefs::InputDeviceManagerPtr_t mngr);
 
   /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
+   * @brief \~english Destructor class. Releases captured resources. \~russian Деструктор класса. Освобождает
+   * захваченные ресурсы.
    */
   virtual ~DTPKeyboard();
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Override InputDevice methods"
 
   /**
-   * @brief Устанавливает слушатель событий.
+   * \~english
+   * @brief Sets a listener for keyboard events.
+   * @details This method allows a listener to subscribe to keyboard events and receive notifications when such events
+   * occur.
+   * @param[in] listener A pointer to the keyboard event listener.
    *
-   * @param[in] listener Слушатель событий клавиатуры.
+   * \~russian
+   * @brief Устанавливает слушатель событий клавиатуры.
+   * @details Этот метод позволяет слушателю подписаться на события клавиатуры и получать уведомления по их
+   * возникновению.
+   * @param[in] listener Указатель на слушатель событий клавиатуры.
    */
   MTHD_OVERRIDE(void setListener(typedefs::InputListenerPtr_t listener));
 

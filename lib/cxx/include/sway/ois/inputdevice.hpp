@@ -10,22 +10,32 @@ namespace sway::ois {
 class InputDevice {
 public:
 #pragma region "Ctors/Dtor"
+  /** \~english @name Constructor & Destructor */ /** \~russian @name Конструктор и Деструктор */
+  /** @{ */
 
   virtual ~InputDevice() = default;
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Pure virtual methods"
+  /** \~english @name Pure virtual methods */ /** \~russian @name Чисто виртуальные методы */
+  /** @{ */
 
   /**
-   * @brief Устанавливает слушатель событий.
+   * \~english
+   * @brief Sets listener for events.
+   * @param[in] listener Listener for events.
    *
-   * @param[in] listener Слушатель событий клавиатуры.
+   * \~russian
+   * @brief Устанавливает слушатель событий.
+   * @param[in] listener Слушатель событий.
    */
-  PURE_VIRTUAL(void setListener(typedefs::InputListenerPtr_t listener));
+  virtual void setListener(typedefs::InputListenerPtr_t listener) = 0;
 
-  PURE_VIRTUAL(void setInputEventListener(typedefs::InputEventListenerPtr_t listener));
+  virtual void setInputEventListener(typedefs::InputEventListenerPtr_t listener) = 0;
 
+  /** @} */
 #pragma endregion
 };
 
