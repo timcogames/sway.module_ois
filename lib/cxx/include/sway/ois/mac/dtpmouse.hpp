@@ -2,12 +2,12 @@
 #define SWAY_OIS_MAC_DTPMOUSE_HPP
 
 #include <sway/ois/_stdafx.hpp>
+#include <sway/ois/_typedefs.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/inputlistener.hpp>
-#include <sway/ois/typedefs.hpp>
 
 namespace sway::ois {
 

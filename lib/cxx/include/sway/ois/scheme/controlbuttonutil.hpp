@@ -2,11 +2,10 @@
 #define SWAY_OIS_SCHEME_CONTROLBUTTONUTIL_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/inputactiontypes.hpp>
 #include <sway/ois/keycodes.hpp>
 #include <sway/ois/scheme/controlbutton.hpp>
-
-#include <memory>
 
 namespace sway::ois {
 

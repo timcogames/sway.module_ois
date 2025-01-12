@@ -2,12 +2,11 @@
 #define SWAY_OIS_INPUTEVENTUTIL_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/events/inputevent.hpp>
 #include <sway/ois/events/keyevent.hpp>
 #include <sway/ois/events/mouseevent.hpp>
 #include <sway/ois/inputeventparams.hpp>
-
-#include <memory>
 
 namespace sway::ois {
 

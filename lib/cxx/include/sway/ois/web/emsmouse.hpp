@@ -3,44 +3,22 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/ois/_stdafx.hpp>
+#include <sway/ois/_typedefs.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/mouseeventparams.hpp>
+#include <sway/ois/web/emsmouseevent.hpp>
+#include <sway/ois/web/emswheelevent.hpp>
 #include <sway/oismacros.hpp>
-
-#include <chrono>  // std::chrono
-
-#ifdef EMSCRIPTEN_PLATFORM
-#  include <emscripten/html5.h>
-#endif
 
 namespace sway::ois {
 
 #define MOUSE_LBTN 0
 #define MOUSE_MBTN 1
 #define MOUSE_RBTN 2
-
-#ifdef EMSCRIPTEN_PLATFORM
-using EmscMouseEvent_t = EmscriptenMouseEvent;
-using EmscWheelEvent_t = EmscriptenWheelEvent;
-#else
-struct EmscMouseEvent_t {
-  unsigned short button;
-  long targetX;
-  long targetY;
-  long movementX;
-  long movementY;
-  int ctrlKey;
-  int shiftKey;
-  int altKey;
-};
-
-struct EmscWheelEvent_t {
-  double deltaY;
-};
-#endif
 
 class InputDeviceManager;
 
@@ -78,19 +56,23 @@ public:
 
   auto isPointerLocked() -> bool;
 
-  auto handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool;
+  auto handleMouseButtonDown(const EMSMouseEvent &evt) -> bool;
 
-  auto handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool;
+  auto handleMouseButtonUp(const EMSMouseEvent &evt) -> bool;
 
-  auto handleMouseMove(const EmscMouseEvent_t &evt) -> bool;
+  auto handleMouseMove(const EMSMouseEvent &evt) -> bool;
 
-  auto handleWheel(const EmscWheelEvent_t &evt) -> bool;
+  auto handleWheel(const EMSWheelEvent &evt) -> bool;
 
 #pragma region "Override InputDevice methods"
 
   /**
-   * @brief Устанавливает слушатель событий.
+   * \~english
+   * @brief Sets listener for events.
+   * @param[in] listener Listener for events.
    *
+   * \~russian
+   * @brief Устанавливает слушатель событий.
    * @param[in] listener Слушатель событий клавиатуры.
    */
   MTHD_OVERRIDE(void setListener(typedefs::InputListenerPtr_t listener));
@@ -109,11 +91,11 @@ public:
 private:
   typedefs::InputDeviceManagerPtr_t mngr_;
 
-  std::function<void(const struct MouseEventParams &)> onMouseButtonDown_;
-  std::function<void(const struct MouseEventParams &)> onMouseDblClick_;
-  std::function<void(const struct MouseEventParams &)> onMouseButtonUp_;
-  std::function<void(const struct MouseEventParams &)> onMouseMoved_;
-  std::function<void(const struct MouseEventParams &)> onMouseWheeled_;
+  MouseEventCallbackFunc_t onMouseButtonDown_;
+  MouseEventCallbackFunc_t onMouseDblClick_;
+  MouseEventCallbackFunc_t onMouseButtonUp_;
+  MouseEventCallbackFunc_t onMouseMoved_;
+  MouseEventCallbackFunc_t onMouseWheeled_;
 
   std::function<void(int, int)> onMotion_;
 
@@ -128,20 +110,19 @@ private:
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 EXTERN_C_BEGIN
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseDevice(iptr_t mngr);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device);
+D_MODULE_OIS_INTERFACE_EXPORT_API void registerMouseEventHandlers(iptr_t device);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device);
+D_MODULE_OIS_INTERFACE_EXPORT_API void unregisterMouseEventHandlers(iptr_t device);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr)
-    -> EMSMouse::JavaScriptPtr_t;
+D_MODULE_OIS_INTERFACE_EXPORT_API auto getMouseDevice(iptr_t mngr) -> iptr_t;
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId);
+D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseCanvasId(iptr_t device, lpcstr_t canvasId);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h);
+D_MODULE_OIS_INTERFACE_EXPORT_API void setMouseBoundingBox(iptr_t device, int w, int h);
 
-D_MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(EMSMouse::JavaScriptPtr_t device, void (*callback)(int, int));
+D_MODULE_OIS_INTERFACE_EXPORT_API void onMotionCallback(iptr_t device, void (*callback)(int, int));
 
 EXTERN_C_END
 #endif

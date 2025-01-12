@@ -3,15 +3,12 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/inputdevice.hpp>
 #include <sway/ois/inputdevicemacros.hpp>
 #include <sway/ois/inputdevicetypes.hpp>
 #include <sway/ois/inputlistener.hpp>
 #include <sway/ois/keyboardeventparams.hpp>
-
-#ifdef EMSCRIPTEN_PLATFORM
-#  include <emscripten/html5.h>
-#endif
 
 namespace sway::ois {
 

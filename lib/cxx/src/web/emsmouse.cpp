@@ -61,7 +61,7 @@ void EMSMouse::setListener(typedefs::InputListenerPtr_t listener) {
   onMouseWheeled_ = std::bind(&InputListener::onMouseWheeled, listener, std::placeholders::_1);
 }
 
-auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
+auto EMSMouse::handleMouseButtonDown(const EMSMouseEvent &evt) -> bool {
   auto *eventdata = new MouseEventData();
 
   if (bool(evt.ctrlKey)) {
@@ -107,7 +107,7 @@ auto EMSMouse::handleMouseButtonDown(const EmscMouseEvent_t &evt) -> bool {
   return true;
 }
 
-auto EMSMouse::handleMouseButtonUp(const EmscMouseEvent_t &evt) -> bool {
+auto EMSMouse::handleMouseButtonUp(const EMSMouseEvent &evt) -> bool {
   auto *eventdata = new MouseEventData();
   eventdata->btnCode = evt.button;
   eventdata->state = core::toBase(InputActionState::RELEASED);
@@ -151,7 +151,7 @@ auto EMSMouse::isPointerLocked() -> bool {
 #endif
 }
 
-auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
+auto EMSMouse::handleMouseMove(const EMSMouseEvent &evt) -> bool {
   auto *eventdata = new MouseEventData();
 
   // clang-format off
@@ -183,7 +183,7 @@ auto EMSMouse::handleMouseMove(const EmscMouseEvent_t &evt) -> bool {
   return true;
 }
 
-auto EMSMouse::handleWheel(const EmscWheelEvent_t &evt) -> bool {
+auto EMSMouse::handleWheel(const EMSWheelEvent &evt) -> bool {
   eventParams_.deltaZ = -evt.deltaY;
 
   if (onMouseWheeled_) {
@@ -197,7 +197,7 @@ void EMSMouse::setMotionFunc(callback_t cb) { onMotion_ = std::function<void(int
 
 #if (defined EMSCRIPTEN_PLATFORM && !defined EMSCRIPTEN_USE_BINDINGS)
 
-void registerMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) {
+void registerMouseDevice(iptr_t mngr) {
   auto obj = InputDeviceManager::fromJs(mngr);
   if (!obj) {
     // TODO
@@ -206,7 +206,7 @@ void registerMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr
   obj->registerDevice<EMSMouse>();
 }
 
-void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
+void registerMouseEventHandlers(iptr_t device) {
   auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
@@ -215,7 +215,7 @@ void registerMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
   obj->registerEventHandlers();
 }
 
-void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
+void unregisterMouseEventHandlers(iptr_t device) {
   auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
@@ -224,7 +224,7 @@ void unregisterMouseEventHandlers(EMSMouse::JavaScriptPtr_t device) {
   obj->unregisterEventHandlers();
 }
 
-auto getMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) -> EMSMouse::JavaScriptPtr_t {
+auto getMouseDevice(iptr_t mngr) -> iptr_t {
   auto obj = InputDeviceManager::fromJs(mngr);
   if (!obj) {
     // TODO
@@ -233,7 +233,7 @@ auto getMouseDevice(intptr_t /* InputDeviceManager::JavaScriptPtr_t */ mngr) -> 
   return EMSMouse::toJs(obj->getDevice<EMSMouse>().get());
 }
 
-void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId) {
+void setMouseCanvasId(iptr_t device, lpcstr_t canvasId) {
   auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
@@ -243,7 +243,7 @@ void setMouseCanvasId(EMSMouse::JavaScriptPtr_t device, lpcstr_t canvasId) {
   obj->setCanvasId(canvasId);
 }
 
-void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h) {
+void setMouseBoundingBox(iptr_t device, int w, int h) {
   auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO
@@ -252,7 +252,7 @@ void setMouseBoundingBox(EMSMouse::JavaScriptPtr_t device, int w, int h) {
   obj->setBoundingBox(math::BoundingBox<f32_t, 2>(math::vec2f_zero, math::Vector2<f32_t>((f32_t)w, (f32_t)h)));
 }
 
-void onMotionCallback(EMSMouse::JavaScriptPtr_t device, void (*callback)(int, int)) {
+void onMotionCallback(iptr_t device, void (*callback)(int, int)) {
   auto obj = static_cast<EMSMouse *>(EMSMouse::fromJs(device));
   if (!obj) {
     // TODO

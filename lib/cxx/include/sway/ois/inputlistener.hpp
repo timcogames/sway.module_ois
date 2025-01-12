@@ -2,15 +2,12 @@
 #define SWAY_OIS_INPUTLISTENER_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
+#include <sway/ois/_typedefs.hpp>
 #include <sway/ois/inputactiontypes.hpp>
 #include <sway/ois/inputeventparams.hpp>
 #include <sway/ois/keyboardeventparams.hpp>
 #include <sway/ois/mouseeventparams.hpp>
-#include <sway/ois/typedefs.hpp>
-
-#include <list>
-#include <memory>
-#include <queue>
 
 namespace sway::ois {
 
@@ -19,7 +16,7 @@ class InputEventListener {
 public:
 #pragma region "Pure virtual methods"
 
-  PURE_VIRTUAL(void processInputEvent(InputEventParams *params));
+  virtual void processInputEvent(InputEventParams *params) = 0;
 
 #pragma endregion
 };

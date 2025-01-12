@@ -2,8 +2,7 @@
 #define SWAY_OIS_KEYEVENTDATA_HPP
 
 #include <sway/core.hpp>
-
-#include <string>
+#include <sway/ois/_stdafx.hpp>
 
 namespace sway::ois {
 

@@ -2,8 +2,8 @@
 #define SWAY_OIS_INPUTDEVICE_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_typedefs.hpp>
 #include <sway/ois/inputlistener.hpp>
-#include <sway/ois/typedefs.hpp>
 
 namespace sway::ois {
 

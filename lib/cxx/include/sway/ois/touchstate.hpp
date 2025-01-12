@@ -7,7 +7,7 @@
 namespace sway::ois {
 
 struct TouchState {
-  uintptr_t id;
+  uptr_t id;
   math::vec2f_t pos;
   math::vec2f_t dpos;
   InputActionState state;

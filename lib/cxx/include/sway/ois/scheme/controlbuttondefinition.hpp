@@ -2,9 +2,8 @@
 #define SWAY_OIS_SCHEME_CONTROLBUTTONDEFINITION_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/scheme/controlbutton.hpp>
-
-#include <string>
 
 namespace sway::ois {
 

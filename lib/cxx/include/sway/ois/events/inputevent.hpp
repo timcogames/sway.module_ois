@@ -2,9 +2,8 @@
 #define SWAY_OIS_INPUTEVENT_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/inputactiontypes.hpp>
-
-#include <string>
 
 namespace sway::ois {
 
@@ -12,7 +11,9 @@ class InputEvent : public core::Event {
   DECLARE_CLASS_METADATA(InputEvent, core::Event)
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   InputEvent(u32_t type, core::EventDataTypedefs::Ptr_t data)
       : id_(core::newGuid<core::constans::UUID_MAGIC_SIZE>(core::constans::UUID_MAGIC))
@@ -21,6 +22,7 @@ public:
 
   ~InputEvent() = default;
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Override Event methods"

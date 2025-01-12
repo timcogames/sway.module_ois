@@ -28,6 +28,5 @@
 #include <sway/ois/scheme/controlbuttondefinition.hpp>
 #include <sway/ois/scheme/controlbuttonutil.hpp>
 #include <sway/ois/touchstate.hpp>
-#include <sway/ois/typedefs.hpp>
 
 #endif  // SWAY_OIS_HPP

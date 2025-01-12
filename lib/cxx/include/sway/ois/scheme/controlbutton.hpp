@@ -2,12 +2,11 @@
 #define SWAY_OIS_SCHEME_CONTROLBUTTON_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/inputactiontypes.hpp>
 #include <sway/ois/keycodes.hpp>
 #include <sway/ois/mousebuttoncodes.hpp>
 #include <sway/ois/mousewheelscrollactions.hpp>
-
-#include <memory>
 
 namespace sway::ois {
 
@@ -51,7 +50,9 @@ struct ControlButton<InputActionType::KEY> : public Equalable<u32_t> {
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   ControlButton(KeyCode code)
       : keyCode(core::toBase(code)) {}
@@ -59,6 +60,7 @@ struct ControlButton<InputActionType::KEY> : public Equalable<u32_t> {
   ControlButton(u32_t code)
       : keyCode(code) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Override Equalable methods"
@@ -82,7 +84,9 @@ struct ControlButton<InputActionType::MOUSE_BUTTON> : public Equalable<u32_t> {
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   ControlButton(MouseButtonCode btn)
       : btnCode(core::toBase(btn)) {}
@@ -90,6 +94,7 @@ struct ControlButton<InputActionType::MOUSE_BUTTON> : public Equalable<u32_t> {
   ControlButton(u32_t btn)
       : btnCode(btn) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Override Equalable methods"
@@ -113,7 +118,9 @@ struct ControlButton<InputActionType::MOUSE_WHEEL> : public Equalable<u32_t> {
 
 #pragma endregion
 
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   ControlButton(MouseWheelScrollAction act)
       : action(core::toBase(act)) {}
@@ -121,6 +128,7 @@ struct ControlButton<InputActionType::MOUSE_WHEEL> : public Equalable<u32_t> {
   ControlButton(u32_t act)
       : action(act) {}
 
+  /** @} */
 #pragma endregion
 
 #pragma region "Override Equalable methods"

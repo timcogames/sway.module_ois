@@ -3,8 +3,7 @@
 
 #include <sway/core.hpp>
 #include <sway/math.hpp>
-
-#include <string>
+#include <sway/ois/_stdafx.hpp>
 
 namespace sway::ois {
 

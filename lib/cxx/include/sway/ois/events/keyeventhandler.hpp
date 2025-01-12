@@ -2,15 +2,12 @@
 #define SWAY_OIS_KEYEVENTHANDLER_HPP
 
 #include <sway/core.hpp>
+#include <sway/ois/_stdafx.hpp>
 #include <sway/ois/events/inputevent.hpp>
 #include <sway/ois/events/inputeventutil.hpp>
 #include <sway/ois/events/keyevent.hpp>
 #include <sway/ois/events/mouseevent.hpp>
 #include <sway/ois/inputeventparams.hpp>
-
-#include <list>
-#include <memory>
-#include <queue>
 
 namespace sway::ois {
 
