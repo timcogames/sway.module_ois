@@ -6,12 +6,12 @@
 namespace sway::ois {
 
 /**
- * @brief Перечисление типов устройств ввода.
+ * @brief \~english Enumeration of input device types. \~russian Перечисление типов устройств ввода.
  */
 enum class InputDeviceType : i32_t {
   UNDEFINED = -1,
-  KEYBOARD = 0,  // Клавиатура.
-  MOUSE,  // Мышка.
+  KEYBOARD = 0,  //!< \~english Keyboard. \~russian Клавиатура.
+  MOUSE,  //!< \~english Mouse. \~russian Мышка.
   Latest
 };
 

@@ -18,12 +18,15 @@ namespace sway::ois {
 class InputDeviceManager : public core::Emscripteable<InputDeviceManager> {
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   InputDeviceManager();
 
   virtual ~InputDeviceManager() = default;
 
+  /** @} */
 #pragma endregion
 
   /**

@@ -5,7 +5,7 @@
 
 namespace sway::ois {
 
-DECLARE_ENUM(MouseFilter, IGNORE, STOP, PASS)
+enum class MouseFilter : u32_t { IGNORE, STOP, PASS };
 
 }  // namespace sway::ois
 

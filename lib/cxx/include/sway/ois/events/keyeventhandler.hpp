@@ -15,14 +15,21 @@
 namespace sway::ois {
 
 struct KeyEventHandler : public core::EventHandler {
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
+
   KeyEventHandler()
       : core::EventHandler(nullptr) {}
 
   ~KeyEventHandler() override = default;
 
+  /** @} */
+#pragma endregion
+
 #pragma region "Override EventHandler methods"
 
-  MTHD_OVERRIDE(auto invoke(const core::EventTypedefs::UniquePtr_t &evt) -> bool) final {
+  MTHD_OVERRIDE(auto invoke(core::EventTypedefs::UniquePtr_t &&evt) -> bool) final {
     if (InputEventUtil::isKeyEvent(evt)) {
       onKeyEvent(InputEventUtil::asKeyEvent(evt));
     }

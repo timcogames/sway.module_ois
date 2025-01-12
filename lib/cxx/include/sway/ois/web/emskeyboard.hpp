@@ -29,12 +29,15 @@ class EMSKeyboard : public InputDevice {
   DECLARE_INPUTDEVICE_TYPE(InputDeviceType::KEYBOARD);
 
 public:
-#pragma region "Ctors/Dtor"
+#pragma region "Constructor(s) & Destructor"
+  /** \~english @name Constructor(s) & Destructor */ /** \~russian @name Конструктор(ы) и Деструктор */
+  /** @{ */
 
   EMSKeyboard(typedefs::InputDeviceManagerPtr_t mngr);
 
   ~EMSKeyboard() = default;
 
+  /** @} */
 #pragma endregion
 
   auto handleKeyDown(const EmscKeyboardEvent_t &evt) -> bool;
