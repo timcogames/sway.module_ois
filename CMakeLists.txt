@@ -95,7 +95,7 @@ endif()
 include_directories("${SYSTEM_INC_DIR}")
 include_directories("${MODULE_OIS_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
+include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_math/lib/cpp/inc")
 
 #---------------------------------------------------------------------------------
 # Find the project headers, sources
