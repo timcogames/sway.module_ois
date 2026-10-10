@@ -1,11 +1,4 @@
 #---------------------------------------------------------------------------------
-# Project directories
-#---------------------------------------------------------------------------------
-
-set(SYSTEM_INC_DIR "/opt/X11/include")
-set(SYSTEM_LIB_DIR "/opt/X11/lib")
-
-#---------------------------------------------------------------------------------
 # [Emscripten]: Setup
 #---------------------------------------------------------------------------------
 
@@ -17,7 +10,13 @@ endif()
 # Include project headers
 #---------------------------------------------------------------------------------
 
-include_directories("${SYSTEM_INC_DIR}")
+if(NOT GLOB_EMSCRIPTEN_PLATFORM)
+  set(SYSTEM_INC_DIR "/opt/X11/include")
+  set(SYSTEM_LIB_DIR "/opt/X11/lib")
+
+  include_directories("${SYSTEM_INC_DIR}")
+endif()
+
 include_directories("${MODULE_OIS_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_math/lib/cpp/include")
@@ -37,9 +36,7 @@ endif()
 # Find packages
 #---------------------------------------------------------------------------------
 
-if(GLOB_EMSCRIPTEN_PLATFORM)
-  # Empty
-else()
+if(NOT GLOB_EMSCRIPTEN_PLATFORM)
   find_package(X11 REQUIRED)
 endif()
 

@@ -14,9 +14,6 @@ set(MODULE_OIS_CMAKE_DIR "${MODULE_OIS_ROOT_DIR}/submodules/sway.module_core/cma
 set(MODULE_OIS_LIB_DIR "${MODULE_OIS_ROOT_DIR}/lib")
 set(MODULE_OIS_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
-set(SYSTEM_INC_DIR "/opt/X11/include")
-set(SYSTEM_LIB_DIR "/opt/X11/lib")
-
 #---------------------------------------------------------------------------------
 # Include CMake modules
 #---------------------------------------------------------------------------------
@@ -92,7 +89,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   include_directories("/usr/local/include/c++/v1")
 endif()
 
-include_directories("${SYSTEM_INC_DIR}")
+if(NOT GLOB_EMSCRIPTEN_PLATFORM)
+  set(SYSTEM_INC_DIR "/opt/X11/include")
+  set(SYSTEM_LIB_DIR "/opt/X11/lib")
+
+  include_directories("${SYSTEM_INC_DIR}")
+endif()
+
 include_directories("${MODULE_OIS_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_OIS_LIST_DIR}/submodules/sway.module_math/lib/cpp/include")
