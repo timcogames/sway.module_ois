@@ -29,7 +29,8 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
   file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_LIST_DIR}/lib/cxx/src/inputdevicemanager.cpp"
                                        "${MODULE_OIS_LIST_DIR}/lib/cxx/src/web/*.*")
 else()
-  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_LIST_DIR}/lib/cxx/src/mac/*.*")
+  file(GLOB_RECURSE MODULE_OIS_SOURCES "${MODULE_OIS_LIST_DIR}/lib/cxx/src/inputdevicemanager.cpp"
+                                       "${MODULE_OIS_LIST_DIR}/lib/cxx/src/mac/*.*")
 endif()
 
 #---------------------------------------------------------------------------------
@@ -44,9 +45,21 @@ endif()
 # Create object
 #---------------------------------------------------------------------------------
 
+# if(NOT TARGET ${MODULE_OIS_OBJ_TARGET})
+#   create_object_library(${MODULE_OIS_OBJ_TARGET} "${MODULE_OIS_SOURCES}" TRUE)
+#   enable_cxx17(${MODULE_OIS_OBJ_TARGET})
+# endif()
+
 if(NOT TARGET ${MODULE_OIS_OBJ_TARGET})
-  create_object_library(${MODULE_OIS_OBJ_TARGET} "${MODULE_OIS_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
+  add_library(${MODULE_OIS_OBJ_TARGET} OBJECT ${MODULE_OIS_SOURCES})
   enable_cxx17(${MODULE_OIS_OBJ_TARGET})
+  target_include_directories(${MODULE_OIS_OBJ_TARGET} PRIVATE
+    "${MODULE_OIS_LIST_DIR}/lib/cxx/include"
+    "${MODULE_OIS_LIST_DIR}/submodules/sway.module_core/lib/cxx/include"
+    "${MODULE_OIS_LIST_DIR}/submodules/sway.module_math/lib/cpp/include")
+  if(NOT GLOB_EMSCRIPTEN_PLATFORM)
+    target_include_directories(${MODULE_OIS_OBJ_TARGET} PRIVATE "${SYSTEM_INC_DIR}")
+  endif()
 endif()
 
 #---------------------------------------------------------------------------------
