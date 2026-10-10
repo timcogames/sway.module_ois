@@ -26,7 +26,7 @@ struct KeyEventHandler : public core::EventHandler {
 
 #pragma region "Override EventHandler methods"
 
-  MTHD_OVERRIDE(auto invoke(core::EventTypedefs::UniquePtr_t &&evt) -> bool) final {
+  MTHD_OVERRIDE(auto invoke(core::EventTypedefs::SharedPtr_t &&evt) -> bool) final {
     if (InputEventUtil::isKeyEvent(evt)) {
       onKeyEvent(InputEventUtil::asKeyEvent(evt));
     }
